@@ -131,13 +131,174 @@ html[data-theme="light"] .stat,html[data-theme="light"] .relief-chip,html[data-t
 .mapwrap .map3d-status{top:58px}
 .mapwrap.mapfullscreen .map3d-status{top:118px}
 .mapstage.mapfullscreen .map3d-status{top:58px}
+
+/* v13 prototype · tarjetas de tramo integradas */
+.leg-overview-card{grid-column:1/-1;padding:12px}
+.leg-overview-head{display:flex;align-items:flex-end;justify-content:space-between;gap:10px;flex-wrap:wrap;margin-bottom:9px}
+.leg-overview-head h3{margin:0;font-size:14px}
+.leg-overview-head p{margin:3px 0 0;color:var(--muted);font-size:10px}
+.leg-card-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:9px}
+.leg-summary-card{
+  appearance:none;width:100%;text-align:left;color:var(--text);background:#071725;
+  border:1px solid var(--line);border-radius:12px;padding:11px;cursor:pointer;
+  transition:transform .12s ease,border-color .12s ease,box-shadow .12s ease
+}
+.leg-summary-card:hover{transform:translateY(-1px);border-color:#58778a;box-shadow:0 8px 20px #0003}
+.leg-summary-card.selected{outline:2px solid var(--gold);outline-offset:1px}
+.leg-summary-card:focus-visible{outline:2px solid var(--blue);outline-offset:2px}
+.leg-summary-top{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:8px}
+.leg-summary-title{font-size:14px;font-weight:900}
+.leg-review-pill{font-size:9px;font-weight:900;border:1px solid var(--line);border-radius:999px;padding:3px 6px;color:var(--muted);white-space:nowrap}
+.leg-review-pill.study{border-color:#8a692c;color:#f0cf80;background:#3b2d13}
+.leg-review-pill.high{border-color:#8c4749;color:#ffaaa7;background:#3f2023}
+.leg-review-pill.good{border-color:#316d58;color:#a6e4c8;background:#123629}
+.leg-summary-metrics{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px}
+.leg-mini{min-width:0;border-radius:8px;background:#0d2132;padding:7px}
+.leg-mini span{display:block;font-size:8px;text-transform:uppercase;letter-spacing:.04em;color:var(--muted)}
+.leg-mini b{display:block;margin-top:2px;font-size:15px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.leg-mini small{display:block;color:var(--muted);font-size:8px;margin-top:1px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.leg-summary-foot{display:flex;gap:7px;flex-wrap:wrap;margin-top:8px;color:var(--muted);font-size:9px}
+.leg-summary-foot span{padding:2px 5px;border-radius:999px;border:1px solid var(--line)}
+.leg-summary-cue{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-top:8px;font-size:9px;color:var(--muted)}
+.leg-summary-cue b{color:var(--gold)}
+
+/* expanded card */
+.leg-detail-overlay{
+  position:fixed;inset:0;z-index:260;background:#020b12cc;backdrop-filter:blur(5px);
+  display:grid;place-items:center;padding:14px
+}
+.leg-detail-overlay[hidden]{display:none}
+.leg-detail-sheet{
+  width:min(1060px,100%);max-height:min(92dvh,900px);overflow:auto;background:var(--panel);
+  border:1px solid #4e6e81;border-radius:17px;box-shadow:0 28px 80px #000b
+}
+.leg-detail-head{
+  position:sticky;top:0;z-index:3;display:flex;align-items:center;justify-content:space-between;
+  gap:12px;padding:13px 14px;background:color-mix(in srgb,var(--panel) 94%,transparent);
+  backdrop-filter:blur(10px);border-bottom:1px solid var(--line)
+}
+.leg-detail-head h2{margin:0;font-size:19px}
+.leg-detail-head .subtitle{font-size:10px}
+.leg-detail-close{width:36px;height:36px;border-radius:10px;border:1px solid var(--line);background:#17364a;color:#fff;font-size:19px;cursor:pointer}
+.leg-detail-body{padding:14px}
+.leg-detail-hero{display:grid;grid-template-columns:minmax(0,1.35fr) minmax(260px,.65fr);gap:12px;margin-bottom:12px}
+.leg-detail-profile{border:1px solid var(--line);border-radius:12px;background:#071725;padding:10px;min-height:230px}
+.leg-detail-profile h3{font-size:12px;margin:0 0 5px}
+.leg-detail-profile svg{width:100%;height:190px;display:block}
+.leg-detail-summary{border:1px solid var(--line);border-radius:12px;background:#071725;padding:11px}
+.leg-detail-summary .big-reading{font-size:14px;font-weight:900;line-height:1.35;margin:3px 0 8px}
+.leg-detail-summary .confidence-note{font-size:9px;color:var(--muted);line-height:1.4}
+.leg-detail-blocks{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:9px}
+.leg-detail-block{border:1px solid var(--line);border-radius:11px;background:#071725;padding:10px;min-width:0}
+.leg-detail-block h3{font-size:11px;margin:0 0 8px;color:var(--gold)}
+.leg-detail-row{display:flex;justify-content:space-between;gap:9px;padding:4px 0;border-bottom:1px solid #ffffff10;font-size:10px}
+.leg-detail-row:last-child{border-bottom:0}
+.leg-detail-row span{color:var(--muted)}
+.leg-detail-row b{text-align:right}
+.leg-evidence{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin-top:10px}
+.leg-evidence>div{border:1px solid var(--line);border-radius:10px;padding:9px;background:#071725}
+.leg-evidence .tagline{font-size:8px;font-weight:950;letter-spacing:.06em;color:var(--muted)}
+.leg-evidence b{display:block;font-size:11px;margin-top:3px}
+.leg-evidence p{font-size:9px;color:var(--muted);margin:4px 0 0;line-height:1.4}
+.leg-detail-actions{
+  position:sticky;bottom:0;display:flex;gap:7px;justify-content:flex-end;flex-wrap:wrap;
+  padding:10px 14px;border-top:1px solid var(--line);background:color-mix(in srgb,var(--panel) 94%,transparent);
+  backdrop-filter:blur(10px)
+}
+.leg-no-profile{color:#f0cf80!important}
+
+/* light */
+html[data-theme="light"] .leg-summary-card,
+html[data-theme="light"] .leg-mini,
+html[data-theme="light"] .leg-detail-profile,
+html[data-theme="light"] .leg-detail-summary,
+html[data-theme="light"] .leg-detail-block,
+html[data-theme="light"] .leg-evidence>div{background:#f7fafb;color:#173241;border-color:#cbd7de}
+html[data-theme="light"] .leg-summary-card:hover{border-color:#7895a5;box-shadow:0 8px 20px #17384a16}
+html[data-theme="light"] .leg-mini span,
+html[data-theme="light"] .leg-mini small,
+html[data-theme="light"] .leg-summary-foot,
+html[data-theme="light"] .leg-summary-cue,
+html[data-theme="light"] .leg-detail-row span,
+html[data-theme="light"] .leg-detail-summary .confidence-note,
+html[data-theme="light"] .leg-evidence p,
+html[data-theme="light"] .leg-evidence .tagline{color:#526b78}
+html[data-theme="light"] .leg-detail-sheet{background:#fff;border-color:#b5c8d2}
+html[data-theme="light"] .leg-detail-head,
+html[data-theme="light"] .leg-detail-actions{background:#ffffffef}
+html[data-theme="light"] .leg-detail-row{border-color:#dfe7eb}
+html[data-theme="light"] .leg-review-pill.study{background:#fff6df;color:#76520b;border-color:#c9a14f}
+html[data-theme="light"] .leg-review-pill.high{background:#fff0f0;color:#8f3034;border-color:#c77a7d}
+html[data-theme="light"] .leg-review-pill.good{background:#edf8f2;color:#155b3d;border-color:#63a98a}
+
+@media(max-width:900px){
+  .leg-detail-hero{grid-template-columns:1fr}
+  .leg-detail-blocks{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+@media(max-width:620px){
+  .leg-card-grid{grid-template-columns:1fr}
+  .leg-summary-metrics{grid-template-columns:repeat(3,1fr)}
+  .leg-detail-overlay{align-items:end;padding:0}
+  .leg-detail-sheet{width:100%;max-height:94dvh;border-radius:18px 18px 0 0}
+  .leg-detail-blocks,.leg-evidence{grid-template-columns:1fr}
+  .leg-detail-body{padding:10px}
+  .leg-detail-profile svg{height:165px}
+  .leg-detail-actions .btn{flex:1}
+}
+
+
+/* v13.1 · carrusel de tramos + mapa integrado */
+.leg-detail-head{grid-template-columns:auto minmax(0,1fr) auto auto}
+.leg-detail-titlebox{min-width:0;text-align:center}
+.leg-detail-counter{font-size:9px;color:var(--muted);font-weight:850;margin-top:2px}
+.leg-detail-nav{
+  width:40px;height:40px;border-radius:11px;border:1px solid var(--line);
+  background:#17364a;color:#fff;font-size:20px;font-weight:900;cursor:pointer
+}
+.leg-detail-nav:disabled{opacity:.28;cursor:default}
+.leg-detail-nav:not(:disabled):hover{filter:brightness(1.14)}
+.leg-detail-visuals{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px}
+.leg-detail-map{
+  position:relative;border:1px solid var(--line);border-radius:12px;background:#071725;
+  padding:10px;min-height:230px;overflow:hidden;touch-action:pan-x pan-y
+}
+.leg-detail-map h3{font-size:12px;margin:0 0 5px}
+.leg-detail-map svg{width:100%;height:190px;display:block;border-radius:8px}
+.leg-map-note{display:flex;align-items:center;justify-content:space-between;gap:8px;font-size:8px;color:var(--muted);margin-top:4px}
+.leg-map-legend{display:flex;gap:8px;flex-wrap:wrap}
+.leg-map-legend span{display:inline-flex;align-items:center;gap:4px}
+.leg-map-swatch{display:inline-block;width:14px;height:3px;border-radius:999px}
+.leg-map-swatch.track{background:var(--gold)}
+.leg-map-swatch.direct{border-top:2px dashed #ef6a67;height:0}
+.leg-detail-summary{margin-bottom:12px}
+.leg-detail-actions{align-items:center}
+.leg-detail-bottom-nav{min-width:104px}
+.leg-detail-sheet{overscroll-behavior:contain}
+.leg-detail-body{touch-action:pan-y}
+.leg-detail-swipe-hint{display:none;text-align:center;color:var(--muted);font-size:9px;margin:1px 0 8px}
+html[data-theme="light"] .leg-detail-nav{background:#f7fafb;color:#173241;border-color:#9db2bd}
+html[data-theme="light"] .leg-detail-map{background:#f7fafb;color:#173241;border-color:#cbd7de}
+@media(max-width:900px){
+  .leg-detail-visuals{grid-template-columns:1fr 1fr}
+  .leg-detail-profile,.leg-detail-map{min-height:215px}
+}
+@media(max-width:720px){
+  .leg-detail-head{gap:6px;padding:10px}
+  .leg-detail-nav{width:36px;height:36px}
+  .leg-detail-visuals{grid-template-columns:1fr}
+  .leg-detail-swipe-hint{display:block}
+  .leg-detail-actions{display:grid;grid-template-columns:1fr 1fr}
+  .leg-detail-actions #legDetailMap,.leg-detail-actions #legDetailScope{grid-column:span 2}
+  .leg-detail-actions #legDetailCloseBottom{display:none}
+}
+
 </style>
 </head>
 <body>
 <div class="app">
   <div class="top">
     <div class="brand"><div class="logo">OR</div><div><h1>Orienta Replay</h1><div class="subtitle">O‑Replay · FIT/GPX · Intervals.icu · análisis de carrera</div></div></div>
-    <div class="top-actions"><label class="theme-control">Tema <select id="themeMode" title="Tema visual"><option value="auto">Automático</option><option value="light">Claro</option><option value="dark">Oscuro</option></select></label><button id="demoBtn" class="btn ghost">Ejemplo ficticio</button></div>
+    <div class="top-actions"><label class="theme-control">Tema <select id="themeMode" title="Tema visual"><option value="auto">Automático</option><option value="light">Claro</option><option value="dark">Oscuro</option></select></label><button id="demoBtn" class="btn ghost">Ejemplo ficticio</button><a href="Orienta_Replay_Manual.html" target="_blank" rel="noopener" class="btn ghost" style="text-decoration:none;display:inline-flex;align-items:center;gap:6px" title="Abrir manual interactivo">📖 Manual</a></div>
   </div>
 
   <nav class="viewtabs" aria-label="Flujo de análisis">
@@ -145,6 +306,7 @@ html[data-theme="light"] .stat,html[data-theme="light"] .relief-chip,html[data-t
     <button class="viewtab" data-view="1">Estadísticas</button>
     <button class="viewtab" data-view="2">Reproductor</button>
     <button class="viewtab" data-view="3">Monitorización</button>
+    <a href="Orienta_Replay_Manual.html" target="_blank" rel="noopener" class="viewtab" style="text-decoration:none;display:inline-flex;align-items:center;gap:6px;margin-left:auto" title="Abrir manual interactivo en pestaña nueva">📖 Manual ↗</a>
   </nav>
 
   <section id="view0" class="viewpane active">
@@ -342,12 +504,19 @@ html[data-theme="light"] .stat,html[data-theme="light"] .relief-chip,html[data-t
     <section class="card terrain-controls">
       <div class="field"><label>Deportista</label><select id="terrainRunner"></select></div>
       <div class="field"><label>Perfil de rendimiento</label><select id="terrainProfile"></select></div>
-      <div class="field"><label>Ámbito</label><select id="terrainScope"><option value="all">Toda la actividad</option></select></div>
+      <div class="field"><label>Datos analizados</label><select id="terrainScope" title="Elige si Monitorización usa toda la actividad o solo un tramo"><option value="all">Toda la actividad</option></select></div>
       <div class="field"><label>Comparar IDPT</label><select id="terrainCompare" multiple size="4" title="Selecciona hasta 4 corredores"></select></div><div class="field"><label>Suavizado pendiente <button type="button" class="info-btn" data-info="slopeSmooth">?</button></label><select id="terrainSmooth"><option value="10">corto · 10 m</option><option value="25" selected>medio · 25 m</option><option value="50">alto · 50 m</option></select></div>
       <div class="terrain-note loadwide" id="terrainProfileInfo">Carga un FIT/GPX y asigna un perfil con ritmo umbral y LTHR. Para actividades manuales puedes elegir aquí qué perfil usar.</div>
     </section>
     <section id="terrainTrainingContext" class="card training-context"><div class="training-context-head"><h3>Contexto de entrenamiento en esta carrera</h3><span class="source-pill">Intervals.icu</span></div><div class="notice">Asigna a este corredor una actividad/perfil de Intervals para contextualizar Fitness, Fatiga, Form y rampa el día de la carrera.</div></section>
     <section id="terrainKpis" class="terrain-kpis"></section>
+    <section class="card leg-overview-card">
+      <div class="leg-overview-head">
+        <div><h3>Tramos · lectura integrada</h3><p>Resumen compacto. Toca una tarjeta para abrir Tiempo · Relieve · Progresión · Ejecución · Interpretación.</p></div>
+        <span class="source-pill">Relieve ≠ dificultad real</span>
+      </div>
+      <div id="terrainLegCards" class="leg-card-grid"><div class="notice">Carga un FIT/GPX para construir las tarjetas.</div></div>
+    </section>
     <section class="terrain-grid">
       <div class="card chartcard wide"><h3>Perfil de altitud · controles y tramos <button type="button" class="info-btn" data-info="altitudeProfile">?</button></h3><div class="profile-modebar"><span>Analizar por:</span><button type="button" class="segbtn active" data-profile-mode="controls">Tramos de baliza</button><button type="button" class="segbtn" data-profile-mode="relief">Subidas / bajadas</button><button type="button" class="info-btn" data-info="reliefMode">?</button></div><div id="terrainAltitude" class="chart terrain-chart"></div><div id="terrainProfileSelection" class="profile-selection">Toca un tramo para resaltarlo en el perfil.</div><div id="terrainReliefSummary" class="relief-list"></div><div class="terrain-note">Los controles permanecen visibles en ambos modos. Al tocar un tramo se engrosa exactamente esa sección del perfil y el resto queda atenuado.</div></div>
       <div class="card chartcard"><h3>Tiempo por pendiente <button type="button" class="info-btn" data-info="slopeTime">?</button></h3><div id="terrainSlopeTime" class="chart terrain-chart"></div><div class="heat-axis-note">Intervalos de 5 puntos porcentuales, con 0 % en el centro. El rango se amplía automáticamente si la carrera supera ±30 %.</div></div>
@@ -360,6 +529,26 @@ html[data-theme="light"] .stat,html[data-theme="light"] .relief-chip,html[data-t
   </section>
 
 </div>
+
+
+<section id="legDetailOverlay" class="leg-detail-overlay" hidden role="dialog" aria-modal="true" aria-labelledby="legDetailTitle">
+  <div class="leg-detail-sheet">
+    <div class="leg-detail-head">
+      <button id="legDetailPrev" class="leg-detail-nav" type="button" aria-label="Tramo anterior" title="Tramo anterior">←</button>
+      <div class="leg-detail-titlebox"><div class="subtitle">LECTURA INTEGRADA DEL TRAMO</div><h2 id="legDetailTitle">Tramo</h2><div id="legDetailCounter" class="leg-detail-counter">— / —</div></div>
+      <button id="legDetailNext" class="leg-detail-nav" type="button" aria-label="Tramo siguiente" title="Tramo siguiente">→</button>
+      <button id="legDetailClose" class="leg-detail-close" type="button" aria-label="Cerrar">×</button>
+    </div>
+    <div id="legDetailBody" class="leg-detail-body"></div>
+    <div class="leg-detail-actions">
+      <button id="legDetailPrevBottom" class="btn ghost leg-detail-bottom-nav">← Anterior</button>
+      <button id="legDetailScope" class="btn" title="Filtra las gráficas y métricas de Monitorización para usar solo este tramo">Analizar solo este tramo</button>
+      <button id="legDetailMap" class="btn primary">Ver tramo en mapa completo</button>
+      <button id="legDetailCloseBottom" class="btn ghost">Cerrar</button>
+      <button id="legDetailNextBottom" class="btn ghost leg-detail-bottom-nav">Siguiente →</button>
+    </div>
+  </div>
+</section>
 
 <div id="infoPopover" class="info-pop" hidden role="dialog" aria-live="polite"><button id="infoClose" class="info-close" type="button">×</button><h4 id="infoTitle">Información</h4><div id="infoBody"></div></div>
 
@@ -391,7 +580,7 @@ const INFO={
  personalExcess:{title:'Exceso personal',body:'Estimación exploratoria. Primero se toma el nivel relativo típico del corredor (índice mediano). Para cada tramo se calcula un tiempo esperado según ese nivel y el umbral elegido. Solo se suma el tiempo que supera esa expectativa. No demuestra por sí solo un error de orientación.'},
  lossBest:{title:'Pérdida vs mejores parciales',body:'Suma de la diferencia positiva entre el parcial del corredor y el mejor parcial del grupo en cada tramo. Es un “recorrido ideal” construido con los mejores parciales de diferentes personas, no necesariamente realizable por un único corredor.'},
  slopeSmooth:{title:'Suavizado de pendiente',body:'La pendiente GPS es muy sensible al ruido de altitud. Corto usa una ventana aproximada de 10 m, medio 25 m y alto 50 m. Cuanto mayor es la ventana, menos picos aparecen y más se suavizan cambios breves. Al cambiarlo se recalculan todos los gráficos de terreno.'},
- altitudeProfile:{title:'Perfil de altitud y dureza del relieve',body:'El perfil se colorea por pendiente. Se detectan tramos continuos de subida o bajada y se calcula una dureza relativa dentro de esta carrera a partir de desnivel y pendiente. También se muestra el tiempo real y, cuando existe, se cruza con el IDPT del corredor.'},
+ altitudeProfile:{title:'Perfil de altitud e índice topográfico',body:'El perfil se colorea por pendiente. Se resumen distancia, ascenso, descenso y pendiente en un índice topográfico relativo dentro de esta carrera. No pretende medir por sí solo la dificultad real de progresión: una bajada puede ser técnicamente muy lenta aunque su exigencia topográfica sea menor. Para eso se cruza con velocidad, movimiento e IDPT.'},
  slopeTime:{title:'Tiempo por pendiente',body:'Suma el tiempo pasado en bandas de 5 puntos porcentuales de pendiente. 0 % queda en el centro; a la izquierda están las bajadas y a la derecha las subidas. La escala mínima es −30 % a +30 % y se amplía si aparecen pendientes mayores.'},
  paceHr:{title:'Mapa de calor ritmo × FC',body:'Cada celda acumula tiempo en una combinación de ritmo y frecuencia cardiaca. Ejes base fijos para facilitar comparaciones: 3:00–12:00 min/km y 100–200 ppm; se amplían si hay datos fuera. Si hay ritmo umbral y LTHR se dibujan referencias.'},
  slopeSpeed:{title:'Mapa de calor pendiente × velocidad',body:'Relaciona la pendiente instantánea suavizada con la velocidad. Pendiente negativa = bajada; positiva = subida. Una caída de velocidad compartida por varios corredores en la misma zona sugiere dificultad de progresión del terreno.'},
@@ -400,7 +589,7 @@ const INFO={
  idpt:{title:'IDPT · Dificultad de progresión',body:'Índice experimental: 100 × (1 − velocidad real / velocidad esperada). La velocidad esperada parte del ritmo umbral y se ajusta por intensidad y pendiente. Un IDPT alto indica que el corredor avanza mucho menos de lo esperable para ese esfuerzo y pendiente. Puede deberse a vegetación, suelo, obstáculos, microparadas o navegación; no identifica la causa.'},
  groupIdpt:{title:'IDPT de grupo',body:'Mediana del IDPT de los corredores de esta misma carrera que tengan GPS y perfil de rendimiento suficiente para ese tramo. Sirve para distinguir una penalización que se repite en varios corredores (más compatible con terreno) de una penalización principalmente individual.'},
  movementState:{title:'Estado de movimiento',body:'Clasificación estimada por muestra. “Parado” usa velocidad muy baja. Si existe cadencia o tiempo de contacto, se priorizan esas señales para separar caminar/correr; si no, se usa velocidad. “Progresión dificultosa” identifica esfuerzo relativo alto con velocidad relativa baja. Debajo de la gráfica se indica qué señales se usaron y el nivel de confianza.'},
- reliefMode:{title:'Dos lecturas del perfil',body:'Tramos de baliza agrupa el perfil entre picadas O‑Replay y resume subida, bajada y dureza del relieve de cada parcial. Subidas/bajadas detecta automáticamente segmentos continuos del relieve, independientemente de dónde estén los controles. Al tocar un elemento se resalta exactamente esa sección del perfil.'},
+ reliefMode:{title:'Dos lecturas del perfil',body:'Tramos de baliza agrupa el perfil entre picadas O‑Replay y resume subida, bajada e índice topográfico de cada parcial. Subidas/bajadas detecta segmentos continuos del relieve, independientemente de los controles. El índice describe geometría del relieve; la dificultad real de progresión se interpreta con velocidad, movimiento e IDPT.'},
  verticalSlope:{title:'Pendiente y velocidad vertical',body:'Las barras suman el tiempo en cada banda de 5 puntos porcentuales de pendiente. La línea muestra velocidad vertical media firmada: positiva al ganar altura y negativa al perderla. Así se puede comparar ascenso y descenso en una misma escala.'},
  idptDistribution:{title:'IDPT frente al grupo',body:'Para cada tramo se muestra la distribución de IDPT de los corredores con GPS y perfil suficiente: bigotes = mínimo/máximo observado; caja = percentiles 25–75; línea = mediana; punto dorado = corredor analizado. La fila Carrera resume el IDPT mediano de cada corredor en toda la prueba.'},
  terrain3d:{title:'Terreno 3D y DEM',body:'El modo 3D usa un modelo digital de elevaciones (DEM) remoto y MapLibre para levantar el terreno. Puedes rotar e inclinar con gestos, igual que en un mapa 3D. Las rutas y controles se superponen y el tramo seleccionado se resalta. Requiere conexión a internet y el mapa de orientación escaneado sigue siendo una vista 2D.'}
@@ -913,8 +1102,8 @@ function slopeColor(g){if(!Number.isFinite(g))return '#5aa6d6';const p=g*100;if(
 function reliefSections(samples,legMetrics){const arr=samples.filter(x=>Number.isFinite(x.grade)&&Number.isFinite(x.dist)&&Number.isFinite(x.ele)),secs=[];let cur=null;const finish=()=>{if(!cur)return;const len=cur.end.dist-cur.start.dist,vert=cur.vert,dur=cur.time,avg=len>0?cur.signedVert/len:0;if(len>=80&&vert>=8)secs.push({...cur,len,avg,dur});cur=null};for(const x of arr){const sign=x.grade>.025?1:x.grade<-.025?-1:0;if(!cur){if(sign)cur={sign,start:x,end:x,vert:Math.abs(x.grade*x.d),signedVert:x.grade*x.d,time:x.dt,legs:new Set(x.leg?[x.leg]:[])};continue}if(sign===0||sign===cur.sign){cur.end=x;cur.vert+=Math.abs(x.grade*x.d);cur.signedVert+=x.grade*x.d;cur.time+=x.dt;if(x.leg)cur.legs.add(x.leg)}else{finish();cur={sign,start:x,end:x,vert:Math.abs(x.grade*x.d),signedVert:x.grade*x.d,time:x.dt,legs:new Set(x.leg?[x.leg]:[])}}}finish();const raw=secs.map(q=>q.vert*(1+Math.abs(q.avg)*8)),mx=Math.max(...raw,1),byLeg=new Map(legMetrics.map(x=>[x.leg.index,x.idpt]));return secs.map((q,i)=>{const hard=100*raw[i]/mx,id=median([...q.legs].map(l=>byLeg.get(l)).filter(Number.isFinite)),cost=Math.min(100,hard*(1+(Number.isFinite(id)?id:0)/100));return {...q,hard,cost,idpt:id}})}
 function controlLegSections(a,samples){const sections=[];for(const l of a.legs||[]){const ss=samples.filter(x=>x.leg===l.index&&Number.isFinite(x.dist));if(!ss.length)continue;let asc=0,desc=0,absGrade=0,w=0,dur=0;for(const x of ss){const de=Number.isFinite(x.grade)?x.grade*x.d:0;if(de>0)asc+=de;else desc-=de;if(Number.isFinite(x.grade)){absGrade+=Math.abs(x.grade)*x.d;w+=x.d}dur+=x.dt||0}const len=Math.max(0,ss.at(-1).dist-ss[0].dist),avgAbs=w?absGrade/w:0,raw=(asc+.6*desc)*(1+avgAbs*6)+len*.015;sections.push({kind:'leg',leg:l,index:l.index,start:ss[0],end:ss.at(-1),len,asc,desc,dur,avgAbs,raw,label:`${l.from.kind==='start'?'S':l.from.order}→${legLabel(l)}`})}const mx=Math.max(...sections.map(x=>x.raw),1);return sections.map(x=>({...x,hard:100*x.raw/mx}))}
 function profileSections(a,samples,legMetrics){if(terrainProfileMode==='relief')return reliefSections(samples,legMetrics).map((q,i)=>({...q,kind:'relief',index:i,label:(q.sign>0?'Subida ':'Bajada ')+(i+1),asc:q.sign>0?q.vert:0,desc:q.sign<0?q.vert:0}));return controlLegSections(a,samples)}
-function profileSelectionText(q){if(!q)return 'Toca un tramo para resaltarlo en el perfil.';if(q.kind==='leg')return `<b>Tramo ${q.label}</b> · ${Math.round(q.len)} m · subida +${Math.round(q.asc)} m · bajada −${Math.round(q.desc)} m · dureza relieve ${q.hard.toFixed(0)}/100 · ${fmtTime(q.dur)}`;return `<b>${q.label}</b> · ${Math.round(q.len)} m · ${q.sign>0?'subida +':'bajada −'}${Math.round(q.vert)} m · pendiente media ${Math.abs(q.avg*100).toFixed(1)} % · dureza ${q.hard.toFixed(0)}/100 · ${fmtTime(q.dur)}`}
-function renderAltitudeProfile(a,samples,legMetrics=[]){const host=$('terrainAltitude');if(!host)return;host.replaceChildren();const vals=samples.filter(x=>Number.isFinite(x.ele)&&Number.isFinite(x.dist));if(vals.length<2){host.innerHTML='<div class="notice">El track no contiene altitud suficiente.</div>';return}const sections=profileSections(a,samples,legMetrics);if(terrainProfileSelection!=null&&terrainProfileSelection>=sections.length)terrainProfileSelection=null;const sel=terrainProfileSelection==null?null:sections[terrainProfileSelection],W=Math.max(600,host.clientWidth||700),H=310,m={l:55,r:20,t:20,b:42},xmax=Math.max(...vals.map(x=>x.dist)),ymin=Math.min(...vals.map(x=>x.ele))-3,ymax=Math.max(...vals.map(x=>x.ele))+3,ns='http://www.w3.org/2000/svg',svg=document.createElementNS(ns,'svg');svg.setAttribute('viewBox',`0 0 ${W} ${H}`);const X=x=>m.l+x/(xmax||1)*(W-m.l-m.r),Y=y=>m.t+(ymax-y)/(ymax-ymin||1)*(H-m.t-m.b);for(let i=1;i<vals.length;i++){const a0=vals[i-1],b=vals[i],mid=(a0.dist+b.dist)/2,inSel=!sel||(mid>=sel.start.dist&&mid<=sel.end.dist),ln=document.createElementNS(ns,'line');ln.setAttribute('x1',X(a0.dist));ln.setAttribute('y1',Y(a0.ele));ln.setAttribute('x2',X(b.dist));ln.setAttribute('y2',Y(b.ele));ln.setAttribute('stroke',slopeColor(b.grade));ln.setAttribute('stroke-width',sel?(inSel?'7':'2.1'):'3.2');ln.setAttribute('opacity',sel?(inSel?'1':'.22'):'1');ln.setAttribute('stroke-linecap','round');ln.innerHTML=`<title>${(b.grade*100).toFixed(1)} % · ${Math.round(b.ele)} m</title>`;svg.append(ln)}for(const q of a.punches){if(!q.pos)continue;const target=q.time-a.track.offset*1000,nearest=vals.reduce((best,x)=>Math.abs(x.time-target)<Math.abs(best.time-target)?x:best,vals[0]),cx=X(nearest.dist),cy=Y(nearest.ele),c=document.createElementNS(ns,'circle');c.setAttribute('cx',cx);c.setAttribute('cy',cy);c.setAttribute('r',5);c.setAttribute('fill',q.kind==='control'?'#d7ad4e':q.kind==='start'?'#52b788':'#ef6a67');c.setAttribute('stroke','#06111d');c.setAttribute('stroke-width','1.5');svg.append(c);const t=document.createElementNS(ns,'text');t.setAttribute('x',cx);t.setAttribute('y',cy-9);t.setAttribute('text-anchor','middle');t.setAttribute('fill',document.documentElement.dataset.theme==='light'?'#203844':'#eaf2f5');t.setAttribute('font-size','10');t.textContent=q.kind==='control'?q.order:(q.kind==='start'?'S':'M');svg.append(t)}for(let i=0;i<=5;i++){const tx=m.l+i*(W-m.l-m.r)/5,xt=document.createElementNS(ns,'text');xt.setAttribute('x',tx);xt.setAttribute('y',H-14);xt.setAttribute('text-anchor','middle');xt.setAttribute('fill','#8299a5');xt.setAttribute('font-size','10');xt.textContent=(xmax*i/5/1000).toFixed(1)+' km';svg.append(xt);const yt=document.createElementNS(ns,'text');yt.setAttribute('x',m.l-7);yt.setAttribute('y',m.t+(5-i)*(H-m.t-m.b)/5+4);yt.setAttribute('text-anchor','end');yt.setAttribute('fill','#8299a5');yt.setAttribute('font-size','10');yt.textContent=Math.round(ymin+(ymax-ymin)*i/5);svg.append(yt)}host.append(svg);$('terrainProfileSelection').innerHTML=profileSelectionText(sel);const sum=$('terrainReliefSummary');if(sum){sum.innerHTML=sections.length?sections.map((q,i)=>`<button type="button" class="relief-chip ${terrainProfileSelection===i?'active':''}" data-profile-seg="${i}"><b>${q.kind==='leg'?`Tramo ${q.label}`:`${q.sign>0?'▲':'▼'} ${q.label}`} · dureza ${q.hard.toFixed(0)}/100</b>${Math.round(q.len)} m · +${Math.round(q.asc||0)} / −${Math.round(q.desc||0)} m · ${fmtTime(q.dur)}</button>`).join(''):'<span class="terrain-note">No hay segmentos suficientes.</span>';sum.querySelectorAll('[data-profile-seg]').forEach(b=>b.onclick=()=>{terrainProfileSelection=+b.dataset.profileSeg;renderAltitudeProfile(a,samples,legMetrics)})}}
+function profileSelectionText(q){if(!q)return 'Toca un tramo para resaltarlo en el perfil.';if(q.kind==='leg')return `<b>Tramo ${q.label}</b> · ${Math.round(q.len)} m · subida +${Math.round(q.asc)} m · bajada −${Math.round(q.desc)} m · relieve ${q.hard.toFixed(0)}/100 · ${fmtTime(q.dur)}`;return `<b>${q.label}</b> · ${Math.round(q.len)} m · ${q.sign>0?'subida +':'bajada −'}${Math.round(q.vert)} m · pendiente media ${Math.abs(q.avg*100).toFixed(1)} % · relieve ${q.hard.toFixed(0)}/100 · ${fmtTime(q.dur)}`}
+function renderAltitudeProfile(a,samples,legMetrics=[]){const host=$('terrainAltitude');if(!host)return;host.replaceChildren();const vals=samples.filter(x=>Number.isFinite(x.ele)&&Number.isFinite(x.dist));if(vals.length<2){host.innerHTML='<div class="notice">El track no contiene altitud suficiente.</div>';return}const sections=profileSections(a,samples,legMetrics);if(terrainProfileSelection!=null&&terrainProfileSelection>=sections.length)terrainProfileSelection=null;const sel=terrainProfileSelection==null?null:sections[terrainProfileSelection],W=Math.max(600,host.clientWidth||700),H=310,m={l:55,r:20,t:20,b:42},xmax=Math.max(...vals.map(x=>x.dist)),ymin=Math.min(...vals.map(x=>x.ele))-3,ymax=Math.max(...vals.map(x=>x.ele))+3,ns='http://www.w3.org/2000/svg',svg=document.createElementNS(ns,'svg');svg.setAttribute('viewBox',`0 0 ${W} ${H}`);const X=x=>m.l+x/(xmax||1)*(W-m.l-m.r),Y=y=>m.t+(ymax-y)/(ymax-ymin||1)*(H-m.t-m.b);for(let i=1;i<vals.length;i++){const a0=vals[i-1],b=vals[i],mid=(a0.dist+b.dist)/2,inSel=!sel||(mid>=sel.start.dist&&mid<=sel.end.dist),ln=document.createElementNS(ns,'line');ln.setAttribute('x1',X(a0.dist));ln.setAttribute('y1',Y(a0.ele));ln.setAttribute('x2',X(b.dist));ln.setAttribute('y2',Y(b.ele));ln.setAttribute('stroke',slopeColor(b.grade));ln.setAttribute('stroke-width',sel?(inSel?'7':'2.1'):'3.2');ln.setAttribute('opacity',sel?(inSel?'1':'.22'):'1');ln.setAttribute('stroke-linecap','round');ln.innerHTML=`<title>${(b.grade*100).toFixed(1)} % · ${Math.round(b.ele)} m</title>`;svg.append(ln)}for(const q of a.punches){if(!q.pos)continue;const target=q.time-a.track.offset*1000,nearest=vals.reduce((best,x)=>Math.abs(x.time-target)<Math.abs(best.time-target)?x:best,vals[0]),cx=X(nearest.dist),cy=Y(nearest.ele),c=document.createElementNS(ns,'circle');c.setAttribute('cx',cx);c.setAttribute('cy',cy);c.setAttribute('r',5);c.setAttribute('fill',q.kind==='control'?'#d7ad4e':q.kind==='start'?'#52b788':'#ef6a67');c.setAttribute('stroke','#06111d');c.setAttribute('stroke-width','1.5');svg.append(c);const t=document.createElementNS(ns,'text');t.setAttribute('x',cx);t.setAttribute('y',cy-9);t.setAttribute('text-anchor','middle');t.setAttribute('fill',document.documentElement.dataset.theme==='light'?'#203844':'#eaf2f5');t.setAttribute('font-size','10');t.textContent=q.kind==='control'?q.order:(q.kind==='start'?'S':'M');svg.append(t)}for(let i=0;i<=5;i++){const tx=m.l+i*(W-m.l-m.r)/5,xt=document.createElementNS(ns,'text');xt.setAttribute('x',tx);xt.setAttribute('y',H-14);xt.setAttribute('text-anchor','middle');xt.setAttribute('fill','#8299a5');xt.setAttribute('font-size','10');xt.textContent=(xmax*i/5/1000).toFixed(1)+' km';svg.append(xt);const yt=document.createElementNS(ns,'text');yt.setAttribute('x',m.l-7);yt.setAttribute('y',m.t+(5-i)*(H-m.t-m.b)/5+4);yt.setAttribute('text-anchor','end');yt.setAttribute('fill','#8299a5');yt.setAttribute('font-size','10');yt.textContent=Math.round(ymin+(ymax-ymin)*i/5);svg.append(yt)}host.append(svg);$('terrainProfileSelection').innerHTML=profileSelectionText(sel);const sum=$('terrainReliefSummary');if(sum){sum.innerHTML=sections.length?sections.map((q,i)=>`<button type="button" class="relief-chip ${terrainProfileSelection===i?'active':''}" data-profile-seg="${i}"><b>${q.kind==='leg'?`Tramo ${q.label}`:`${q.sign>0?'▲':'▼'} ${q.label}`} · relieve ${q.hard.toFixed(0)}/100</b>${Math.round(q.len)} m · +${Math.round(q.asc||0)} / −${Math.round(q.desc||0)} m · ${fmtTime(q.dur)}</button>`).join(''):'<span class="terrain-note">No hay segmentos suficientes.</span>';sum.querySelectorAll('[data-profile-seg]').forEach(b=>b.onclick=()=>{terrainProfileSelection=+b.dataset.profileSeg;renderAltitudeProfile(a,samples,legMetrics)})}}
 function renderSlopeSpeedScatter(samples){const host=$('terrainSlopeSpeed');if(!host)return;host.replaceChildren();const vals=samples.filter(x=>Number.isFinite(x.grade)&&Number.isFinite(x.speed)).map(x=>({g:x.grade*100,v:x.speed*3.6,dt:x.dt}));if(!vals.length){host.innerHTML='<div class="notice">Sin datos suficientes.</div>';return}const maxG=Math.max(30,Math.ceil(Math.max(...vals.map(x=>Math.abs(x.g)))/5)*5),ymax=Math.max(20,Math.ceil(Math.max(...vals.map(x=>x.v))/5)*5),W=620,H=300,m={l:52,r:18,t:16,b:40},ns='http://www.w3.org/2000/svg',svg=document.createElementNS(ns,'svg');svg.setAttribute('viewBox',`0 0 ${W} ${H}`);svg.classList.add('heat-svg');const X=g=>m.l+(g+maxG)/(2*maxG)*(W-m.l-m.r),Y=v=>m.t+(ymax-v)/ymax*(H-m.t-m.b),bins=new Map(),gx=2,vy=.5;for(const z of vals){const k=Math.floor((z.g+maxG)/gx)+'|'+Math.floor(z.v/vy);bins.set(k,(bins.get(k)||0)+z.dt)}const mx=Math.max(...bins.values(),1),step=Math.max(1,Math.ceil(vals.length/3500));for(let i=0;i<vals.length;i+=step){const z=vals[i],k=Math.floor((z.g+maxG)/gx)+'|'+Math.floor(z.v/vy),d=bins.get(k)||0,c=document.createElementNS(ns,'circle');c.setAttribute('cx',X(z.g));c.setAttribute('cy',Y(z.v));c.setAttribute('r',1.8);c.setAttribute('fill',`hsl(${210-180*Math.sqrt(d/mx)} 78% 50%)`);c.setAttribute('opacity',.28+.6*Math.sqrt(d/mx));svg.append(c)}const trend=[];for(let lo=-maxG;lo<maxG;lo+=2.5){const vv=vals.filter(z=>z.g>=lo&&z.g<lo+2.5).map(z=>z.v);if(vv.length>=3)trend.push([lo+1.25,median(vv)])}if(trend.length>1){const pl=document.createElementNS(ns,'polyline');pl.setAttribute('points',trend.map(q=>X(q[0])+','+Y(q[1])).join(' '));pl.setAttribute('fill','none');pl.setAttribute('stroke','#f1d680');pl.setAttribute('stroke-width','2.5');pl.setAttribute('stroke-linejoin','round');svg.append(pl)}const zero=document.createElementNS(ns,'line');zero.setAttribute('x1',X(0));zero.setAttribute('x2',X(0));zero.setAttribute('y1',m.t);zero.setAttribute('y2',H-m.b);zero.setAttribute('stroke','#8299a5');zero.setAttribute('stroke-dasharray','4 4');svg.append(zero);for(let i=0;i<=6;i++){const g=-maxG+i*2*maxG/6,t=document.createElementNS(ns,'text');t.setAttribute('x',X(g));t.setAttribute('y',H-14);t.setAttribute('text-anchor','middle');t.setAttribute('fill','#8299a5');t.setAttribute('font-size','10');t.textContent=(g>0?'+':'')+Math.round(g)+'%';svg.append(t)}for(let i=0;i<=5;i++){const v=i*ymax/5,t=document.createElementNS(ns,'text');t.setAttribute('x',m.l-7);t.setAttribute('y',Y(v)+4);t.setAttribute('text-anchor','end');t.setAttribute('fill','#8299a5');t.setAttribute('font-size','10');t.textContent=Math.round(v);svg.append(t)}host.append(svg)}
 function renderVerticalSlope(samples){const host=$('terrainSlopeVam');if(!host)return;host.replaceChildren();const grades=samples.map(x=>x.grade).filter(Number.isFinite);if(!grades.length){host.innerHTML='<div class="notice">Sin datos suficientes.</div>';return}const maxPct=Math.max(30,Math.ceil(Math.max(...grades.map(x=>Math.abs(x*100)))/5)*5),bins=[];for(let lo=-maxPct;lo<maxPct;lo+=5){const ss=samples.filter(x=>Number.isFinite(x.grade)&&x.grade*100>=lo&&x.grade*100<lo+5),time=ss.reduce((a,x)=>a+(x.dt||0),0),vv=ss.map(x=>Number.isFinite(x.speed)?x.speed*x.grade*3600:NaN).filter(Number.isFinite);bins.push({lo,hi:lo+5,time,vv:mean(vv)})}const W=620,H=300,m={l:55,r:55,t:18,b:42},ns='http://www.w3.org/2000/svg',svg=document.createElementNS(ns,'svg');svg.setAttribute('viewBox',`0 0 ${W} ${H}`);const maxT=Math.max(...bins.map(x=>x.time),1),maxV=Math.max(500,Math.ceil(Math.max(...bins.map(x=>Math.abs(x.vv||0)))/250)*250),pw=W-m.l-m.r,bw=pw/bins.length,X=i=>m.l+(i+.5)*bw,Yt=t=>H-m.b-t/maxT*(H-m.t-m.b),Yv=v=>m.t+(maxV-v)/(2*maxV)*(H-m.t-m.b);bins.forEach((b,i)=>{const r=document.createElementNS(ns,'rect');r.setAttribute('x',m.l+i*bw+1);r.setAttribute('y',Yt(b.time));r.setAttribute('width',Math.max(1,bw-2));r.setAttribute('height',H-m.b-Yt(b.time));r.setAttribute('fill',b.lo>=0?'#e79a4570':'#5aa6d670');r.innerHTML=`<title>${b.lo}…${b.hi}% · ${fmtTime(b.time)} · velocidad vertical ${Number.isFinite(b.vv)?Math.round(b.vv)+' m/h':'—'}</title>`;svg.append(r)});const pts=bins.map((b,i)=>Number.isFinite(b.vv)?[X(i),Yv(b.vv)]:null).filter(Boolean);if(pts.length>1){const pl=document.createElementNS(ns,'polyline');pl.setAttribute('points',pts.map(p=>p.join(',')).join(' '));pl.setAttribute('fill','none');pl.setAttribute('stroke','#f1d680');pl.setAttribute('stroke-width','2.4');svg.append(pl)}bins.forEach((b,i)=>{if(!Number.isFinite(b.vv))return;const c=document.createElementNS(ns,'circle');c.setAttribute('cx',X(i));c.setAttribute('cy',Yv(b.vv));c.setAttribute('r',3);c.setAttribute('fill','#f1d680');svg.append(c)});const zero=document.createElementNS(ns,'line');zero.setAttribute('x1',m.l);zero.setAttribute('x2',W-m.r);zero.setAttribute('y1',Yv(0));zero.setAttribute('y2',Yv(0));zero.setAttribute('stroke','#8299a5');zero.setAttribute('stroke-dasharray','4 4');svg.append(zero);for(let i=0;i<bins.length;i+=Math.max(1,Math.ceil(bins.length/12))){const b=bins[i],t=document.createElementNS(ns,'text');t.setAttribute('x',X(i));t.setAttribute('y',H-14);t.setAttribute('text-anchor','middle');t.setAttribute('fill','#8299a5');t.setAttribute('font-size','9');t.textContent=(b.lo>0?'+':'')+b.lo+'%';svg.append(t)}[-maxV,0,maxV].forEach(v=>{const t=document.createElementNS(ns,'text');t.setAttribute('x',W-m.r+7);t.setAttribute('y',Yv(v)+4);t.setAttribute('fill','#8299a5');t.setAttribute('font-size','9');t.textContent=Math.round(v)+' m/h';svg.append(t)});host.append(svg)}
 function renderMovementDonut(samples,p){const host=$('terrainMovement');if(!host)return;host.replaceChildren();const mt=movementTimes(samples,p),labels=['Parado','Caminando','Corriendo','Progresión difícil'],cols=['#7f8c97','#5aa6d6','#52b788','#e79a45'],vals=labels.map((k,i)=>({label:k,value:mt[k]||0,color:cols[i]})),total=vals.reduce((a,x)=>a+x.value,0);if(!(total>0)){host.innerHTML='<div class="notice">Sin tiempo clasificable.</div>';return}const wrap=document.createElement('div');wrap.className='movement-donut';const ns='http://www.w3.org/2000/svg',svg=document.createElementNS(ns,'svg');svg.setAttribute('viewBox','0 0 300 260');const cx=150,cy=128,r=82,sw=42,C=2*Math.PI*r;let off=0;vals.forEach(x=>{if(x.value<=0)return;const frac=x.value/total,c=document.createElementNS(ns,'circle');c.setAttribute('cx',cx);c.setAttribute('cy',cy);c.setAttribute('r',r);c.setAttribute('fill','none');c.setAttribute('stroke',x.color);c.setAttribute('stroke-width',sw);c.setAttribute('stroke-dasharray',`${frac*C} ${C-frac*C}`);c.setAttribute('stroke-dashoffset',String(-off*C));c.setAttribute('transform',`rotate(-90 ${cx} ${cy})`);const ti=document.createElementNS(ns,'title');ti.textContent=`${x.label}: ${fmtTime(x.value)} · ${(frac*100).toFixed(1)} %`;c.append(ti);svg.append(c);off+=frac});const center=document.createElementNS(ns,'circle');center.setAttribute('cx',cx);center.setAttribute('cy',cy);center.setAttribute('r',56);center.setAttribute('fill','var(--panel)');svg.append(center);const t1=document.createElementNS(ns,'text');t1.setAttribute('x',cx);t1.setAttribute('y',cy-3);t1.setAttribute('text-anchor','middle');t1.setAttribute('fill','var(--text)');t1.setAttribute('font-size','24');t1.setAttribute('font-weight','900');t1.textContent='100 %';svg.append(t1);const t2=document.createElementNS(ns,'text');t2.setAttribute('x',cx);t2.setAttribute('y',cy+20);t2.setAttribute('text-anchor','middle');t2.setAttribute('fill','var(--muted)');t2.setAttribute('font-size','11');t2.textContent=fmtTime(total);svg.append(t2);const list=document.createElement('div');list.className='movement-breakdown';vals.forEach(x=>{const pct=100*x.value/total,row=document.createElement('div');row.className='movement-item'+(movementFilterState===x.label?' active':movementFilterState?' dim':'');row.dataset.movement=x.label;row.innerHTML=`<i class="movement-swatch" style="background:${x.color}"></i><div><b>${x.label}</b><br><span>${fmtTime(x.value)}</span></div><strong>${pct.toFixed(1)} %</strong>`;row.onclick=()=>{movementFilterState=movementFilterState===x.label?'':x.label;renderMovementDonut(samples,p);renderMovementMap(samples,p,analyses.find(a=>a.runner.id===$('terrainRunner')?.value)||focusAnalysis())};list.append(row)});wrap.append(svg,list);host.append(wrap)}
@@ -958,12 +1147,308 @@ function renderIdptDistribution(a,legs,group){
  const current=cols.find(c=>c.r.index===idptSelectedIndex)||cols[0];describe(current);
  if(current&&win==='all')requestAnimationFrame(()=>{const target=Math.max(0,current.cx-scroller.clientWidth/2);scroller.scrollLeft=target;syncBar()});
 }
-function renderTerrain(){refreshTerrainSelectors();const a=analyses.find(x=>x.runner.id===$('terrainRunner')?.value)||focusAnalysis();if(!a){renderTerrainTrainingContext(null,'');$('terrainKpis').innerHTML=statCard('Esperando datos','—','Carga y asigna un FIT/GPX');for(const id of ['terrainAltitude','terrainSlopeTime','terrainThreshold','terrainIdpt','terrainMovement','terrainMovementMap'])if($(id))$(id).innerHTML='<div class="notice">Sin datos.</div>';return}const profileId=$('terrainProfile')?.value||a.track.performanceProfileId||'',p=performanceProfiles[profileId]||null;if(profileId)a.track.performanceProfileId=profileId;const ts=profileThresholdSpeed(p),lthr=+p?.values?.lthr,all=terrainSamples(a),samples=selectedTerrainSamples(a),legs=terrainLegMetrics(a,p),group=terrainGroupStats(),validIdpt=legs.map(x=>x.idpt).filter(Number.isFinite),medIdpt=median(validIdpt),hard=legs.filter(x=>Number.isFinite(x.idpt)).sort((x,y)=>y.idpt-x.idpt)[0],wmeanScope=key=>{let sw=0,sv=0;for(const x of samples)if(Number.isFinite(x[key])){const w=Number.isFinite(x.dt)&&x.dt>0?x.dt:1;sv+=x[key]*w;sw+=w}return sw?sv/sw:NaN},scopeHr=wmeanScope('hr'),scopeSpeed=wmeanScope('speed'),meanHrRel=Number.isFinite(lthr)&&lthr>0?scopeHr/lthr*100:NaN,meanSpeedRel=Number.isFinite(ts)&&ts>0?scopeSpeed/ts*100:NaN,smooth=Number($('terrainSmooth')?.value)||25;$('terrainProfileInfo').innerHTML=p?`<b>${esc(p.name||a.runner.name)}</b> · ritmo umbral ${p.values.thresholdPace||'—'}/km · LTHR ${p.values.lthr||'—'} ppm · <span class="terrain-smooth-state">pendiente suavizada en ${smooth} m</span>. <span class="confidence">IDPT experimental</span>`:`Sin perfil fisiológico: se muestran terreno, altitud y distribuciones. Pendiente suavizada en <span class="terrain-smooth-state">${smooth} m</span>; el IDPT completo necesita ritmo umbral y preferentemente LTHR.`;renderTerrainTrainingContext(a,profileId);const scopeLabel=$('terrainScope')?.selectedOptions?.[0]?.textContent||'Toda la actividad',globalCards=[statCard('IDPT mediano '+infoHtml('idpt'),Number.isFinite(medIdpt)?medIdpt.toFixed(0)+'/100':'—',Number.isFinite(medIdpt)?(medIdpt<15?'progresión próxima a referencia':medIdpt<35?'penalización moderada':'progresión muy limitada'):'requiere perfil'),statCard('Tramo más limitante',hard?((hard.leg.from.kind==='start'?'S':hard.leg.from.order)+'→'+legLabel(hard.leg)):'—',hard&&Number.isFinite(hard.idpt)?'IDPT '+hard.idpt.toFixed(0):'—')].join(''),scopeCards=[statCard('FC relativa',Number.isFinite(meanHrRel)?meanHrRel.toFixed(0)+' % LTHR':'—',Number.isFinite(lthr)?'intensidad del ámbito':'sin LTHR'),statCard('Velocidad relativa',Number.isFinite(meanSpeedRel)?meanSpeedRel.toFixed(0)+' %':'—',Number.isFinite(ts)?'vs ritmo umbral · ámbito':'sin ritmo umbral'),statCard('Pendiente GPS',Number.isFinite(median(samples.map(x=>x.grade)))?(median(samples.map(x=>x.grade))*100).toFixed(1)+' %':'—','mediana del ámbito')].join('');$('terrainKpis').innerHTML=`<div class="terrain-kpi-block terrain-kpi-global"><div class="terrain-kpi-label">Resumen global · carrera completa</div><div class="terrain-kpi-cards">${globalCards}</div></div><div class="terrain-kpi-separator" aria-hidden="true"></div><div class="terrain-kpi-block terrain-kpi-scope"><div class="terrain-kpi-label">Ámbito seleccionado · ${esc(scopeLabel)}</div><div class="terrain-kpi-cards">${scopeCards}</div></div>`;renderAltitudeProfile(a,all,legs);
+
+let legDetailIndex=null;
+
+function legRaceContext(a,leg){
+  const rows=basicRaceRows(),ctx=raceContext(rows),j=Math.max(0,(leg.index||1)-1);
+  const focus=rows.find(r=>r.runner.id===a.runner.id);
+  const refId=$('raceReference')?.value||rows[0]?.runner.id||'';
+  const ref=rows.find(r=>r.runner.id===refId)||rows[0]||null;
+  const focusSplit=focus?.legs?.[j]?.duration;
+  const refSplit=ref?.legs?.[j]?.duration;
+  const best=ctx.bestSplit?.[j];
+  const delta=Number.isFinite(focusSplit)&&Number.isFinite(refSplit)?focusSplit-refSplit:NaN;
+  const index=Number.isFinite(focusSplit)&&best>0?100*focusSplit/best:NaN;
+  return {rows,focus,ref,focusSplit,refSplit,best,delta,index};
+}
+function signedTime(sec){
+  if(!Number.isFinite(sec))return '—';
+  if(Math.abs(sec)<.5)return '0 s';
+  return (sec>0?'+':'−')+fmtTime(Math.abs(sec));
+}
+function legReviewState(rc,metric,relief,leg){
+  const signals=[];
+  if(Number.isFinite(rc.index)&&rc.index>=125)signals.push('tiempo');
+  if(Number.isFinite(metric?.idpt)&&metric.idpt>=35)signals.push('progresión');
+  if(Number.isFinite(leg?.routeFactor)&&leg.routeFactor>=1.18)signals.push('rodeo');
+  if(Number.isFinite(leg?.slow)&&leg.slow>=25)signals.push('paradas');
+  if(signals.length>=2)return {cls:'high',label:'revisar · '+signals.slice(0,2).join(' + ')};
+  if(signals.length)return {cls:'study',label:'revisar · '+signals[0]};
+  return {cls:'good',label:'sin señal fuerte'};
+}
+function progressionLabel(idpt){
+  if(!Number.isFinite(idpt))return 'sin perfil';
+  if(idpt<15)return 'próxima a referencia';
+  if(idpt<35)return 'moderada';
+  return 'muy limitada';
+}
+function reliefLabel(v){
+  if(!Number.isFinite(v))return '—';
+  if(v<35)return 'bajo';
+  if(v<70)return 'medio';
+  return 'alto';
+}
+function legConsensus(metric,gs){
+  if(!gs||gs.n<2||!Number.isFinite(metric?.idpt))return {label:'Sin grupo suficiente',cls:''};
+  const gm=gs.median,id=metric.idpt;
+  if(id>gm+15)return {label:'Más individual',cls:'consensus-mid'};
+  if(gm>=35)return {label:'Difícil para el grupo',cls:'consensus-high'};
+  if(gm<15)return {label:'Poco limitante en grupo',cls:'consensus-low'};
+  return {label:'Moderado compartido',cls:'consensus-mid'};
+}
+function legAutoReading(a,leg,metric,relief,gs,rc,legSamples,p){
+  const bits=[];
+  const downhill=Number.isFinite(metric?.grade)&&metric.grade<-.04;
+  const uphill=Number.isFinite(metric?.grade)&&metric.grade>.04;
+  if(Number.isFinite(rc.delta)&&rc.ref){
+    if(rc.delta>20)bits.push(`pierde ${fmtTime(rc.delta)} frente a ${rc.ref.runner.name} en el parcial`);
+    else if(rc.delta<-10)bits.push(`gana ${fmtTime(-rc.delta)} frente a ${rc.ref.runner.name}`);
+    else bits.push('el parcial es próximo a la referencia temporal');
+  }
+  if(Number.isFinite(leg.routeFactor)&&leg.routeFactor>1.18)bits.push(`hay rodeo relevante (${leg.routeFactor.toFixed(2)}×)`);
+  if(Number.isFinite(leg.slow)&&leg.slow>20)bits.push(`acumula ${fmtTime(leg.slow)} a velocidad muy baja`);
+  if(Number.isFinite(metric?.idpt)){
+    if(metric.idpt>=35){
+      if(downhill)bits.push('la bajada fue mucho más lenta de lo esperable pese a la pendiente favorable');
+      else if(uphill)bits.push('la progresión fue peor de lo esperable incluso considerando la subida');
+      else bits.push('la progresión fue bastante peor de la esperada');
+    }else if(metric.idpt<15)bits.push('la progresión queda cerca de lo esperable para esfuerzo y pendiente');
+  }
+  if(gs&&gs.n>=2&&Number.isFinite(gs.median)){
+    if(gs.median>=35)bits.push('la penalización también aparece en el grupo');
+    else if(Number.isFinite(metric?.idpt)&&metric.idpt>gs.median+15)bits.push('la penalización parece más individual que compartida');
+  }
+  if(!Number.isFinite(metric?.idpt))bits.push('sin perfil fisiológico no se calcula dificultad de progresión');
+  const sentence=bits.length?bits.join('; ')+'.':'No hay señales suficientes para una lectura automática.';
+  return sentence.charAt(0).toUpperCase()+sentence.slice(1);
+}
+function legProfileSvg(a,leg){
+  const rows=terrainSamples(a).filter(x=>x.leg===leg.index&&Number.isFinite(x.dist)&&Number.isFinite(x.ele));
+  if(rows.length<2)return '<div class="notice">Sin altitud suficiente para este tramo.</div>';
+  const W=720,H=190,m={l:44,r:12,t:12,b:27},d0=rows[0].dist,d1=rows.at(-1).dist,
+        emin=Math.min(...rows.map(x=>x.ele))-2,emax=Math.max(...rows.map(x=>x.ele))+2,
+        X=d=>m.l+(W-m.l-m.r)*(d-d0)/Math.max(1,d1-d0),
+        Y=e=>m.t+(H-m.t-m.b)*(1-(e-emin)/Math.max(1,emax-emin));
+  let s=`<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Perfil de altitud del tramo">`;
+  for(let k=0;k<=3;k++){const e=emin+(emax-emin)*k/3,y=Y(e);s+=`<line x1="${m.l}" x2="${W-m.r}" y1="${y}" y2="${y}" stroke="var(--line)" opacity=".7"/><text x="${m.l-6}" y="${y+3}" text-anchor="end" fill="var(--muted)" font-size="9">${Math.round(e)}m</text>`}
+  for(let i=1;i<rows.length;i++){
+    const g=rows[i].grade,col=slopeColor(g);
+    s+=`<line x1="${X(rows[i-1].dist)}" y1="${Y(rows[i-1].ele)}" x2="${X(rows[i].dist)}" y2="${Y(rows[i].ele)}" stroke="${col}" stroke-width="3.5" stroke-linecap="round"/>`;
+  }
+  s+=`<text x="${m.l}" y="${H-8}" fill="var(--muted)" font-size="9">0 m</text><text x="${W-m.r}" y="${H-8}" text-anchor="end" fill="var(--muted)" font-size="9">${Math.round(d1-d0)} m GPS</text></svg>`;
+  return s;
+}
+function renderTerrainLegCards(a,p,legs,group,allSamples){
+  const host=$('terrainLegCards');if(!host)return;
+  const topo=controlLegSections(a,allSamples),topoMap=new Map(topo.map(x=>[x.index,x]));
+  if(!legs.length){host.innerHTML='<div class="notice">No hay tramos con datos suficientes.</div>';return}
+  const scope=$('terrainScope')?.value||'all';
+  host.innerHTML=legs.map(metric=>{
+    const leg=metric.leg,rc=legRaceContext(a,leg),rel=topoMap.get(leg.index),review=legReviewState(rc,metric,rel,leg),
+          id=metric.idpt,delta=rc.delta,label=(leg.from.kind==='start'?'S':leg.from.order)+'→'+legLabel(leg);
+    return `<button type="button" class="leg-summary-card ${scope===String(leg.index)?'selected':''}" data-leg-summary="${leg.index}">
+      <div class="leg-summary-top"><div class="leg-summary-title">Tramo ${label}</div><span class="leg-review-pill ${review.cls}">${review.label}</span></div>
+      <div class="leg-summary-metrics">
+        <div class="leg-mini"><span>Tiempo</span><b>${fmtTime(leg.duration)}</b><small>${Number.isFinite(delta)?signedTime(delta)+' vs ref.':'sin referencia'}</small></div>
+        <div class="leg-mini"><span>Relieve</span><b>${Number.isFinite(rel?.hard)?rel.hard.toFixed(0)+'/100':'—'}</b><small>${Number.isFinite(rel?.hard)?reliefLabel(rel.hard):'sin altitud'}</small></div>
+        <div class="leg-mini"><span>Progresión</span><b class="${Number.isFinite(id)&&id>=35?'idx-hard':''}">${Number.isFinite(id)?id.toFixed(0)+'/100':'—'}</b><small class="${Number.isFinite(id)?'':'leg-no-profile'}">${progressionLabel(id)}</small></div>
+      </div>
+      <div class="leg-summary-foot"><span>${Math.round(leg.dist)} m GPS</span><span>+${Math.round(leg.gain)} / −${Math.round(leg.loss)} m</span><span>${Number.isFinite(leg.routeFactor)?leg.routeFactor.toFixed(2)+'× rodeo':'rodeo —'}</span></div>
+      <div class="leg-summary-cue"><span>Relieve = geometría · Progresión = comportamiento real</span><b>Ampliar ›</b></div>
+    </button>`;
+  }).join('');
+  host.querySelectorAll('[data-leg-summary]').forEach(b=>b.onclick=()=>openLegDetail(+b.dataset.legSummary));
+}
+
+function legDetailAnalysis(){
+  return analyses.find(x=>x.runner.id===$('terrainRunner')?.value)||focusAnalysis();
+}
+function legDetailIndices(){
+  const a=legDetailAnalysis();
+  return (a?.legs||[]).map(l=>l.index).filter(Number.isFinite);
+}
+function updateLegDetailNav(){
+  const ids=legDetailIndices(),pos=ids.indexOf(legDetailIndex),ok=pos>=0;
+  const prevOk=ok&&pos>0,nextOk=ok&&pos<ids.length-1;
+  for(const id of ['legDetailPrev','legDetailPrevBottom'])if($(id))$(id).disabled=!prevOk;
+  for(const id of ['legDetailNext','legDetailNextBottom'])if($(id))$(id).disabled=!nextOk;
+  if($('legDetailCounter'))$('legDetailCounter').textContent=ok?`${pos+1} / ${ids.length}`:'— / —';
+}
+function navigateLegDetail(delta){
+  const ids=legDetailIndices(),pos=ids.indexOf(legDetailIndex);
+  if(pos<0)return;
+  const next=pos+delta;
+  if(next<0||next>=ids.length)return;
+  openLegDetail(ids[next],{keepOpen:true});
+}
+function calibratedMapPoint(lat,lon){
+  if(!mapImage||!calibration)return null;
+  const g=geo(lat,lon),u=(g[0]-calibration.origin[0])/calibration.scale,v=(g[1]-calibration.origin[1])/calibration.scale,
+        h=calibration.h,d=h.length===8?h[6]*u+h[7]*v+1:1;
+  const x=(h[0]*u+h[1]*v+h[2])/d,y=(h[3]*u+h[4]*v+h[5])/d;
+  return Number.isFinite(x)&&Number.isFinite(y)?[x,y]:null;
+}
+function legMapSvg(a,leg){
+  const pts=(leg.points||[]).filter(p=>Number.isFinite(p.lat)&&Number.isFinite(p.lon));
+  if(pts.length<2)return '<div class="notice">Sin coordenadas GPS suficientes para este tramo.</div>';
+  const hasMap=!!(mapImage&&calibration&&mapImage._dataUrl);
+  let xy=[],W=720,H=190,pad=16,bg='';
+  if(hasMap){
+    xy=pts.map(p=>calibratedMapPoint(p.lat,p.lon)).filter(Boolean);
+    if(xy.length<2)return '<div class="notice">No pude proyectar este tramo sobre el mapa calibrado.</div>';
+    let xs=xy.map(p=>p[0]),ys=xy.map(p=>p[1]),x0=Math.min(...xs),x1=Math.max(...xs),y0=Math.min(...ys),y1=Math.max(...ys);
+    const span=Math.max(x1-x0,y1-y0,40),extra=span*.22;
+    x0=Math.max(0,x0-extra);y0=Math.max(0,y0-extra);x1=Math.min(mapImage.width,x1+extra);y1=Math.min(mapImage.height,y1+extra);
+    const vbW=Math.max(1,x1-x0),vbH=Math.max(1,y1-y0);
+    const aspect=W/H,cur=vbW/vbH;
+    if(cur>aspect){const need=vbW/aspect-vbH;y0=Math.max(0,y0-need/2);y1=Math.min(mapImage.height,y1+need/2)}
+    else{const need=vbH*aspect-vbW;x0=Math.max(0,x0-need/2);x1=Math.min(mapImage.width,x1+need/2)}
+    bg=`<image href="${mapImage._dataUrl}" x="0" y="0" width="${mapImage.width}" height="${mapImage.height}" preserveAspectRatio="none" opacity=".96"/>`;
+    const directA=xy[0],directB=xy.at(-1),route=xy.map(p=>p.join(',')).join(' ');
+    return `<svg viewBox="${x0} ${y0} ${Math.max(1,x1-x0)} ${Math.max(1,y1-y0)}" preserveAspectRatio="xMidYMid meet" role="img" aria-label="Mapa calibrado del tramo">
+      ${bg}
+      <line x1="${directA[0]}" y1="${directA[1]}" x2="${directB[0]}" y2="${directB[1]}" stroke="#ef6a67" stroke-width="${Math.max(2,(x1-x0)/220)}" stroke-dasharray="${Math.max(5,(x1-x0)/90)} ${Math.max(4,(x1-x0)/120)}" opacity=".9"/>
+      <polyline points="${route}" fill="none" stroke="${a.track.color||'#d7ad4e'}" stroke-width="${Math.max(3,(x1-x0)/150)}" stroke-linecap="round" stroke-linejoin="round"/>
+      <circle cx="${directA[0]}" cy="${directA[1]}" r="${Math.max(5,(x1-x0)/95)}" fill="#52b788" stroke="#fff" stroke-width="${Math.max(1.5,(x1-x0)/500)}"/>
+      <circle cx="${directB[0]}" cy="${directB[1]}" r="${Math.max(5,(x1-x0)/95)}" fill="#ef6a67" stroke="#fff" stroke-width="${Math.max(1.5,(x1-x0)/500)}"/>
+    </svg>`;
+  }
+  const lat0=pts.reduce((s,p)=>s+p.lat,0)/pts.length,cos=Math.cos(lat0*Math.PI/180);
+  xy=pts.map(p=>[p.lon*cos,p.lat]);
+  const xs=xy.map(p=>p[0]),ys=xy.map(p=>p[1]),xmin=Math.min(...xs),xmax=Math.max(...xs),ymin=Math.min(...ys),ymax=Math.max(...ys),
+        sx=(W-2*pad)/(xmax-xmin||1),sy=(H-2*pad)/(ymax-ymin||1),sc=Math.min(sx,sy),
+        ox=(W-(xmax-xmin)*sc)/2,oy=(H-(ymax-ymin)*sc)/2,
+        P=q=>[ox+(q[0]-xmin)*sc,H-(oy+(q[1]-ymin)*sc)],
+        screen=xy.map(P),A=screen[0],B=screen.at(-1),route=screen.map(p=>p.join(',')).join(' ');
+  return `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Recorrido GPS del tramo">
+    <defs><pattern id="leggrid" width="24" height="24" patternUnits="userSpaceOnUse"><path d="M24 0H0V24" fill="none" stroke="var(--line)" stroke-width="1" opacity=".35"/></pattern></defs>
+    <rect width="${W}" height="${H}" fill="var(--panel2)"/><rect width="${W}" height="${H}" fill="url(#leggrid)"/>
+    <line x1="${A[0]}" y1="${A[1]}" x2="${B[0]}" y2="${B[1]}" stroke="#ef6a67" stroke-width="2.2" stroke-dasharray="7 5" opacity=".9"/>
+    <polyline points="${route}" fill="none" stroke="${a.track.color||'#d7ad4e'}" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+    <circle cx="${A[0]}" cy="${A[1]}" r="7" fill="#52b788" stroke="#fff" stroke-width="2"/>
+    <circle cx="${B[0]}" cy="${B[1]}" r="7" fill="#ef6a67" stroke="#fff" stroke-width="2"/>
+    <text x="${A[0]+10}" y="${A[1]-9}" fill="var(--text)" font-size="11" font-weight="900">${leg.from.kind==='start'?'S':leg.from.order}</text>
+    <text x="${B[0]+10}" y="${B[1]-9}" fill="var(--text)" font-size="11" font-weight="900">${legLabel(leg)}</text>
+  </svg>`;
+}
+
+function openLegDetail(index,opts={}){
+  const a=analyses.find(x=>x.runner.id===$('terrainRunner')?.value)||focusAnalysis();if(!a)return;
+  const profileId=$('terrainProfile')?.value||a.track.performanceProfileId||'',p=performanceProfiles[profileId]||null,
+        metrics=terrainLegMetrics(a,p),metric=metrics.find(x=>x.leg.index===index),leg=metric?.leg||a.legs.find(x=>x.index===index);
+  if(!leg||!metric)return;
+  legDetailIndex=index;
+  const all=terrainSamples(a),legSamples=all.filter(x=>x.leg===index),rel=controlLegSections(a,all).find(x=>x.index===index),
+        group=terrainGroupStats(),gs=group.get(index),rc=legRaceContext(a,leg),cons=legConsensus(metric,gs),
+        mt=movementTimes(legSamples,p),moveTotal=Object.values(mt).reduce((s,v)=>s+(Number(v)||0),0),
+        pct=k=>moveTotal>0?100*(mt[k]||0)/moveTotal:NaN,label=(leg.from.kind==='start'?'S':leg.from.order)+'→'+legLabel(leg),
+        read=legAutoReading(a,leg,metric,rel,gs,rc,legSamples,p),
+        topoTxt=Number.isFinite(rel?.hard)?`${rel.hard.toFixed(0)}/100 · ${reliefLabel(rel.hard)}`:'—',
+        progTxt=Number.isFinite(metric.idpt)?`${metric.idpt.toFixed(0)}/100 · ${progressionLabel(metric.idpt)}`:'— · requiere perfil';
+  $('legDetailTitle').textContent=`Tramo ${label}`;
+  $('legDetailBody').innerHTML=`
+    <div class="leg-detail-swipe-hint">Desliza ← → fuera del mapa para cambiar de tramo</div>
+    <div class="leg-detail-visuals">
+      <div class="leg-detail-profile"><h3>Perfil del tramo · línea coloreada por pendiente</h3>${legProfileSvg(a,leg)}</div>
+      <div class="leg-detail-map" data-no-leg-swipe>
+        <h3>Mapa del tramo · GPS real vs línea directa</h3>
+        ${legMapSvg(a,leg)}
+        <div class="leg-map-note"><div class="leg-map-legend"><span><i class="leg-map-swatch track"></i>GPS</span><span><i class="leg-map-swatch direct"></i>línea directa</span></div><span>${mapImage&&calibration?'mapa de orientación calibrado':'vista GPS · sin mapa calibrado'}</span></div>
+      </div>
+    </div>
+    <div class="leg-detail-summary">
+      <div class="subtitle">LECTURA AUTOMÁTICA · HIPÓTESIS</div>
+      <div class="big-reading">${esc(read)}</div>
+      <div class="confidence-note">No es un diagnóstico de error técnico. El sistema cruza tiempos, GPS, relieve y perfil cuando están disponibles. La causa final debe contrastarse con mapa, elección de ruta y recuerdo del corredor.</div>
+    </div>
+    <div class="leg-detail-blocks">
+      <div class="leg-detail-block"><h3>⏱ Tiempo</h3>
+        <div class="leg-detail-row"><span>Parcial</span><b>${fmtTime(leg.duration)}</b></div>
+        <div class="leg-detail-row"><span>Vs referencia</span><b>${Number.isFinite(rc.delta)?signedTime(rc.delta):'—'}</b></div>
+        <div class="leg-detail-row"><span>Referencia</span><b>${esc(rc.ref?.runner?.name||'—')}</b></div>
+        <div class="leg-detail-row"><span>Índice vs mejor parcial</span><b>${Number.isFinite(rc.index)?rc.index.toFixed(0)+' %':'—'}</b></div>
+      </div>
+      <div class="leg-detail-block"><h3>⛰ Relieve · geometría</h3>
+        <div class="leg-detail-row"><span>Índice topográfico</span><b>${topoTxt}</b></div>
+        <div class="leg-detail-row"><span>Ascenso / descenso</span><b>+${Math.round(leg.gain)} / −${Math.round(leg.loss)} m</b></div>
+        <div class="leg-detail-row"><span>Pendiente media</span><b>${Number.isFinite(metric.grade)?(metric.grade*100).toFixed(1)+' %':'—'}</b></div>
+        <div class="leg-detail-row"><span>Distancia GPS</span><b>${Math.round(leg.dist)} m</b></div>
+      </div>
+      <div class="leg-detail-block"><h3>🏃 Progresión · comportamiento</h3>
+        <div class="leg-detail-row"><span>IDPT</span><b class="${Number.isFinite(metric.idpt)&&metric.idpt>=35?'idx-hard':''}">${progTxt}</b></div>
+        <div class="leg-detail-row"><span>Velocidad real</span><b>${Number.isFinite(metric.speed)?(metric.speed*3.6).toFixed(1)+' km/h':'—'}</b></div>
+        <div class="leg-detail-row"><span>Velocidad esperada</span><b>${Number.isFinite(metric.expected)?(metric.expected*3.6).toFixed(1)+' km/h':'—'}</b></div>
+        <div class="leg-detail-row"><span>IDPT grupo</span><b>${Number.isFinite(gs?.median)?gs.median.toFixed(0)+'/100 · n='+gs.n:'—'}</b></div>
+        <div class="leg-detail-row"><span>Consenso</span><b class="${cons.cls}">${cons.label}</b></div>
+      </div>
+      <div class="leg-detail-block"><h3>🧭 Ejecución</h3>
+        <div class="leg-detail-row"><span>Rodeo</span><b>${Number.isFinite(leg.routeFactor)?leg.routeFactor.toFixed(2)+'×':'—'}</b></div>
+        <div class="leg-detail-row"><span>Distancia extra</span><b>${Number.isFinite(leg.extraDistance)?Math.round(leg.extraDistance)+' m':'—'}</b></div>
+        <div class="leg-detail-row"><span>Casi parado</span><b>${fmtTime(leg.slow||0)}</b></div>
+        <div class="leg-detail-row"><span>FC relativa</span><b>${Number.isFinite(metric.hrRel)?(metric.hrRel*100).toFixed(0)+' % LTHR':'—'}</b></div>
+        <div class="leg-detail-row"><span>Velocidad % umbral</span><b>${Number.isFinite(metric.speedRel)?(metric.speedRel*100).toFixed(0)+' %':'—'}</b></div>
+      </div>
+    </div>
+    <div class="leg-evidence">
+      <div><div class="tagline">DATO</div><b>${fmtTime(leg.duration)} · ${Number.isFinite(rc.delta)?signedTime(rc.delta)+' vs '+esc(rc.ref?.runner?.name||'referencia'):'sin comparación temporal'}</b><p>Describe lo ocurrido con el cronómetro.</p></div>
+      <div><div class="tagline">INDICIOS</div><b>${Number.isFinite(leg.routeFactor)?leg.routeFactor.toFixed(2)+'× rodeo':'rodeo —'} · ${fmtTime(leg.slow||0)} casi parado · IDPT ${Number.isFinite(metric.idpt)?metric.idpt.toFixed(0):'—'}</b><p>GPS, movimiento y perfil ayudan a acotar explicaciones posibles.</p></div>
+      <div><div class="tagline">INTERPRETACIÓN</div><b>Contrastar con el corredor</b><p>¿Qué opción pretendías? ¿Dónde dudaste? ¿Cómo era el suelo o la vegetación? ¿La bajada exigía frenar? Aquí se cierra la explicación.</p></div>
+    </div>
+    <div class="terrain-note" style="margin-top:10px"><b>Movimiento del tramo:</b> parado ${Number.isFinite(pct('Parado'))?pct('Parado').toFixed(0)+' %':'—'} · caminando ${Number.isFinite(pct('Caminando'))?pct('Caminando').toFixed(0)+' %':'—'} · corriendo ${Number.isFinite(pct('Corriendo'))?pct('Corriendo').toFixed(0)+' %':'—'} · progresión difícil ${Number.isFinite(pct('Progresión difícil'))?pct('Progresión difícil').toFixed(0)+' %':'—'}.</div>`;
+  updateLegDetailNav();
+  $('legDetailOverlay').hidden=false;document.body.style.overflow='hidden';
+  if(!opts.keepOpen){const sheet=$('legDetailOverlay')?.querySelector('.leg-detail-sheet');if(sheet)sheet.scrollTop=0}
+}
+function closeLegDetail(){
+  $('legDetailOverlay').hidden=true;document.body.style.overflow='';legDetailIndex=null;
+}
+
+function renderTerrain(){refreshTerrainSelectors();const a=analyses.find(x=>x.runner.id===$('terrainRunner')?.value)||focusAnalysis();if(!a){renderTerrainTrainingContext(null,'');$('terrainKpis').innerHTML=statCard('Esperando datos','—','Carga y asigna un FIT/GPX');if($('terrainLegCards'))$('terrainLegCards').innerHTML='<div class="notice">Carga y asigna un FIT/GPX para construir las tarjetas de tramo.</div>';for(const id of ['terrainAltitude','terrainSlopeTime','terrainThreshold','terrainIdpt','terrainMovement','terrainMovementMap'])if($(id))$(id).innerHTML='<div class="notice">Sin datos.</div>';return}const profileId=$('terrainProfile')?.value||a.track.performanceProfileId||'',p=performanceProfiles[profileId]||null;if(profileId)a.track.performanceProfileId=profileId;const ts=profileThresholdSpeed(p),lthr=+p?.values?.lthr,all=terrainSamples(a),samples=selectedTerrainSamples(a),legs=terrainLegMetrics(a,p),group=terrainGroupStats(),validIdpt=legs.map(x=>x.idpt).filter(Number.isFinite),medIdpt=median(validIdpt),hard=legs.filter(x=>Number.isFinite(x.idpt)).sort((x,y)=>y.idpt-x.idpt)[0],wmeanScope=key=>{let sw=0,sv=0;for(const x of samples)if(Number.isFinite(x[key])){const w=Number.isFinite(x.dt)&&x.dt>0?x.dt:1;sv+=x[key]*w;sw+=w}return sw?sv/sw:NaN},scopeHr=wmeanScope('hr'),scopeSpeed=wmeanScope('speed'),meanHrRel=Number.isFinite(lthr)&&lthr>0?scopeHr/lthr*100:NaN,meanSpeedRel=Number.isFinite(ts)&&ts>0?scopeSpeed/ts*100:NaN,smooth=Number($('terrainSmooth')?.value)||25;$('terrainProfileInfo').innerHTML=p?`<b>${esc(p.name||a.runner.name)}</b> · ritmo umbral ${p.values.thresholdPace||'—'}/km · LTHR ${p.values.lthr||'—'} ppm · <span class="terrain-smooth-state">pendiente suavizada en ${smooth} m</span>. <span class="confidence">IDPT experimental</span>`:`Sin perfil fisiológico: se muestran terreno, altitud y distribuciones. Pendiente suavizada en <span class="terrain-smooth-state">${smooth} m</span>; el IDPT completo necesita ritmo umbral y preferentemente LTHR.`;renderTerrainTrainingContext(a,profileId);const scopeLabel=$('terrainScope')?.selectedOptions?.[0]?.textContent||'Toda la actividad',globalCards=[statCard('IDPT mediano '+infoHtml('idpt'),Number.isFinite(medIdpt)?medIdpt.toFixed(0)+'/100':'—',Number.isFinite(medIdpt)?(medIdpt<15?'progresión próxima a referencia':medIdpt<35?'penalización moderada':'progresión muy limitada'):'requiere perfil'),statCard('Tramo más limitante',hard?((hard.leg.from.kind==='start'?'S':hard.leg.from.order)+'→'+legLabel(hard.leg)):'—',hard&&Number.isFinite(hard.idpt)?'IDPT '+hard.idpt.toFixed(0):'—')].join(''),scopeCards=[statCard('FC relativa',Number.isFinite(meanHrRel)?meanHrRel.toFixed(0)+' % LTHR':'—',Number.isFinite(lthr)?'intensidad del ámbito':'sin LTHR'),statCard('Velocidad relativa',Number.isFinite(meanSpeedRel)?meanSpeedRel.toFixed(0)+' %':'—',Number.isFinite(ts)?'vs ritmo umbral · ámbito':'sin ritmo umbral'),statCard('Pendiente GPS',Number.isFinite(median(samples.map(x=>x.grade)))?(median(samples.map(x=>x.grade))*100).toFixed(1)+' %':'—','mediana del ámbito')].join('');$('terrainKpis').innerHTML=`<div class="terrain-kpi-block terrain-kpi-global"><div class="terrain-kpi-label">Resumen global · carrera completa</div><div class="terrain-kpi-cards">${globalCards}</div></div><div class="terrain-kpi-separator" aria-hidden="true"></div><div class="terrain-kpi-block terrain-kpi-scope"><div class="terrain-kpi-label">Datos analizados · ${esc(scopeLabel)}</div><div class="terrain-kpi-cards">${scopeCards}</div></div>`;renderAltitudeProfile(a,all,legs);
+ renderTerrainLegCards(a,p,legs,group,all);
  const grades=samples.map(x=>x.grade).filter(Number.isFinite),maxPct=Math.max(30,grades.length?Math.ceil(Math.max(...grades.map(x=>Math.abs(x*100)))/5)*5:30),bins=[];for(let lo=-maxPct;lo<maxPct;lo+=5){const hi=lo+5,sg=n=>n<0?'−'+Math.abs(n):n>0?'+'+n:'0',label=`${sg(lo)}…${sg(hi)}%`;bins.push([lo/100,hi/100,label])}const tv=bins.map((b,bi)=>({label:b[2],y:samples.filter(x=>Number.isFinite(x.grade)&&x.grade>=b[0]&&x.grade<(bi===bins.length-1?b[1]+1e-6:b[1])).reduce((z,x)=>z+x.dt,0)}));makeChart('terrainSlopeTime',[{name:'Tiempo',type:'bar',color:'#5bd0d0',values:tv}],{bar:true,count:tv.length,formatY:v=>fmtTime(v)});
  const lv=legs.map(x=>({label:(x.leg.from.kind==='start'?'S':x.leg.from.order)+'→'+legLabel(x.leg),x}));makeChart('terrainThreshold',[{name:'FC % LTHR',type:'line',color:'#ef6a67',values:lv.map(q=>({label:q.label,y:q.x.hrRel*100}))},{name:'Velocidad % umbral',type:'points',color:'#5aa6d6',values:lv.map(q=>({label:q.label,y:q.x.speedRel*100}))}],{count:lv.length,min:0,formatY:v=>Math.round(v)+' %'});
  renderIdptDistribution(a,legs,group);
  renderMovementDonut(samples,p);renderMovementMap(samples,p,a);const ms=movementSignalSummary(samples);$('movementMethod').innerHTML=`<b>Método:</b> ${ms.method} · confianza ${ms.confidence}. Cadencia disponible ${ms.cadPct.toFixed(0)} %, contacto ${ms.gctPct.toFixed(0)} %, FC ${ms.hrPct.toFixed(0)} %. Umbrales auxiliares: parado &lt;0,35 m/s; sin dinámica, caminar/correr ≈1,8 m/s; con cadencia, ≈145 pasos/min.`;
  const body=$('terrainLegBody');body.replaceChildren();for(const x of legs){const id=Number.isFinite(x.idpt)?x.idpt:NaN,gs=group.get(x.leg.index),gmed=gs&&gs.n>=2?gs.median:NaN,cls=!Number.isFinite(id)?'':id<15?'idx-good':id<35?'idx-mid':'idx-hard';let consensus='—',consCls='';if(gs&&gs.n>=2){if(Number.isFinite(id)&&id>gmed+15){consensus='Más individual';consCls='consensus-mid'}else if(gmed>=35){consensus='Difícil para el grupo';consCls='consensus-high'}else if(gmed<15){consensus='Poco limitante';consCls='consensus-low'}else{consensus='Moderado compartido';consCls='consensus-mid'}}const read=!Number.isFinite(id)?'Sin referencia suficiente':id<15?'Progresión próxima a referencia':id<35?'Penalización moderada de progresión':'Fuerte penalización no explicada solo por intensidad/pendiente';const tr=document.createElement('tr');tr.innerHTML=`<th>${x.leg.from.kind==='start'?'S':x.leg.from.order}→${legLabel(x.leg)}</th><td>${Number.isFinite(x.grade)?(x.grade*100).toFixed(1)+'%':'—'}</td><td>${Number.isFinite(x.hrRel)?(x.hrRel*100).toFixed(0)+'%':'—'}</td><td>${Number.isFinite(x.speedRel)?(x.speedRel*100).toFixed(0)+'%':'—'}</td><td>${Number.isFinite(x.gapSpeed)?(x.gapSpeed*3.6).toFixed(1)+' km/h':'—'}</td><td>${Number.isFinite(x.vam)?Math.round(x.vam)+' m/h':'—'}</td><td>${Number.isFinite(x.expected)?(x.expected*3.6).toFixed(1)+' km/h':'—'}</td><td>${Number.isFinite(x.speed)?(x.speed*3.6).toFixed(1)+' km/h':'—'}</td><td class="${cls}"><b>${Number.isFinite(id)?id.toFixed(0):'—'}</b></td><td>${Number.isFinite(gmed)?gmed.toFixed(0)+' · n='+gs.n:'—'}</td><td class="${consCls}">${consensus}</td><td>${read}</td>`;tr.onclick=()=>{highlightLeg(x.leg.index);activateView(2);setTimeout(()=>zoomToStaticLeg(x.leg.index),50)};body.append(tr)}}
+
+
+
+$('legDetailPrev')?.addEventListener('click',()=>navigateLegDetail(-1));
+$('legDetailNext')?.addEventListener('click',()=>navigateLegDetail(1));
+$('legDetailPrevBottom')?.addEventListener('click',()=>navigateLegDetail(-1));
+$('legDetailNextBottom')?.addEventListener('click',()=>navigateLegDetail(1));
+$('legDetailClose')?.addEventListener('click',closeLegDetail);
+$('legDetailCloseBottom')?.addEventListener('click',closeLegDetail);
+$('legDetailOverlay')?.addEventListener('click',e=>{if(e.target===$('legDetailOverlay'))closeLegDetail()});
+
+let legSwipeStart=null;
+const legSheet=$('legDetailOverlay')?.querySelector('.leg-detail-sheet');
+legSheet?.addEventListener('touchstart',e=>{
+  if(e.touches.length!==1||e.target.closest('[data-no-leg-swipe],button,select,input,a')){legSwipeStart=null;return}
+  legSwipeStart={x:e.touches[0].clientX,y:e.touches[0].clientY};
+},{passive:true});
+legSheet?.addEventListener('touchend',e=>{
+  if(!legSwipeStart||!e.changedTouches.length)return;
+  const dx=e.changedTouches[0].clientX-legSwipeStart.x,dy=e.changedTouches[0].clientY-legSwipeStart.y;
+  legSwipeStart=null;
+  if(Math.abs(dx)>=70&&Math.abs(dx)>Math.abs(dy)*1.35)navigateLegDetail(dx<0?1:-1);
+},{passive:true});
+
+$('legDetailScope')?.addEventListener('click',()=>{
+  if(legDetailIndex==null)return;
+  const scope=$('terrainScope');if(scope&&[...scope.options].some(o=>o.value===String(legDetailIndex)))scope.value=String(legDetailIndex);
+  closeLegDetail();renderTerrain();
+});
+$('legDetailMap')?.addEventListener('click',()=>{
+  if(legDetailIndex==null)return;const idx=legDetailIndex;closeLegDetail();highlightLeg(idx);activateView(2);setTimeout(()=>zoomToStaticLeg(idx),70);
+});
+document.addEventListener('keydown',e=>{
+  if($('legDetailOverlay')?.hidden)return;
+  if(e.key==='Escape')closeLegDetail();
+  else if(e.key==='ArrowLeft'){e.preventDefault();navigateLegDetail(-1)}
+  else if(e.key==='ArrowRight'){e.preventDefault();navigateLegDetail(1)}
+});
 
 document.querySelectorAll('[data-profile-mode]').forEach(b=>b.onclick=()=>{terrainProfileMode=b.dataset.profileMode;terrainProfileSelection=null;document.querySelectorAll('[data-profile-mode]').forEach(x=>x.classList.toggle('active',x.dataset.profileMode===terrainProfileMode));renderTerrain()});
 function activateView(n){activeView=Number(n);document.querySelectorAll('.viewpane').forEach(v=>v.classList.toggle('active',v.id==='view'+activeView));document.querySelectorAll('.viewtab').forEach(b=>b.classList.toggle('active',Number(b.dataset.view)===activeView));if(activeView===1)requestAnimationFrame(renderBasicStats);if(activeView===2)requestAnimationFrame(()=>{if(map3dMode==='3d'){map3d?.resize();update3DData();update3DReplay();if(!map3d)initMap3D(false)}else if(mapNeedsFit)fitView();else drawMap();renderCharts()});if(activeView===3)requestAnimationFrame(renderTerrain);window.scrollTo({top:0,behavior:'smooth'})}
@@ -1110,7 +1595,14 @@ async function restoreProject(obj){if(!obj||obj.schemaVersion!==1)throw Error('F
 function saveSessionConfig(){try{localStorage.setItem('oreplaylab-v12_4-config',JSON.stringify({oreplayUrl:$('oreplayUrl')?.value||'',focusRunnerId,racePriorities,classFilters:[...selectedFilterValues('classFilter')],clubFilters:[...selectedFilterValues('clubFilter')],runnerFilters:[...selectedFilterValues('runnerFilter')],replay:{mode:replay.mode,speed:replay.speed,anchor:replay.anchor,follow:replay.follow,labels:[...replay.labels],autoZoom:replay.autoZoom},baseLayer:$('baseLayer')?.value||'pnoa',heatMetric:$('heatMetric')?.value||'normal',theme:$('themeMode')?.value||'auto',mapDimension:$('mapDimension')?.value||'2d',demSource:$('demSource')?.value||'terrarium',mapOrientation:$('mapOrientation')?.value||'north'}))}catch{}}
 function restoreSessionConfig(){try{const o=JSON.parse(localStorage.getItem('oreplaylab-v12_4-config')||'null');if(!o)return;$('oreplayUrl').value=o.oreplayUrl||$('oreplayUrl').value;racePriorities=o.racePriorities||racePriorities;if(o.replay){replay.mode=o.replay.mode||replay.mode;replay.speed=o.replay.speed||replay.speed;replay.anchor=o.replay.anchor||replay.anchor;replay.follow=o.replay.follow||replay.follow;replay.labels=new Set(o.replay.labels||[]);replay.autoZoom=o.replay.autoZoom!==false;$('replayMode').value=replay.mode;$('replaySpeed').value=String(replay.speed);$('autoLegZoom').checked=replay.autoZoom;document.querySelectorAll('#replayLabels input[data-label]').forEach(ch=>ch.checked=replay.labels.has(ch.dataset.label))}if(o.baseLayer)$('baseLayer').value=o.baseLayer;if(o.heatMetric)$('heatMetric').value=o.heatMetric;if(o.theme)applyTheme(o.theme);if(o.demSource)$('demSource').value=o.demSource;if(o.mapOrientation)$('mapOrientation').value=o.mapOrientation;if(o.mapDimension){$('mapDimension').value=o.mapDimension;setTimeout(()=>setMapDimension(o.mapDimension),120)}$('projectStatus').textContent='Configuración local restaurada'}catch(e){$('projectStatus').textContent='No se pudo restaurar sesión'}}
 $('saveProject').onclick=saveProject;$('projectFile').onchange=async e=>{const f=e.target.files[0];if(!f)return;try{await restoreProject(JSON.parse(await f.text()))}catch(err){$('projectStatus').textContent='Proyecto no válido: '+err.message}e.target.value=''};$('restoreSession').onclick=restoreSessionConfig;
-async function demo(){setStatus('projectStatus','Cargando ejemplo alojado…','warn');try{const res=await fetch('./OrientaReplay_R3_2026-09-13.oreplaylab.json');if(!res.ok)throw Error('HTTP '+res.status);const data=await res.json();await restoreProject(data);setStatus('projectStatus','Proyecto de ejemplo cargado (R3) · '+new Date().toLocaleTimeString(),'ok');return}catch(err){console.warn('Fallo al cargar OrientaReplay_R3_2026-09-13.oreplaylab.json, usando sintético:',err)}const now=Date.now(),mk=(name,secMult,shift,color)=>{const pts=[];let lat=42.2600,lon=-8.7800;for(let i=0;i<900;i++){const ang=i/900*Math.PI*8,rad=.004+.0015*Math.sin(i/80+shift);lat=42.26+Math.sin(ang)*rad+shift*.00005;lon=-8.78+Math.cos(ang)*rad*1.3;pts.push({lat,lon,time:now+i*4000,ele:80+35*Math.sin(i/90)+12*Math.sin(i/17),hr:130+18*Math.sin(i/60),speed:2.3+.6*Math.sin(i/40),calcSpeed:2.3+.6*Math.sin(i/40)})}return {id:'demo'+shift,name,points:pts,runnerId:'r'+shift,offset:0,color}};runners=[0,1,2].map((j)=>{const start=now+120000;const splits=[];for(let k=1;k<=12;k++)splits.push({order_number:k,reading_time:new Date(start+(k*(210+j*8)+(k===6&&j===0?80:0))*1000).toISOString(),control:{station:String(30+k)}});return {id:'r'+j,name:['Antonio','Pablo','Adrián'][j],className:'R3',clubName:j===2?'OTRO CLUB':'RAZA PALLEIRA',stage:{start_time:new Date(start).toISOString(),finish_time:new Date(start+(13*(210+j*8)+(j===0?80:0))*1000).toISOString(),time_seconds:13*(210+j*8)+(j===0?80:0),splits},course:{distance:5200,climb:180}}});mapNeedsFit=true;tracks=[mk('Antonio_demo.fit',1,0,colors[0]),mk('Pablo_demo.fit',1,1,colors[1]),mk('Adrian_demo.fit',1,2,colors[2])];focusRunnerId='r0';refreshFilters();tracks.forEach((t,i)=>t.runnerId='r'+i);renderTrackRows();analyze();fitView();setStatus('apiStatus','Ejemplo ficticio cargado.','ok');setStatus('trackStatus','3 actividades ficticias cargadas.','ok')}
+async function demo(){setStatus('projectStatus','Cargando ejemplo alojado…','warn');try{const res=await fetch('./OrientaReplay_R3_2026-09-13.oreplaylab.json');if(!res.ok)throw Error('HTTP '+res.status);const data=await res.json();await restoreProject(data);setStatus('projectStatus','Proyecto de ejemplo cargado (R3) · '+new Date().toLocaleTimeString(),'ok');return}catch(err){console.warn('Fallo al cargar OrientaReplay_R3_2026-09-13.oreplaylab.json, usando sintético:',err)}const now=Date.now(),mk=(name,secMult,shift,color)=>{const pts=[];let lat=42.2600,lon=-8.7800;for(let i=0;i<900;i++){const ang=i/900*Math.PI*8,rad=.004+.0015*Math.sin(i/80+shift);lat=42.26+Math.sin(ang)*rad+shift*.00005;lon=-8.78+Math.cos(ang)*rad*1.3;pts.push({lat,lon,time:now+i*4000,ele:80+35*Math.sin(i/90)+12*Math.sin(i/17),hr:130+18*Math.sin(i/60),speed:2.3+.6*Math.sin(i/40),calcSpeed:2.3+.6*Math.sin(i/40)})}return {id:'demo'+shift,name,points:pts,runnerId:'r'+shift,offset:0,color}};runners=[0,1,2].map((j)=>{const start=now+120000;const splits=[];for(let k=1;k<=12;k++)splits.push({order_number:k,reading_time:new Date(start+(k*(210+j*8)+(k===6&&j===0?80:0))*1000).toISOString(),control:{station:String(30+k)}});return {id:'r'+j,name:['Antonio','Pablo','Adrián'][j],className:'R3',clubName:j===2?'OTRO CLUB':'RAZA PALLEIRA',stage:{start_time:new Date(start).toISOString(),finish_time:new Date(start+(13*(210+j*8)+(j===0?80:0))*1000).toISOString(),time_seconds:13*(210+j*8)+(j===0?80:0),splits},course:{distance:5200,climb:180}}});mapNeedsFit=true;tracks=[mk('Antonio_demo.fit',1,0,colors[0]),mk('Pablo_demo.fit',1,1,colors[1]),mk('Adrian_demo.fit',1,2,colors[2])];
+performanceProfiles={
+  demo_r0:{athleteId:'demo_r0',name:'Antonio · demo',values:{thresholdPace:'4:10',lthr:160,maxHr:180,weight:65},source:{thresholdPace:'demo',lthr:'demo',maxHr:'demo',weight:'demo'}},
+  demo_r1:{athleteId:'demo_r1',name:'Pablo · demo',values:{thresholdPace:'4:00',lthr:164,maxHr:184,weight:68},source:{thresholdPace:'demo',lthr:'demo',maxHr:'demo',weight:'demo'}},
+  demo_r2:{athleteId:'demo_r2',name:'Adrián · demo',values:{thresholdPace:'4:20',lthr:158,maxHr:178,weight:66},source:{thresholdPace:'demo',lthr:'demo',maxHr:'demo',weight:'demo'}}
+};
+tracks.forEach((t,i)=>t.performanceProfileId='demo_r'+i);
+focusRunnerId='r0';refreshFilters();tracks.forEach((t,i)=>t.runnerId='r'+i);renderTrackRows();analyze();fitView();setStatus('apiStatus','Ejemplo ficticio cargado.','ok');setStatus('trackStatus','3 actividades ficticias cargadas.','ok')}
 $('demoBtn').onclick=demo;
 function apply3DOrientationMode(animate=true){if(!map3d)return;const mode=$('mapOrientation')?.value||'north';try{map3d.dragRotate?.enable();map3d.touchZoomRotate?.enable();map3d.touchZoomRotate?.enableRotation?.();map3d.touchPitch?.enable?.()}catch{}const options={pitch:Math.max(68,map3d.getPitch()||0),duration:animate?450:0};if(mode==='north')options.bearing=0;else if(mode==='leg')options.bearing=legBearing();map3d.easeTo(options)}
 

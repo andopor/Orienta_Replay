@@ -1,0 +1,1604 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="color-scheme" content="dark light">
+<title>Orienta Replay · Manual interactivo</title>
+<style>
+:root{
+  --bg:#071523;--panel:#0d2132;--panel2:#102a3e;--text:#edf5f7;--muted:#9cb1be;
+  --line:#29475a;--gold:#d7ad4e;--blue:#5aa6d6;--green:#52b788;--red:#ef6a67;
+  --orange:#e79a45;--violet:#b68cff;--cyan:#5bd0d0;--shadow:0 14px 38px #0005;
+  --radius:16px;--navw:280px
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:88px}
+body{
+  margin:0;background:linear-gradient(180deg,#06111d,#071927 45%,#06111d);
+  color:var(--text);font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+  line-height:1.55
+}
+button,input,select{font:inherit}
+button{cursor:pointer}
+a{color:inherit}
+.app{max-width:1580px;margin:auto;padding:18px}
+.top{
+  position:sticky;top:0;z-index:60;display:flex;gap:16px;align-items:center;justify-content:space-between;
+  margin-bottom:14px;padding:10px 12px;border:1px solid #17384c;border-radius:16px;
+  background:#071523e8;backdrop-filter:blur(14px);box-shadow:var(--shadow)
+}
+.brand{display:flex;gap:12px;align-items:center;min-width:0}
+.logo{
+  width:46px;height:46px;flex:0 0 46px;border:2px solid var(--gold);border-radius:12px;display:grid;
+  place-items:center;font-weight:950;color:var(--gold);transform:rotate(2deg);letter-spacing:-.04em
+}
+h1{font-size:clamp(21px,3vw,34px);margin:0;line-height:1.05}
+.subtitle{color:var(--muted);font-size:12px;margin-top:4px}
+.top-actions{display:flex;gap:8px;align-items:center}
+.theme-control{display:flex;gap:6px;align-items:center;color:var(--muted);font-size:11px}
+select,input[type="search"],input[type="number"]{
+  background:#071725;color:var(--text);border:1px solid var(--line);border-radius:9px;padding:8px 10px;outline:none
+}
+select:focus,input:focus{border-color:var(--blue);box-shadow:0 0 0 2px #5aa6d622}
+.btn{border:1px solid #31566b;background:#17364a;color:var(--text);padding:9px 11px;border-radius:10px;font-weight:800}
+.btn:hover{filter:brightness(1.12)}
+.btn.primary{background:var(--gold);color:#102030;border-color:var(--gold)}
+.btn.ghost{background:transparent}
+
+.layout{display:grid;grid-template-columns:var(--navw) minmax(0,1fr);gap:16px}
+.sidebar{
+  position:sticky;top:92px;align-self:start;max-height:calc(100dvh - 110px);overflow:auto;
+  background:linear-gradient(180deg,var(--panel),#0b1c2a);border:1px solid #17384c;border-radius:16px;
+  box-shadow:var(--shadow);padding:12px
+}
+.searchbox{position:relative;margin-bottom:10px}
+.searchbox input{width:100%;padding-right:42px}
+.kbd{position:absolute;right:7px;top:7px;font-size:10px;color:var(--muted);border:1px solid var(--line);border-radius:6px;padding:2px 5px}
+.navgroup{display:grid;gap:4px}
+.navlink{
+  text-decoration:none;border:1px solid transparent;border-radius:9px;padding:8px 9px;
+  color:var(--muted);font-size:12px;font-weight:750;display:flex;gap:8px;align-items:center
+}
+.navlink:hover{background:#17364a;color:var(--text)}
+.navlink.active{background:var(--gold);color:#102030;border-color:var(--gold)}
+.navnum{min-width:24px;height:24px;border-radius:7px;display:grid;place-items:center;background:#ffffff0c;font-size:10px}
+.navlink.active .navnum{background:#10203018}
+.side-actions{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-top:10px}
+
+.main{display:flex;flex-direction:column;gap:14px;min-width:0}
+.section{
+  background:linear-gradient(180deg,var(--panel),#0b1c2a);border:1px solid #17384c;border-radius:16px;
+  box-shadow:var(--shadow);overflow:hidden
+}
+.section-head{padding:18px 18px 10px;display:flex;align-items:flex-start;justify-content:space-between;gap:12px}
+.eyebrow{font-size:10px;color:var(--gold);font-weight:950;letter-spacing:.11em;text-transform:uppercase}
+.section h2{font-size:clamp(21px,2.6vw,30px);margin:2px 0 4px}
+.section h3{font-size:15px;margin:0 0 8px}
+.lead{color:#c9d9df;margin:0;max-width:900px}
+.section-body{padding:8px 18px 20px}
+.grid{display:grid;gap:12px}
+.grid.two{grid-template-columns:repeat(2,minmax(0,1fr))}
+.grid.three{grid-template-columns:repeat(3,minmax(0,1fr))}
+.grid.four{grid-template-columns:repeat(4,minmax(0,1fr))}
+.card{
+  background:#071725;border:1px solid var(--line);border-radius:13px;padding:13px;min-width:0
+}
+.card.soft{background:#0c2131}
+.card h3{margin-top:0}
+.hint{font-size:11px;color:var(--muted);line-height:1.5}
+.note{border-left:4px solid var(--blue);background:#0a1b29;border-radius:10px;padding:11px 12px;margin:10px 0}
+.note.gold{border-color:var(--gold)}
+.note.green{border-color:var(--green)}
+.note.red{border-color:var(--red)}
+.note b{color:#fff}
+.pill{display:inline-flex;align-items:center;gap:5px;border:1px solid var(--line);border-radius:999px;padding:5px 8px;font-size:10px;color:var(--muted)}
+.pill.good{border-color:#2b6b56;color:#b9ead7}.pill.warn{border-color:#705929;color:#eedb9e}.pill.bad{border-color:#783f42;color:#ffb9b8}
+.flow{
+  display:grid;grid-template-columns:repeat(8,minmax(90px,1fr));gap:8px;align-items:stretch;overflow:auto;padding-bottom:4px
+}
+.flowstep{
+  position:relative;min-width:120px;background:#071725;border:1px solid var(--line);border-radius:12px;padding:12px
+}
+.flowstep:not(:last-child)::after{content:"→";position:absolute;right:-8px;top:50%;transform:translate(50%,-50%);color:var(--gold);font-weight:950;z-index:2}
+.stepno{display:inline-grid;place-items:center;width:26px;height:26px;border-radius:50%;background:var(--gold);color:#102030;font-weight:950;font-size:11px}
+.flowstep b{display:block;margin:7px 0 3px;font-size:12px}
+.flowstep span{display:block;color:var(--muted);font-size:10px;line-height:1.35}
+
+.modebar{display:flex;gap:7px;flex-wrap:wrap;margin:12px 0}
+.segbtn{border:1px solid var(--line);background:transparent;color:var(--muted);border-radius:999px;padding:7px 11px;font-weight:850}
+.segbtn.active{background:var(--gold);color:#102030;border-color:var(--gold)}
+.mode-panel{display:none}
+.mode-panel.active{display:block}
+
+.checklist{display:grid;gap:7px}
+.checkrow{display:flex;gap:9px;align-items:flex-start;border:1px solid var(--line);border-radius:10px;padding:9px 10px;background:#071725}
+.checkrow input{margin-top:3px;accent-color:var(--gold)}
+.checkrow.done{opacity:.6}
+.checkrow.done label{text-decoration:line-through}
+.checkrow label{cursor:pointer}
+
+details.accordion{border:1px solid var(--line);border-radius:10px;background:#071725;margin:7px 0;overflow:hidden}
+details.accordion summary{cursor:pointer;font-weight:850;padding:11px 12px;list-style:none}
+details.accordion summary::-webkit-details-marker{display:none}
+details.accordion summary::before{content:"▸";display:inline-block;margin-right:8px;color:var(--gold);transition:.16s}
+details.accordion[open] summary::before{transform:rotate(90deg)}
+.accbody{padding:0 12px 12px;color:#c9d8df;font-size:12px}
+
+.metric{background:#071725;border:1px solid var(--line);border-radius:12px;padding:12px}
+.metric .k{font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:.06em}
+.metric .v{font-size:24px;font-weight:950;margin-top:2px}
+.metric .s{font-size:10px;color:var(--muted)}
+.formula{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;background:#04101a;border:1px solid #31566b;color:#f1d680;border-radius:9px;padding:9px 10px;overflow:auto;font-size:12px}
+.interactive{border:1px dashed #557185;border-radius:12px;padding:12px;background:#081a28}
+.calcrow{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;align-items:end}
+.calcrow label{display:grid;gap:5px;font-size:10px;color:var(--muted)}
+.calcrow input{width:100%}
+.resultbox{margin-top:9px;background:#102a3e;border-radius:10px;padding:10px 12px}
+.resultbox strong{font-size:22px;color:#f1d680}
+
+.mini-chart{height:210px;border:1px solid var(--line);border-radius:12px;background:#071725;overflow:hidden}
+.mini-chart svg{width:100%;height:100%;display:block}
+.chartlegend{display:flex;gap:10px;flex-wrap:wrap;margin-top:6px;font-size:10px;color:var(--muted)}
+.dot{width:9px;height:9px;border-radius:50%;display:inline-block}
+
+.mock{
+  border:1px solid #38576a;background:#06111d;border-radius:14px;padding:10px;overflow:hidden
+}
+.mock-tabs{display:flex;gap:6px;overflow:auto;padding-bottom:8px}
+.mock-tab{padding:7px 9px;border:1px solid #31566b;border-radius:8px;color:#9cb1be;font-size:10px;font-weight:850;white-space:nowrap}
+.mock-tab.active{background:var(--gold);color:#102030;border-color:var(--gold)}
+.mock-card{background:#0d2132;border:1px solid #17384c;border-radius:12px;padding:10px}
+.mock-label{font-size:9px;color:#9cb1be}
+.mock-button{display:inline-block;background:var(--gold);color:#102030;padding:6px 8px;border-radius:7px;font-size:9px;font-weight:900;margin-top:6px}
+
+.legend-row{display:flex;gap:7px;flex-wrap:wrap}
+.legend-chip{padding:4px 7px;border-radius:999px;font-size:10px;border:1px solid var(--line)}
+.legend-chip.best{background:#123f32}.legend-chip.good{background:#12384f}.legend-chip.warn{background:#493617}.legend-chip.bad{background:#4b2326}
+
+.tablewrap{overflow:auto;border:1px solid var(--line);border-radius:11px}
+table{width:100%;border-collapse:collapse;font-size:12px;white-space:nowrap}
+th,td{padding:8px 9px;border-bottom:1px solid #173447;text-align:left}
+thead th{background:#102a3e;color:#c9d8df;position:sticky;top:0}
+tbody tr:hover{background:#ffffff07}
+.tag{font-size:10px;border:1px solid var(--line);padding:2px 5px;border-radius:999px}
+
+.path-cards{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+.path-card{border:1px solid var(--line);background:#071725;border-radius:12px;padding:12px}
+.path-card button{margin-top:7px}
+
+.glossary-tools{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px}
+.glossary-tools input{flex:1;min-width:220px}
+.glossary{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+.term{border:1px solid var(--line);border-radius:10px;background:#071725;padding:10px}
+.term b{color:#f1d680}.term p{margin:4px 0 0;font-size:11px;color:#c7d6dd}
+.term[hidden]{display:none}
+
+.quiz{display:grid;gap:10px}
+.q{border:1px solid var(--line);border-radius:11px;background:#071725;padding:11px}
+.q p{margin:0 0 8px;font-weight:800}
+.q label{display:block;margin:5px 0;font-size:12px;color:#c9d8df}
+.q input{accent-color:var(--gold)}
+.quiz-result{margin-top:8px;padding:10px 12px;border-radius:10px;background:#102a3e}
+
+.quick-ref td:first-child{font-weight:850;color:#f1d680}
+.footer{color:var(--muted);font-size:10px;text-align:center;padding:6px 10px 20px}
+.search-hit{outline:2px solid var(--gold);outline-offset:-2px}
+.hidden-by-search{display:none!important}
+
+html[data-theme="light"]{
+  --bg:#f4f7f9;--panel:#fff;--panel2:#f5f8fa;--text:#142733;--muted:#607481;--line:#cbd7de;
+  --shadow:0 10px 28px #15344818
+}
+html[data-theme="light"] body{background:linear-gradient(180deg,#f7fafb,#eef3f6 45%,#f7fafb);color:var(--text)}
+html[data-theme="light"] .top{background:#f7fafbef;border-color:#d6e0e5}
+html[data-theme="light"] .sidebar,html[data-theme="light"] .section{background:#fff;border-color:#d6e0e5}
+html[data-theme="light"] .card,html[data-theme="light"] .metric,html[data-theme="light"] .flowstep,
+html[data-theme="light"] details.accordion,html[data-theme="light"] .checkrow,html[data-theme="light"] .path-card,
+html[data-theme="light"] .term,html[data-theme="light"] .q,html[data-theme="light"] .mini-chart{
+  background:#f6f9fa;color:#142733;border-color:#cbd7de
+}
+html[data-theme="light"] select,html[data-theme="light"] input[type="search"],html[data-theme="light"] input[type="number"]{
+  background:#f6f9fa;color:#142733;border-color:#cbd7de
+}
+html[data-theme="light"] .note{background:#f6f9fa}
+html[data-theme="light"] .lead,html[data-theme="light"] .accbody{color:#405965}
+html[data-theme="light"] .formula{background:#eef3f6;color:#795710;border-color:#b9cbd5}
+html[data-theme="light"] .interactive,html[data-theme="light"] .resultbox{background:#eef3f6}
+html[data-theme="light"] thead th{background:#eef3f6;color:#344b58}
+html[data-theme="light"] th,html[data-theme="light"] td{border-color:#e1e8ec}
+html[data-theme="light"] .navlink:hover{background:#e8eef2}
+html[data-theme="light"] .mock{background:#071523;color:#edf5f7}
+html[data-theme="light"] .mock-card{background:#0d2132;color:#edf5f7}
+html[data-theme="light"] .legend-chip{color:#edf5f7}
+
+@media(max-width:1100px){
+  :root{--navw:240px}
+  .grid.three,.grid.four{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .glossary{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+@media(max-width:840px){
+  .app{padding:9px}.top{top:0}
+  .layout{grid-template-columns:1fr}
+  .sidebar{position:sticky;top:79px;z-index:50;max-height:none;overflow:visible;padding:8px}
+  .searchbox,.side-actions{display:none}
+  .navgroup{display:flex;overflow:auto;gap:6px}
+  .navlink{white-space:nowrap;border-color:var(--line);padding:7px 9px}
+  .navnum{display:none}
+  .section-head{padding:15px 14px 8px}.section-body{padding:7px 14px 16px}
+  .path-cards{grid-template-columns:1fr}
+}
+@media(max-width:620px){
+  .top-actions .theme-control{display:none}
+  .grid.two,.grid.three,.grid.four,.calcrow,.glossary{grid-template-columns:1fr}
+  .flow{grid-template-columns:repeat(8,150px)}
+  .section h2{font-size:22px}
+  .progress-pill{display:none}
+}
+@media print{
+  .top,.sidebar,.btn,.modebar,.quiz button{display:none!important}
+  .layout{display:block}.section{box-shadow:none;break-inside:avoid;border-color:#999}
+  body{background:#fff;color:#111}.app{max-width:none;padding:0}
+}
+
+/* v2 · contraste claro + laboratorio didáctico */
+.teaching-shell{display:grid;grid-template-columns:minmax(0,1.45fr) minmax(280px,.7fr);gap:12px;align-items:stretch}
+.teaching-stage{border:1px solid var(--line);border-radius:13px;background:#071725;padding:10px;min-width:0}
+.teaching-tabs{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:8px}
+.teaching-tab{border:1px solid var(--line);background:transparent;color:var(--muted);border-radius:999px;padding:7px 10px;font-weight:850;font-size:11px}
+.teaching-tab.active{background:var(--gold);color:#102030;border-color:var(--gold)}
+.teaching-chart{height:330px;min-width:0;overflow:hidden;border-radius:10px;background:#06111d}
+.teaching-chart svg{width:100%;height:100%;display:block;touch-action:manipulation}
+.teaching-chart text{fill:#9cb1be;font-size:11px}
+.teaching-chart .axis{stroke:#29475a;stroke-width:1}
+.teaching-chart .gridline{stroke:#29475a;stroke-width:1;opacity:.55}
+.teaching-chart .runner-a{stroke:#ef6a67;fill:#ef6a67}
+.teaching-chart .runner-b{stroke:#5aa6d6;fill:#5aa6d6}
+.teaching-chart .runner-c{stroke:#52b788;fill:#52b788}
+.teaching-chart .demo-index{fill:#d7ad4e}
+.teaching-chart .selected-band{fill:#d7ad4e;opacity:.12}
+.teaching-chart .selected-line{stroke:#d7ad4e;stroke-width:2;stroke-dasharray:5 4}
+.teaching-chart .hit{fill:transparent;cursor:pointer}
+.teaching-chart .point{stroke:#071523;stroke-width:2}
+.teaching-chart .point.selected{stroke:#fff;stroke-width:3}
+.teaching-explain{border:1px solid var(--line);border-radius:13px;background:#0c2131;padding:13px;min-width:0}
+.teaching-explain h3{font-size:17px;margin:0 0 6px}
+.demo-kpis{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:7px;margin:10px 0}
+.demo-kpi{border:1px solid var(--line);border-radius:9px;background:#071725;padding:8px}
+.demo-kpi span{display:block;font-size:9px;color:var(--muted);text-transform:uppercase;letter-spacing:.05em}
+.demo-kpi b{display:block;font-size:17px;margin-top:2px}
+.demo-reading{font-size:12px;line-height:1.55;color:#c9d8df}
+.demo-reading b{color:#fff}
+.demo-source{margin-top:8px;padding:8px 9px;border:1px dashed var(--line);border-radius:9px;color:var(--muted);font-size:10px}
+.demo-legend{display:flex;gap:10px;flex-wrap:wrap;margin-top:7px;font-size:10px;color:var(--muted)}
+.demo-legend span{display:inline-flex;gap:5px;align-items:center}
+.demo-dot{width:9px;height:9px;border-radius:50%;display:inline-block}
+.demo-instruction{font-size:10px;color:var(--muted);margin:3px 0 7px}
+
+/* Exhaustive overrides for light mode: no light text on light surfaces. */
+html[data-theme="light"] .note b,
+html[data-theme="light"] .demo-reading b,
+html[data-theme="light"] .card b,
+html[data-theme="light"] .path-card b,
+html[data-theme="light"] details.accordion b{color:#142733}
+html[data-theme="light"] .resultbox strong,
+html[data-theme="light"] .term b,
+html[data-theme="light"] .quick-ref td:first-child{color:#76520b}
+html[data-theme="light"] .pill.good{color:#155b3d;border-color:#63a98a;background:#edf8f2}
+html[data-theme="light"] .pill.warn{color:#76520b;border-color:#c9a14f;background:#fff8e7}
+html[data-theme="light"] .pill.bad{color:#8f3034;border-color:#c77a7d;background:#fff0f0}
+html[data-theme="light"] .teaching-stage,
+html[data-theme="light"] .teaching-explain,
+html[data-theme="light"] .demo-kpi{background:#f6f9fa;color:#142733;border-color:#cbd7de}
+html[data-theme="light"] .teaching-chart{background:#fff;border:1px solid #d6e0e5}
+html[data-theme="light"] .teaching-chart text{fill:#607481}
+html[data-theme="light"] .teaching-chart .axis,
+html[data-theme="light"] .teaching-chart .gridline{stroke:#cbd7de}
+html[data-theme="light"] .teaching-chart .point{stroke:#fff}
+html[data-theme="light"] .teaching-chart .point.selected{stroke:#142733}
+html[data-theme="light"] .demo-reading{color:#405965}
+html[data-theme="light"] .legend-chip.best,
+html[data-theme="light"] .legend-chip.good,
+html[data-theme="light"] .legend-chip.warn,
+html[data-theme="light"] .legend-chip.bad{color:#edf5f7}
+html[data-theme="light"] .mock b,
+html[data-theme="light"] .mock .mock-label{color:#edf5f7}
+@media(max-width:900px){.teaching-shell{grid-template-columns:1fr}.teaching-chart{height:300px}}
+@media(max-width:560px){.teaching-chart{height:270px}.demo-kpis{grid-template-columns:1fr 1fr}.demo-kpis .demo-kpi:last-child{grid-column:1/-1}}
+
+
+/* v3 · correcciones de contraste y gráficos */
+.teaching-chart path.runner-a,.teaching-chart path.runner-b,.teaching-chart path.runner-c{fill:none!important}
+.teaching-chart circle.runner-a{fill:#ef6a67!important}
+.teaching-chart circle.runner-b{fill:#5aa6d6!important}
+.teaching-chart circle.runner-c{fill:#52b788!important}
+.teaching-chart .gap-line{fill:none!important;stroke:#d7ad4e;stroke-width:3}
+.teaching-chart .gap-point{fill:#d7ad4e;stroke:#071523;stroke-width:2}
+.teaching-chart .zero-line{stroke:#607481;stroke-width:1.5;stroke-dasharray:5 4}
+.time-reading-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;margin-top:12px}
+.time-reading-step{border:1px solid var(--line);border-radius:11px;background:#071725;padding:10px}
+.time-reading-step b{display:block;margin:4px 0;font-size:13px}
+.time-reading-step span{font-size:10px;color:var(--muted)}
+.pattern-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin-top:10px}
+.pattern-card{border:1px solid var(--line);border-radius:10px;background:#071725;padding:10px}
+.pattern-card b{display:block;margin-bottom:3px}
+.pattern-card p{margin:0;color:#c9d8df;font-size:11px}
+.terrain-teach-wrap{margin-top:14px}
+.terrain-teach-chart{height:345px}
+.terrain-profile-path{fill:none!important;stroke:#d7ad4e;stroke-width:3}
+.terrain-profile-seg{fill:none!important;stroke-width:4;stroke-linecap:round}
+.terrain-profile-seg.climb{stroke:#e79a45}
+.terrain-profile-seg.descent{stroke:#5aa6d6}
+.terrain-profile-seg.flat{stroke:#52b788}
+.terrain-profile-seg.dim{opacity:.28}
+.terrain-profile-seg.selected{stroke-width:7;opacity:1}
+.control-line{stroke:#607481;stroke-width:1;stroke-dasharray:3 4;opacity:.75}
+.control-label{font-size:9px!important}
+.terrain-band{fill:#d7ad4e;opacity:.10}
+.terrain-hit{fill:transparent;cursor:pointer}
+.slope-chip{display:inline-flex;align-items:center;gap:5px;font-size:10px;color:var(--muted)}
+.slope-swatch{width:18px;height:3px;border-radius:999px;display:inline-block}
+.slope-swatch.up{background:#e79a45}.slope-swatch.down{background:#5aa6d6}.slope-swatch.flat{background:#52b788}
+
+/* Contraste de todos los secundarios en tema claro */
+html[data-theme="light"] .subtitle,
+html[data-theme="light"] .hint,
+html[data-theme="light"] .kbd,
+html[data-theme="light"] .navlink,
+html[data-theme="light"] .demo-instruction,
+html[data-theme="light"] .demo-source,
+html[data-theme="light"] .demo-kpi span,
+html[data-theme="light"] .chartlegend,
+html[data-theme="light"] .footer,
+html[data-theme="light"] .pill,
+html[data-theme="light"] .term p,
+html[data-theme="light"] .q label,
+html[data-theme="light"] .time-reading-step span,
+html[data-theme="light"] .slope-chip{color:#526b78!important}
+html[data-theme="light"] .term p,
+html[data-theme="light"] .q label,
+html[data-theme="light"] .pattern-card p{color:#405965!important}
+html[data-theme="light"] .navlink.active{color:#102030!important}
+html[data-theme="light"] .time-reading-step,
+html[data-theme="light"] .pattern-card{background:#f6f9fa;color:#142733;border-color:#cbd7de}
+html[data-theme="light"] .time-reading-step b,
+html[data-theme="light"] .pattern-card b{color:#142733!important}
+html[data-theme="light"] .teaching-chart .gap-point{stroke:#fff}
+html[data-theme="light"] .teaching-chart .zero-line,
+html[data-theme="light"] .control-line{stroke:#8aa0ad}
+@media(max-width:900px){.time-reading-grid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:560px){.time-reading-grid,.pattern-grid{grid-template-columns:1fr}}
+
+
+/* v4 · tema claro: botones secundarios claros + sin indicador de progreso */
+html[data-theme="light"] .btn:not(.primary):not(.danger){
+  background:#f7fafb!important;
+  color:#173241!important;
+  border-color:#8fa8b7!important;
+  box-shadow:none!important;
+}
+html[data-theme="light"] .btn:not(.primary):not(.danger):hover{
+  background:#edf3f6!important;
+  color:#102a3e!important;
+  border-color:#6f8fa1!important;
+}
+html[data-theme="light"] .path-card .btn:not(.primary){
+  background:#ffffff!important;
+  color:#173241!important;
+  border-color:#8fa8b7!important;
+}
+html[data-theme="light"] .path-card .btn:not(.primary):hover{
+  background:#eef4f7!important;
+  color:#102a3e!important;
+}
+
+
+/* v5 · presentación conceptual + modo esencial */
+.intro-head{padding-bottom:14px}
+.intro-lead{max-width:1100px;font-size:15px}
+.intro-manifesto{
+  display:grid;grid-template-columns:80px minmax(0,1fr);gap:16px;align-items:center;
+  padding:18px;border:1px solid #4e6573;border-radius:15px;background:linear-gradient(135deg,#102a3e,#071725);margin-bottom:14px
+}
+.manifesto-mark{
+  width:70px;height:70px;border-radius:17px;display:grid;place-items:center;border:2px solid var(--gold);
+  color:var(--gold);font-size:24px;font-weight:950
+}
+.intro-manifesto h3{font-size:19px;margin:3px 0 7px}.intro-manifesto p{margin:0;color:#c9d8df;font-size:13px}
+.evidence-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.evidence-card{position:relative;border:1px solid var(--line);border-radius:15px;background:#071725;padding:16px;min-width:0}
+.evidence-card::before{content:"";position:absolute;left:0;top:15px;bottom:15px;width:4px;border-radius:0 5px 5px 0;background:var(--blue)}
+.evidence-card.evidence-time::before{background:var(--gold)}
+.evidence-card.evidence-movement::before{background:var(--blue)}
+.evidence-card.evidence-context::before{background:var(--green)}
+.evidence-card.evidence-human::before{background:var(--violet)}
+.evidence-icon{font-size:24px;line-height:1;margin-bottom:8px}
+.evidence-kicker{font-size:9px;font-weight:950;color:var(--muted);letter-spacing:.09em}
+.evidence-card h3{font-size:21px;margin:2px 0 7px}.evidence-card p{color:#c9d8df;font-size:12px;margin:0 0 10px}
+.evidence-gives{display:flex;gap:6px;flex-wrap:wrap;margin:9px 0}.evidence-gives b{width:100%;font-size:10px;color:var(--muted)}
+.evidence-gives span{font-size:9px;border:1px solid var(--line);border-radius:999px;padding:4px 7px;color:#c9d8df;background:#0c2131}
+.evidence-question{padding:9px;border-radius:9px;background:#102a3e;font-size:11px;color:#c9d8df;margin:10px 0}
+.evidence-question b{color:#fff}.evidence-jump{width:100%;margin-top:2px}
+.source-link{display:block;margin-top:8px;color:var(--muted);font-size:9px;text-decoration:none}.source-link:hover{text-decoration:underline;color:var(--text)}
+.source-human:hover{text-decoration:none;color:var(--muted)}
+.integration-card{margin-top:14px;border:1px solid #866c2d;border-radius:15px;background:linear-gradient(135deg,#171d22,#102738);padding:16px}
+.integration-title h3{margin:2px 0 12px;font-size:18px}
+.integration-flow{display:grid;grid-template-columns:1fr auto 1fr auto 1fr auto 1fr auto 1fr auto 1.15fr;gap:5px;align-items:stretch}
+.int-step{border:1px solid var(--line);background:#071725;border-radius:10px;padding:9px;text-align:center;min-width:0}
+.int-step span{display:inline-grid;place-items:center;width:22px;height:22px;border-radius:50%;background:#17364a;color:#d9e8ee;font-size:9px;font-weight:950}
+.int-step b{display:block;margin-top:5px;font-size:11px}.int-step small{display:block;color:var(--muted);font-size:8px;line-height:1.35;margin-top:2px}
+.int-step.final{border-color:var(--gold);background:#2a2718}.int-step.final span{background:var(--gold);color:#102030}
+.int-arrow{display:grid;place-items:center;color:var(--gold);font-weight:950}
+.evidence-levels{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:9px;margin-top:12px}
+.evidence-level{border:1px solid var(--line);border-radius:11px;background:#071725;padding:11px}
+.evidence-level .level-tag{display:inline-block;border-radius:999px;padding:3px 6px;font-size:8px;font-weight:950;margin-bottom:6px;background:#17364a}
+.evidence-level.inferred .level-tag{background:#5a4519}.evidence-level.contextual .level-tag{background:#463462}
+.evidence-level b{display:block;font-size:12px}.evidence-level p{margin:5px 0 0;color:var(--muted);font-size:10px}
+.intro-warning{font-size:12px}
+.one-line-reading{margin:6px 0 7px;padding:8px 10px;border-left:3px solid var(--gold);border-radius:7px;background:#102a3e;color:#c9d8df;font-size:11px}
+.one-line-reading b{color:#fff}
+.essential-only{display:none}
+body.essential-mode .essential-only{display:block}
+body.essential-mode .main>.section:not(#inicio):not(#esencial):not(#referencia){display:none}
+body.essential-mode .sidebar .navlink:not([href="#inicio"]):not([href="#referencia"]){display:none}
+body.essential-mode #essentialModeBtn{background:var(--gold);color:#102030;border-color:var(--gold)}
+.decision-flow{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}
+.decision-card{display:flex;gap:10px;align-items:flex-start;border:1px solid var(--line);border-radius:12px;background:#071725;padding:11px}
+.decision-card>span{display:grid;place-items:center;flex:0 0 30px;width:30px;height:30px;border-radius:50%;background:#17364a;font-weight:950}
+.decision-card b{display:block;font-size:13px}.decision-card p{margin:4px 0 8px;color:var(--muted);font-size:10px}
+.decision-card.final{border-color:var(--gold)}.decision-card.final>span{background:var(--gold);color:#102030}
+.btn.mini{padding:5px 8px;font-size:10px}
+
+html[data-theme="light"] .intro-manifesto{background:#f6f9fa;border-color:#cbd7de}
+html[data-theme="light"] .intro-manifesto h3,
+html[data-theme="light"] .intro-manifesto p{color:#142733}
+html[data-theme="light"] .evidence-card,
+html[data-theme="light"] .evidence-level,
+html[data-theme="light"] .decision-card{background:#f6f9fa;color:#142733;border-color:#cbd7de}
+html[data-theme="light"] .evidence-card p,
+html[data-theme="light"] .evidence-level p,
+html[data-theme="light"] .decision-card p{color:#405965}
+html[data-theme="light"] .evidence-gives b,
+html[data-theme="light"] .evidence-kicker,
+html[data-theme="light"] .source-link{color:#526b78}
+html[data-theme="light"] .evidence-gives span{background:#fff;color:#405965;border-color:#cbd7de}
+html[data-theme="light"] .evidence-question{background:#eef3f6;color:#405965}
+html[data-theme="light"] .evidence-question b{color:#142733}
+html[data-theme="light"] .integration-card{background:#fff8e7;border-color:#c9a14f;color:#142733}
+html[data-theme="light"] .int-step{background:#fff;color:#142733;border-color:#cbd7de}
+html[data-theme="light"] .int-step small{color:#526b78}
+html[data-theme="light"] .int-step.final{background:#fff3c9;border-color:#c9a14f}
+html[data-theme="light"] .one-line-reading{background:#fff8e7;color:#405965}
+html[data-theme="light"] .one-line-reading b{color:#142733}
+@media(max-width:1050px){.integration-flow{grid-template-columns:repeat(3,1fr)}.int-arrow{display:none}.evidence-levels{grid-template-columns:1fr}}
+@media(max-width:760px){.evidence-grid{grid-template-columns:1fr}.intro-manifesto{grid-template-columns:1fr}.manifesto-mark{width:54px;height:54px}.decision-flow{grid-template-columns:1fr}.integration-flow{grid-template-columns:1fr 1fr}}
+
+</style>
+</head>
+<body>
+<div class="app">
+<header class="top">
+  <div class="brand">
+    <div class="logo">OR</div>
+    <div><h1>Orienta Replay · Manual interactivo</h1><div class="subtitle">O‑Replay · FIT/GPX · Intervals.icu · análisis de carrera</div></div>
+  </div>
+  <div class="top-actions">
+    <a href="index.html" class="btn primary" style="text-decoration:none;display:inline-flex;align-items:center;gap:6px" title="Abrir la aplicación Orienta Replay">⚡ Ir a la app</a>
+    <button class="btn ghost" id="essentialModeBtn" type="button" aria-pressed="false">Solo lo esencial</button>
+    <label class="theme-control">Tema
+      <select id="themeMode"><option value="auto">Automático</option><option value="light">Claro</option><option value="dark">Oscuro</option></select>
+    </label>
+  </div>
+</header>
+
+<div class="layout">
+<aside class="sidebar">
+  <div class="searchbox">
+    <input id="globalSearch" type="search" placeholder="Buscar en los apuntes…">
+    <span class="kbd">⌘K</span>
+  </div>
+  <nav class="navgroup" id="nav">
+    <a class="navlink active" href="#inicio"><span class="navnum">0</span>Inicio</a>
+    <a class="navlink" href="#guia"><span class="navnum">1</span>Guía rápida</a>
+    <a class="navlink" href="#carga"><span class="navnum">2</span>Carga</a>
+    <a class="navlink" href="#comparar"><span class="navnum">3</span>Comparar</a>
+    <a class="navlink" href="#estadisticas"><span class="navnum">4</span>Estadísticas</a>
+    <a class="navlink" href="#graficas-demo"><span class="navnum">4B</span>Gráficas explicadas</a>
+    <a class="navlink" href="#indices"><span class="navnum">5</span>Índices</a>
+    <a class="navlink" href="#reproductor"><span class="navnum">6</span>Reproductor</a>
+    <a class="navlink" href="#mapas"><span class="navnum">7</span>Mapas</a>
+    <a class="navlink" href="#gps"><span class="navnum">8</span>GPS por tramo</a>
+    <a class="navlink" href="#intervals"><span class="navnum">9</span>Intervals.icu</a>
+    <a class="navlink" href="#monitorizacion"><span class="navnum">10</span>Monitorización</a>
+    <a class="navlink" href="#idpt"><span class="navnum">11</span>IDPT</a>
+    <a class="navlink" href="#caso"><span class="navnum">12</span>Caso práctico</a>
+    <a class="navlink" href="#errores"><span class="navnum">13</span>Errores</a>
+    <a class="navlink" href="#glosario"><span class="navnum">14</span>Glosario</a>
+    <a class="navlink" href="#referencia"><span class="navnum">15</span>Referencia rápida</a>
+  </nav>
+  <div class="side-actions">
+    <button id="expandAll" class="btn ghost">Abrir todo</button>
+    <button id="collapseAll" class="btn ghost">Cerrar todo</button>
+  </div>
+</aside>
+
+<main class="main">
+
+<section class="section searchable" id="inicio">
+  <div class="section-head intro-head">
+    <div>
+      <div class="eyebrow">0 · Qué estamos intentando hacer</div>
+      <h2>Analizar una carrera de orientación es reconstruir una historia con varias evidencias</h2>
+      <p class="lead intro-lead">El cronómetro dice <b>qué pasó con el tiempo</b>. El reloj ayuda a entender <b>cómo te moviste y cómo respondió tu organismo</b>. El contexto de entrenamiento explica <b>con qué estado llegabas</b>. Y solo quien estuvo en el monte puede dar sentido final a muchas decisiones, sensaciones y errores.</p>
+    </div>
+    <span class="pill good">Datos + contexto + experiencia</span>
+  </div>
+
+  <div class="section-body">
+    <div class="intro-manifesto">
+      <div class="manifesto-mark">OR</div>
+      <div>
+        <div class="eyebrow">La idea central de Orienta Replay</div>
+        <h3>No busca una “verdad automática”. Busca reunir evidencias para acercarnos a una explicación.</h3>
+        <p>Una pérdida de tiempo puede aparecer en O‑Replay. El FIT puede mostrar que hubo rodeo, parada, menor velocidad, subida, frecuencia cardiaca alta o una progresión extraña. Intervals.icu puede indicar si llegabas con mucha fatiga o con una descarga adecuada. Pero <b>ningún dato aislado sabe si dudaste, si leíste mal el mapa, si había vegetación cerrada, si elegiste deliberadamente una ruta segura o si simplemente tuviste malas sensaciones</b>.</p>
+      </div>
+    </div>
+
+    <div class="evidence-grid">
+      <article class="evidence-card evidence-time">
+        <div class="evidence-icon">⏱</div>
+        <div class="evidence-kicker">1 · QUÉ PASÓ CON EL TIEMPO</div>
+        <h3>O‑Replay</h3>
+        <p>O‑Replay es una plataforma web <b>open source de resultados de orientación en directo</b>. Publica resultados en vivo y finales y dispone de tablas de parciales, además de soporte para distintas modalidades de orientación.</p>
+        <div class="evidence-gives">
+          <b>En esta herramienta aporta:</b>
+          <span>clasificación</span><span>horas de picada</span><span>parciales</span><span>acumulados</span><span>referencias entre corredores</span>
+        </div>
+        <div class="evidence-question">Pregunta que responde mejor: <b>¿dónde y cuánto tiempo gané o perdí?</b></div>
+        <button class="btn evidence-jump" data-target="estadisticas">Ver esto en la app → Estadísticas</button>
+        <a class="source-link" href="https://github.com/oreplay" target="_blank" rel="noopener">Fuente oficial · O‑Replay</a>
+      </article>
+
+      <article class="evidence-card evidence-movement">
+        <div class="evidence-icon">⌚</div>
+        <div class="evidence-kicker">2 · CÓMO ME MOVÍ Y RESPONDÍ</div>
+        <h3>FIT / GPX del reloj</h3>
+        <p>Un archivo FIT de actividad puede contener registros temporales de sensores y eventos. Según el dispositivo, puede aportar <b>posición GPS, tiempo, altitud, velocidad, frecuencia cardiaca, cadencia y otras dinámicas</b>.</p>
+        <div class="evidence-gives">
+          <b>Al cruzarlo con las picadas:</b>
+          <span>ruta real</span><span>distancia y rodeo</span><span>velocidad</span><span>paradas</span><span>pendiente</span><span>FC / cadencia</span>
+        </div>
+        <div class="evidence-question">Pregunta que responde mejor: <b>¿qué estaba haciendo físicamente durante esa pérdida?</b></div>
+        <button class="btn evidence-jump" data-target="gps">Ver esto en la app → GPS por tramo</button>
+        <a class="source-link" href="https://developer.garmin.com/fit/file-types/" target="_blank" rel="noopener">Fuente oficial · Garmin FIT SDK</a>
+      </article>
+
+      <article class="evidence-card evidence-context">
+        <div class="evidence-icon">↗</div>
+        <div class="evidence-kicker">3 · CON QUÉ ESTADO LLEGUÉ</div>
+        <h3>Intervals.icu</h3>
+        <p>Intervals.icu es una plataforma de análisis y planificación de entrenamiento. Permite seguir <b>fitness, fatiga y form</b>, además de actividades y datos de wellness, y ofrece una API abierta para integraciones.</p>
+        <div class="evidence-gives">
+          <b>En Orienta Replay contextualiza:</b>
+          <span>Fitness / CTL</span><span>Fatiga / ATL</span><span>Form</span><span>rampa</span><span>HRV / FC reposo</span><span>perfil umbral</span>
+        </div>
+        <div class="evidence-question">Pregunta que responde mejor: <b>¿llegaba fresco, cargado o en un contexto compatible con mi objetivo?</b></div>
+        <button class="btn evidence-jump" data-target="intervals">Ver esto en la app → Intervals.icu</button>
+        <a class="source-link" href="https://www.intervals.icu/" target="_blank" rel="noopener">Fuente oficial · Intervals.icu</a>
+      </article>
+
+      <article class="evidence-card evidence-human">
+        <div class="evidence-icon">🧭</div>
+        <div class="evidence-kicker">4 · LO QUE LOS DATOS NO VIERON</div>
+        <h3>Tu experiencia en el monte</h3>
+        <p>El corredor conoce información que ningún fichero registra completamente: <b>qué leyó en el mapa, qué opción pretendía hacer, cuándo dudó, cómo era realmente la vegetación, si perdió contacto, si evitó un riesgo o qué sensaciones tuvo</b>.</p>
+        <div class="evidence-gives">
+          <b>Aporta significado a los indicios:</b>
+          <span>decisión</span><span>navegación</span><span>sensaciones</span><span>visibilidad</span><span>vegetación</span><span>intención táctica</span>
+        </div>
+        <div class="evidence-question">Pregunta que responde mejor: <b>¿qué ocurrió realmente y por qué tomé esa decisión?</b></div>
+        <button class="btn evidence-jump" data-target="caso">Ver cómo se interpreta → Caso práctico</button>
+        <div class="source-link source-human">Fuente final · memoria y criterio del deportista/entrenador</div>
+      </article>
+    </div>
+
+    <div class="integration-card">
+      <div class="integration-title">
+        <div class="eyebrow">Análisis integral</div>
+        <h3>Una conclusión gana fuerza cuando varias fuentes independientes cuentan una historia compatible</h3>
+      </div>
+      <div class="integration-flow">
+        <div class="int-step"><span>1</span><b>Tiempo</b><small>O‑Replay localiza la pérdida</small></div>
+        <div class="int-arrow">→</div>
+        <div class="int-step"><span>2</span><b>Recorrido</b><small>GPS muestra por dónde fuiste</small></div>
+        <div class="int-arrow">→</div>
+        <div class="int-step"><span>3</span><b>Esfuerzo</b><small>FIT aporta velocidad, FC, cadencia…</small></div>
+        <div class="int-arrow">→</div>
+        <div class="int-step"><span>4</span><b>Terreno</b><small>pendiente, movimiento e IDPT</small></div>
+        <div class="int-arrow">→</div>
+        <div class="int-step"><span>5</span><b>Contexto</b><small>Intervals explica cómo llegabas</small></div>
+        <div class="int-arrow">→</div>
+        <div class="int-step final"><span>6</span><b>Interpretación</b><small>datos + memoria de carrera</small></div>
+      </div>
+    </div>
+
+    <div class="evidence-levels">
+      <div class="evidence-level observed">
+        <span class="level-tag">DATO</span>
+        <b>“Perdí 72 s respecto a Pablo en este tramo.”</b>
+        <p>Es observable en los tiempos.</p>
+      </div>
+      <div class="evidence-level inferred">
+        <span class="level-tag">INDICIO</span>
+        <b>“Además recorrí 140 m extra y estuve 25 s casi parado.”</b>
+        <p>Los datos hacen más plausible una explicación, pero aún no conocen la causa.</p>
+      </div>
+      <div class="evidence-level contextual">
+        <span class="level-tag">INTERPRETACIÓN</span>
+        <b>“Me pasé el ataque, volví y dudé antes de relocalizar.”</b>
+        <p>La conclusión se vuelve sólida cuando encaja con el mapa, los datos y lo que recuerda el corredor.</p>
+      </div>
+    </div>
+
+    <div class="note gold intro-warning"><b>Regla de oro:</b> Orienta Replay puede acercarte mucho a una explicación y ayudarte a detectar patrones que la memoria por sí sola no ve. Pero no debe convertir una correlación en una causa. <b>La mejor conclusión es la que integra cronometraje, recorrido, respuesta física, contexto de entrenamiento y experiencia real de carrera.</b></div>
+
+    <div class="path-cards">
+      <div class="path-card"><h3>📘 Aprender</h3><p class="hint">Recorre los capítulos en orden y entiende qué significa cada métrica.</p><button class="btn primary goto" data-target="guia">Empezar</button></div>
+      <div class="path-card"><h3>⚡ Solo lo esencial</h3><p class="hint">Una versión corta: qué mirar primero, qué significa y a qué dato saltar después.</p><button class="btn" id="essentialIntroBtn">Activar modo esencial</button></div>
+      <div class="path-card"><h3>🔎 Referencia</h3><p class="hint">Ve directamente a fórmulas, glosario, errores o «quiero saber…».</p><button class="btn goto" data-target="referencia">Ir a referencia</button></div>
+    </div>
+  </div>
+</section>
+
+
+<section class="section searchable essential-only" id="esencial">
+  <div class="section-head">
+    <div><div class="eyebrow">Modo esencial</div><h2>Si solo tienes cinco minutos, analiza así</h2>
+    <p class="lead">No intentes explicar la causa al principio. Primero localiza, después cruza evidencias.</p></div>
+    <button class="btn ghost" id="exitEssentialBtn">Ver manual completo</button>
+  </div>
+  <div class="section-body">
+    <div class="decision-flow">
+      <div class="decision-card"><span>1</span><div><b>¿Dónde cambió la carrera?</b><p>Mira parciales, acumulado y diferencia a referencia.</p><button class="btn mini essential-jump" data-target="graficas-demo">Ver tiempo</button></div></div>
+      <div class="decision-card"><span>2</span><div><b>¿Qué hizo el corredor en ese tramo?</b><p>Mira ruta, rodeo, distancia extra, paradas y velocidad.</p><button class="btn mini essential-jump" data-target="gps">Ver GPS</button></div></div>
+      <div class="decision-card"><span>3</span><div><b>¿El terreno explica parte del comportamiento?</b><p>Mira desnivel, pendiente, movimiento e IDPT individual/grupo.</p><button class="btn mini essential-jump" data-target="monitorizacion">Ver terreno</button></div></div>
+      <div class="decision-card"><span>4</span><div><b>¿Cómo respondió el organismo?</b><p>FC/LTHR, velocidad relativa y señales disponibles del FIT.</p><button class="btn mini essential-jump" data-target="monitorizacion">Ver intensidad</button></div></div>
+      <div class="decision-card"><span>5</span><div><b>¿Con qué estado llegaba?</b><p>Fitness, Fatiga, Form y prioridad A/B/C declarada.</p><button class="btn mini essential-jump" data-target="intervals">Ver contexto</button></div></div>
+      <div class="decision-card final"><span>6</span><div><b>Ahora pregunta al corredor</b><p>¿Qué viste? ¿Qué pretendías? ¿Dónde dudaste? ¿Cómo estaba la vegetación? ¿Qué recuerdas?</p><button class="btn mini essential-jump" data-target="caso">Integrar</button></div></div>
+    </div>
+    <div class="note red"><b>No cierres una causa con un único gráfico.</b> “Parcial malo”, “IDPT alto” o “FC elevada” son hechos o indicios. La causa exige contexto.</div>
+  </div>
+</section>
+
+<section class="section searchable" id="guia">
+  <div class="section-head"><div><div class="eyebrow">1 · Guía rápida</div><h2>Mi primer análisis en 8 pasos</h2>
+  <p class="lead">El flujo más corto para pasar de una prueba de O‑Replay a una lectura útil de la carrera.</p></div></div>
+  <div class="section-body">
+    <div class="flow" aria-label="Flujo de análisis">
+      <div class="flowstep"><span class="stepno">1</span><b>Buscar prueba</b><span>Busca por nombre o pega su URL.</span></div>
+      <div class="flowstep"><span class="stepno">2</span><b>Conectar etapa</b><span>Lee categorías y clubes.</span></div>
+      <div class="flowstep"><span class="stepno">3</span><b>Filtrar</b><span>Categoría, club o texto para reducir carga.</span></div>
+      <div class="flowstep"><span class="stepno">4</span><b>Cargar corredores</b><span>Resultados y picadas de O‑Replay.</span></div>
+      <div class="flowstep"><span class="stepno">5</span><b>Añadir FIT/GPX</b><span>Opcional: activa análisis GPS.</span></div>
+      <div class="flowstep"><span class="stepno">6</span><b>Asignar corredor</b><span>Cada actividad debe corresponder a un deportista.</span></div>
+      <div class="flowstep"><span class="stepno">7</span><b>Mapa</b><span>Opcional: imagen y calibración.</span></div>
+      <div class="flowstep"><span class="stepno">8</span><b>Analizar</b><span>Estadísticas → Reproductor → Monitorización.</span></div>
+    </div>
+
+    <div class="grid two" style="margin-top:12px">
+      <div class="card">
+        <h3>Checklist interactivo</h3>
+        <div class="checklist" id="quickChecklist">
+          <div class="checkrow"><input id="c1" type="checkbox"><label for="c1"><b>Prueba localizada.</b> He buscado la prueba o pegado su URL.</label></div>
+          <div class="checkrow"><input id="c2" type="checkbox"><label for="c2"><b>Etapa conectada.</b> Veo categorías y clubes.</label></div>
+          <div class="checkrow"><input id="c3" type="checkbox"><label for="c3"><b>Resultados cargados.</b> Ya aparecen los corredores.</label></div>
+          <div class="checkrow"><input id="c4" type="checkbox"><label for="c4"><b>Corredor analizado elegido.</b></label></div>
+          <div class="checkrow"><input id="c5" type="checkbox"><label for="c5"><b>FIT/GPX asignado</b>, si quiero análisis GPS.</label></div>
+          <div class="checkrow"><input id="c6" type="checkbox"><label for="c6"><b>Mapa cargado/calibrado</b>, si quiero usar una imagen de orientación.</label></div>
+        </div>
+        <button id="resetChecklist" class="btn ghost" style="margin-top:8px">Reiniciar</button>
+      </div>
+      <div class="card">
+        <h3>Plan B si falla la API</h3>
+        <div class="note red"><b>No pude leer la API directamente: Load failed.</b><br>Si el navegador bloquea CORS, usa <b>«Cargar JSON»</b>.</div>
+        <p class="hint">También puedes seguir trabajando con FIT/GPX locales y completar manualmente el perfil de rendimiento.</p>
+        <div class="mock">
+          <div class="mock-tabs"><span class="mock-tab active">Carga</span><span class="mock-tab">Estadísticas</span><span class="mock-tab">Reproductor</span><span class="mock-tab">Monitorización</span></div>
+          <div class="mock-card"><div class="mock-label">Resultados O‑Replay · API</div><b>URL de la prueba</b><br><span class="mock-button">1. Conectar etapa</span> <span class="mock-button">Cargar JSON</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section searchable" id="carga">
+  <div class="section-head"><div><div class="eyebrow">2 · Carga de datos</div><h2>De dónde sale cada dato</h2>
+  <p class="lead">La carga está pensada en capas. Una capa amplía a la anterior, pero no todas son obligatorias.</p></div></div>
+  <div class="section-body">
+    <div class="modebar" role="tablist">
+      <button class="segbtn active" data-mode-group="load" data-mode="oreplay">O‑Replay</button>
+      <button class="segbtn" data-mode-group="load" data-mode="gps">FIT / GPX</button>
+      <button class="segbtn" data-mode-group="load" data-mode="map">Mapa</button>
+      <button class="segbtn" data-mode-group="load" data-mode="project">Proyecto</button>
+    </div>
+
+    <div class="mode-panel active" data-mode-panel="load:oreplay">
+      <div class="grid two">
+        <div class="card"><h3>Ruta normal</h3><p><b>Buscar prueba → elegir etapa → Conectar etapa → aplicar filtro → Cargar corredores.</b></p><p class="hint">Filtrar por categoría o club es especialmente útil en eventos grandes.</p></div>
+        <div class="card"><h3>Ruta manual</h3><p>Pega la URL de una competición de O‑Replay. La herramienta extrae los identificadores de evento y etapa.</p><p class="hint">Si la conexión no puede completarse, el JSON es la vía alternativa.</p></div>
+      </div>
+      <details class="accordion"><summary>¿Qué hacen los filtros de descarga?</summary><div class="accbody">Antes de descargar resultados puedes limitar por <b>categoría</b>, <b>club</b> o <b>nombre/texto</b>. Existe también «Cargar etapa completa». Después, dentro de la herramienta, hay filtros múltiples de categorías, clubes y corredores visibles.</div></details>
+      <details class="accordion"><summary>¿Por qué conviene filtrar?</summary><div class="accbody">La propia herramienta corta una petición de resultados a los <b>45 segundos</b>. Si la etapa es masiva, reducir el conjunto puede evitar una espera innecesaria y hace más ligera la sesión.</div></details>
+    </div>
+
+    <div class="mode-panel" data-mode-panel="load:gps">
+      <div class="grid two">
+        <div class="card"><h3>FIT</h3><p>El lector interno recupera los mensajes GPS necesarios: tiempo, posición, altitud, velocidad, frecuencia cardiaca, cadencia y algunas dinámicas si existen.</p></div>
+        <div class="card"><h3>GPX</h3><p>Se leen puntos de track/ruta con coordenadas, tiempo y, cuando están presentes, altitud, FC, cadencia o velocidad.</p></div>
+      </div>
+      <div class="note green"><b>Sincronización:</b> las horas absolutas de las picadas O‑Replay actúan como anclas. El GPS puede haberse iniciado antes de la salida; el análisis empieza en las picadas disponibles.</div>
+      <p class="hint">Si el reloj está realmente desfasado, la herramienta conserva un ajuste manual avanzado.</p>
+    </div>
+
+    <div class="mode-panel" data-mode-panel="load:map">
+      <div class="grid two">
+        <div class="card"><h3>Imagen / mapa de orientación</h3><p>Se carga como imagen local. La calibración relaciona puntos conocidos del mapa con posiciones GPS inferidas en las horas de picada.</p></div>
+        <div class="card"><h3>Calibración</h3><p><b>3 puntos</b> usa transformación afín. <b>4 puntos</b> usa perspectiva. Conviene escoger controles separados espacialmente.</p></div>
+      </div>
+    </div>
+
+    <div class="mode-panel" data-mode-panel="load:project">
+      <div class="grid two">
+        <div class="card"><h3>Guardar proyecto</h3><p>Permite conservar la configuración de trabajo y reabrirla posteriormente.</p></div>
+        <div class="card"><h3>Privacidad</h3><p>Los FIT/GPX cargados desde archivo se procesan en el navegador. La API key de Intervals.icu no se guarda dentro del proyecto.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section searchable" id="comparar">
+  <div class="section-head"><div><div class="eyebrow">3 · Selección y comparación</div><h2>Analizar, comparar y mostrar no son lo mismo</h2>
+  <p class="lead">Distinguir estas tres ideas evita interpretar mal las gráficas.</p></div></div>
+  <div class="section-body">
+    <div class="grid three">
+      <div class="card"><h3>Corredor analizado</h3><p>Es el deportista sobre el que se calculan tarjetas, laboratorio, GPS y fisiología.</p><span class="pill good">Foco</span></div>
+      <div class="card"><h3>Referencia</h3><p>Se usa para diferencias de tiempos. Cambiarla no cambia quién es el corredor analizado.</p><span class="pill warn">Comparación</span></div>
+      <div class="card"><h3>Visibles</h3><p>Controlan qué corredores aparecen en mapas o comparativas. Pueden pertenecer a varios clubes/categorías.</p><span class="pill">Visualización</span></div>
+    </div>
+    <div class="note gold"><b>Regla mental:</b> «¿a quién estudio?» = corredor analizado · «¿contra quién calculo la diferencia?» = referencia · «¿a quién quiero ver?» = visibles.</div>
+  </div>
+</section>
+
+<section class="section searchable" id="estadisticas">
+  <div class="section-head"><div><div class="eyebrow">4 · Estadísticas</div><h2>Qué puedes leer solo con O‑Replay</h2>
+  <p class="lead">Esta pestaña no necesita GPS: trabaja con los tiempos de control y la clasificación.</p></div></div>
+  <div class="section-body">
+    <div class="grid three">
+      <div class="metric"><div class="k">Parciales</div><div class="v">C5 → C6</div><div class="s">Tiempo del tramo entre dos controles.</div></div>
+      <div class="metric"><div class="k">Acumulado</div><div class="v">37:42</div><div class="s">Tiempo real acumulado hasta un control.</div></div>
+      <div class="metric"><div class="k">Posición</div><div class="v">8º → 5º</div><div class="s">Evolución de puesto durante la prueba.</div></div>
+    </div>
+    <div class="grid two" style="margin-top:12px">
+      <div class="card"><h3>Gráficas principales</h3>
+        <p>Parciales · acumulado real · diferencia acumulada a referencia · índice de tramo · posición · pérdida incremental · tiempo final.</p>
+      </div>
+      <div class="card"><h3>Laboratorio</h3>
+        <p>Resume para el corredor analizado su índice global, tramos ganados, índice mediano, variabilidad, exceso personal y pérdida vs mejores.</p>
+      </div>
+    </div>
+    <div class="legend-row" style="margin-top:10px">
+      <span class="legend-chip best">mejor / muy bueno</span><span class="legend-chip good">bueno</span><span class="legend-chip warn">pérdida relevante</span><span class="legend-chip bad">peor rendimiento relativo</span>
+    </div>
+  </div>
+</section>
+
+
+<section class="section searchable" id="graficas-demo">
+  <div class="section-head">
+    <div>
+      <div class="eyebrow">4B · Laboratorio didáctico</div>
+      <h2>Gráficas explicadas con el «Ejemplo ficticio» de la app</h2>
+      <p class="lead">Estas gráficas reutilizan la lógica y los datos sintéticos del ejemplo interno de Orienta Replay: Antonio, Pablo y Adrián, 12 controles más meta y GPS sintético. Toca cualquier tramo para aprender a leerlo.</p>
+    </div>
+    <span class="pill good">Interactivo</span>
+  </div>
+  <div class="section-body">
+    <div class="note gold"><b>Importante:</b> son datos sintéticos de demostración. Sirven para aprender a interpretar la interfaz, no para sacar conclusiones deportivas sobre personas reales.</div>
+
+    <div class="teaching-tabs" id="demoChartTabs">
+      <button class="teaching-tab active" data-demo-mode="partials">Parciales</button>
+      <button class="teaching-tab" data-demo-mode="accum">Acumulado</button>
+      <button class="teaching-tab" data-demo-mode="gap">Diferencia a referencia</button>
+      <button class="teaching-tab" data-demo-mode="index">Índice de tramo</button>
+      <button class="teaching-tab" data-demo-mode="speed">GPS · velocidad</button>
+    </div>
+
+    <div class="teaching-shell">
+      <div class="teaching-stage">
+        <div id="demoChartTitle" style="font-weight:900">Parciales · comparación</div>
+        <div id="demoOneLine" class="one-line-reading"><b>En una frase:</b> compara cuánto tarda cada corredor en el mismo tramo.</div>
+        <div class="demo-instruction">Toca una barra, punto o tramo de la gráfica. En móvil también funciona con toque.</div>
+        <div id="demoTeachingChart" class="teaching-chart"></div>
+        <div id="demoLegend" class="demo-legend"></div>
+      </div>
+      <aside class="teaching-explain">
+        <div class="eyebrow">Cómo leerla</div>
+        <h3 id="demoExplainTitle">Tramo 6 · aparece una pérdida clara</h3>
+        <div id="demoKpis" class="demo-kpis"></div>
+        <div id="demoExplain" class="demo-reading"></div>
+        <div id="demoSource" class="demo-source"></div>
+      </aside>
+    </div>
+
+    <details class="accordion" open style="margin-top:12px">
+      <summary>¿Por qué este ejemplo es especialmente útil para aprender?</summary>
+      <div class="accbody">El generador sintético introduce deliberadamente una anomalía temporal para Antonio alrededor del control 6. Eso produce una señal muy visible en parciales, acumulados e índice de tramo. Es perfecto para ver cómo una misma incidencia se representa de formas distintas. También muestra por qué nunca conviene interpretar una única gráfica de manera aislada.</div>
+    </details>
+    <details class="accordion">
+      <summary>¿Y el IDPT?</summary>
+      <div class="accbody">El ejemplo sintético genera GPS, altitud, FC y velocidad, pero no crea automáticamente un perfil de rendimiento completo con ritmo umbral y LTHR. Por eso esta guía <b>no inventa un IDPT medido</b> para el demo. El capítulo IDPT mantiene un simulador conceptual separado y explica cuándo la app dispone de información suficiente para calcularlo.</div>
+    </details>
+
+    <div class="card" style="margin-top:12px">
+      <h3>Cómo analizar el tiempo de carrera · de resultado a interpretación</h3>
+      <p class="hint">El tiempo final te dice el resultado. Para entender dónde y cómo se construyó, Orienta Replay baja progresivamente de escala.</p>
+      <div class="time-reading-grid">
+        <div class="time-reading-step"><span>1 · Resultado</span><b>Tiempo final</b><span>Cuánto tardó cada corredor. No localiza la pérdida.</span></div>
+        <div class="time-reading-step"><span>2 · Localización</span><b>Parcial</b><span>En qué tramo aparece una diferencia concreta.</span></div>
+        <div class="time-reading-step"><span>3 · Impacto</span><b>Acumulado / diferencia</b><span>Cuánto cambia la carrera respecto a la referencia.</span></div>
+        <div class="time-reading-step"><span>4 · Hipótesis</span><b>GPS + terreno + movimiento</b><span>Qué pudo contribuir a esa pérdida, sin confundir estimación con causa demostrada.</span></div>
+      </div>
+      <div class="pattern-grid">
+        <div class="pattern-card"><b>Salto brusco de la diferencia</b><p>Compatible con una pérdida concentrada en un tramo. Busca el parcial que coincide con ese salto.</p></div>
+        <div class="pattern-card"><b>Deriva progresiva</b><p>La diferencia crece poco a poco en muchos tramos: puede ser ritmo global, terreno, fatiga o pequeñas pérdidas repetidas.</p></div>
+        <div class="pattern-card"><b>La curva vuelve hacia cero</b><p>El corredor recupera tiempo respecto a la referencia en los tramos siguientes.</p></div>
+        <div class="pattern-card"><b>Una pérdida queda estable</b><p>El hueco se abrió antes, pero después ambos avanzan a un nivel parecido. No sigas atribuyendo toda la diferencia a los tramos posteriores.</p></div>
+      </div>
+      <div class="note gold"><b>Lectura correcta:</b> «perdí 70 s aquí» es una descripción temporal. «Fue por navegación» exige comprobar recorrido, rodeo, paradas, velocidad, pendiente y, cuando sea posible, comparar con otros corredores.</div>
+    </div>
+  </div>
+</section>
+
+<section class="section searchable" id="indices">
+  <div class="section-head"><div><div class="eyebrow">5 · Índices</div><h2>Fórmulas y significado</h2>
+  <p class="lead">Son medidas relativas. Ayudan a localizar patrones, pero no convierten automáticamente una pérdida en «error de orientación».</p></div></div>
+  <div class="section-body">
+    <div class="grid two">
+      <div class="card">
+        <h3>Índice de tramo</h3>
+        <div class="formula">100 × (parcial del corredor / mejor parcial del grupo)</div>
+        <p><b>100</b> es el mejor parcial. <b>120</b> significa un parcial un 20 % más lento que el mejor.</p>
+      </div>
+      <div class="card">
+        <h3>Índice global · 0–1000</h3>
+        <div class="formula">1000 × (tiempo del ganador / tiempo del corredor)</div>
+        <p>El ganador obtiene 1000. No es una nota fisiológica ni un porcentaje de aciertos.</p>
+      </div>
+      <div class="card">
+        <h3>Índice mediano</h3>
+        <p>Mediana de los cocientes <i>parcial / mejor parcial</i>. Resume el nivel relativo típico reduciendo el peso de errores enormes.</p>
+      </div>
+      <div class="card">
+        <h3>Variabilidad</h3>
+        <div class="formula">100 × (Q3 − Q1) / mediana</div>
+        <p>Dispersión robusta de los índices de tramo. Menor valor = carrera más regular.</p>
+      </div>
+      <div class="card">
+        <h3>Exceso personal</h3>
+        <p>Estimación exploratoria basada en el nivel típico del corredor y el umbral elegido. Solo suma el tiempo que supera esa expectativa.</p>
+      </div>
+      <div class="card">
+        <h3>Pérdida vs mejores</h3>
+        <p>Suma diferencias positivas frente al mejor parcial de cada tramo. Ese «recorrido ideal» puede estar formado por mejores parciales de personas distintas.</p>
+      </div>
+    </div>
+
+    <div class="note red"><b>Antes de interpretar:</b> un índice de tramo alto solo demuestra que ese parcial fue relativamente peor. No sabe si la causa fue navegación, elección de ruta, terreno, fatiga, parada, caída, tráfico de corredores o una decisión deliberada.</div>
+    <div class="interactive" style="margin-top:12px">
+      <h3>Calculadora · índice de tramo</h3>
+      <div class="calcrow">
+        <label>Tu parcial (s)<input id="legMine" type="number" min="1" value="312"></label>
+        <label>Mejor parcial (s)<input id="legBest" type="number" min="1" value="260"></label>
+        <div class="resultbox"><span class="hint">Índice</span><br><strong id="legIndexResult">120</strong> %</div>
+      </div>
+      <div id="legIndexExplain" class="hint" style="margin-top:7px">Tu parcial es un 20 % más lento que el mejor.</div>
+    </div>
+  </div>
+</section>
+
+<section class="section searchable" id="reproductor">
+  <div class="section-head"><div><div class="eyebrow">6 · Reproductor</div><h2>Tiempo de O‑Replay + posición del GPS</h2>
+  <p class="lead">El reproductor alinea picadas y recorrido para reconstruir la carrera sobre el mapa.</p></div></div>
+  <div class="section-body">
+    <div class="note gold"><b>Concepto central:</b> O‑Replay pone la hora de picada; FIT/GPX sitúa al corredor.</div>
+    <div class="grid three">
+      <div class="card"><h3>Tiempo real</h3><p>Conserva la relación temporal real entre corredores.</p></div>
+      <div class="card"><h3>Salida simultánea</h3><p>Iguala la salida para comparar progresión desde el mismo instante.</p></div>
+      <div class="card"><h3>Reagrupar en control</h3><p>Reinicia la comparación temporal en cada control para estudiar el tramo.</p></div>
+    </div>
+    <div class="grid two" style="margin-top:12px">
+      <div class="card"><h3>Controles</h3><p>Play/pausa · reiniciar · ×1, ×5, ×10, ×20, ×50 · línea de tiempo · zoom de tramo · seguimiento automático.</p></div>
+      <div class="card"><h3>Capas durante el replay</h3><p>Ranking dinámico · rutas visibles · etiquetas de velocidad/ritmo/FC · ficha instantánea del corredor · perfil sincronizado.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="section searchable" id="mapas">
+  <div class="section-head"><div><div class="eyebrow">7 · Mapas</div><h2>2D, ortofoto y terreno 3D</h2>
+  <p class="lead">La cartografía es una capa de lectura. El mapa no cambia los tiempos; cambia cuánto contexto espacial puedes ver.</p></div></div>
+  <div class="section-body">
+    <div class="grid three">
+      <div class="card"><h3>Fondos</h3><p>Ortofoto IGN/PNOA · OSM · fondo blanco · mapa de orientación cargado.</p></div>
+      <div class="card"><h3>Orientación</h3><p>Norte arriba · rotación libre · tramo hacia arriba.</p></div>
+      <div class="card"><h3>Mapas de calor</h3><p>Ruta · velocidad · lentitud/parada · frecuencia cardiaca · altitud.</p></div>
+    </div>
+    <details class="accordion" open><summary>Terreno 3D y DEM</summary><div class="accbody">El modo 3D usa un modelo digital de elevaciones remoto y MapLibre para levantar el terreno. La herramienta permite DEM Mapterhorn o Terrarium y exageración vertical 1×, 1,5×, 2× o 3×. Requiere conexión a internet; el mapa de orientación escaneado sigue siendo una vista 2D.</div></details>
+    <div class="note"><b>Interpretación:</b> la exageración vertical mejora la percepción del relieve, pero no modifica los datos del recorrido. Es una representación visual.</div>
+  </div>
+</section>
+
+<section class="section searchable" id="gps">
+  <div class="section-head"><div><div class="eyebrow">8 · GPS por tramo</div><h2>Del parcial a la explicación espacial</h2>
+  <p class="lead">El GPS permite separar cuánto tiempo se perdió de cómo se desplazó realmente el corredor.</p></div></div>
+  <div class="section-body">
+    <div class="grid four">
+      <div class="metric"><div class="k">Distancia GPS</div><div class="v">742 m</div><div class="s">Distancia realmente registrada.</div></div>
+      <div class="metric"><div class="k">Línea</div><div class="v">610 m</div><div class="s">Distancia directa entre balizas.</div></div>
+      <div class="metric"><div class="k">Rodeo</div><div class="v">1.22</div><div class="s">Relación recorrido / línea.</div></div>
+      <div class="metric"><div class="k">Casi parado</div><div class="v">0:18</div><div class="s">Tiempo bajo el umbral configurado.</div></div>
+    </div>
+
+    <div class="tablewrap" style="margin-top:12px">
+      <table>
+        <thead><tr><th>Métrica</th><th>Qué aporta</th><th>Qué NO demuestra sola</th></tr></thead>
+        <tbody>
+          <tr><td>Factor de rodeo</td><td>Cuánta distancia adicional se recorre respecto a la línea.</td><td>Que la ruta elegida fuese mala.</td></tr>
+          <tr><td>Tiempo casi parado</td><td>Cuánto tiempo se avanzó por debajo del umbral.</td><td>La causa de la parada.</td></tr>
+          <tr><td>Coste de distancia extra</td><td>Estimación temporal asociada a metros adicionales.</td><td>Todo el tiempo de error técnico.</td></tr>
+          <tr><td>FC por tramo</td><td>Contexto de intensidad cuando el FIT la contiene.</td><td>La dificultad técnica de orientación.</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<section class="section searchable" id="intervals">
+  <div class="section-head"><div><div class="eyebrow">9 · Intervals.icu</div><h2>Perfil y contexto de entrenamiento</h2>
+  <p class="lead">Intervals.icu no sustituye a O‑Replay ni al FIT: añade referencias individuales y estado de carga.</p></div></div>
+  <div class="section-body">
+    <div class="grid four">
+      <div class="metric"><div class="k">Ritmo umbral</div><div class="v">4:05</div><div class="s">Referencia individual de velocidad.</div></div>
+      <div class="metric"><div class="k">LTHR</div><div class="v">158</div><div class="s">Referencia cardiovascular.</div></div>
+      <div class="metric"><div class="k">FC máx.</div><div class="v">180</div><div class="s">Dato de perfil.</div></div>
+      <div class="metric"><div class="k">Peso</div><div class="v">65 kg</div><div class="s">Dato de perfil cuando está disponible.</div></div>
+    </div>
+    <div class="grid two" style="margin-top:12px">
+      <div class="card"><h3>Estado de carga</h3><p><b>Fitness / CTL</b> · <b>Fatiga / ATL</b> · <b>Form = CTL − ATL</b> · rampa · HRV · FC de reposo cuando existen.</p></div>
+      <div class="card"><h3>API + manual</h3><p>Los valores pueden venir de la API y corregirse/completarse manualmente. La API key no se guarda.</p></div>
+    </div>
+    <details class="accordion" open><summary>Prioridad A / B / C y taper</summary><div class="accbody"><b>La prioridad la declara el deportista o entrenador.</b> La herramienta no decide si una prueba es A, B o C. Después compara el patrón observado de Fitness, Fatiga y Form con esa prioridad y devuelve una valoración heurística. Para A busca conjuntamente descenso de fatiga, conservación razonable de Fitness y mejora de Form; para B exige menos descarga; en C no exige taper.</div></details>
+    <div class="note red"><b>Limitación:</b> no existe un valor universal de Fitness/Fatiga/Form que garantice un pico de rendimiento. La propia herramienta presenta esta lectura como heurística y descriptiva.</div>
+  </div>
+</section>
+
+<section class="section searchable" id="monitorizacion">
+  <div class="section-head"><div><div class="eyebrow">10 · Monitorización</div><h2>Pendiente, intensidad y movimiento</h2>
+  <p class="lead">Cruza recorrido, perfil del atleta y señales de movimiento para entender la progresión sobre el terreno. Aquí se explica también cómo interpretar la curva de desnivel por tramos y por elementos del relieve.</p></div></div>
+  <div class="section-body">
+    <div class="grid three">
+      <div class="card"><h3>Perfil de altitud</h3><p>Puede analizarse por tramos de baliza o por subidas/bajadas detectadas automáticamente.</p></div>
+      <div class="card"><h3>Tiempo por pendiente</h3><p>Bandas de 5 puntos porcentuales, con 0 % en el centro. El rango se amplía si hace falta.</p></div>
+      <div class="card"><h3>Intensidad relativa</h3><p><b>FC / LTHR</b> y <b>velocidad / velocidad de ritmo umbral</b>.</p></div>
+    </div>
+
+    <div class="grid two" style="margin-top:12px">
+      <div class="card"><h3>Suavizado de pendiente</h3>
+        <div class="formula">corto ≈ 10 m · medio ≈ 25 m · alto ≈ 50 m</div>
+        <p class="hint">Más ventana = menos ruido y menos sensibilidad a cambios muy breves.</p>
+      </div>
+      <div class="card"><h3>Estado de movimiento</h3>
+        <p>Parado · caminando · corriendo · progresión dificultosa.</p>
+        <p class="hint">Cuando hay cadencia/dinámica se priorizan esas señales; si no, se usa velocidad. La progresión dificultosa combina esfuerzo relativo alto con velocidad relativa baja.</p>
+      </div>
+    </div>
+
+
+    <div class="card terrain-teach-wrap">
+      <h3>Cómo leer la curva de desnivel y la pendiente</h3>
+      <p class="hint">La app ofrece dos lecturas distintas del mismo perfil: por <b>tramos de baliza</b> y por <b>subidas/bajadas</b> detectadas en el relieve. Toca un segmento del perfil.</p>
+      <div class="teaching-tabs" id="terrainTeachTabs">
+        <button class="teaching-tab active" data-terrain-mode="controls">Tramos de baliza</button>
+        <button class="teaching-tab" data-terrain-mode="relief">Subidas / bajadas</button>
+      </div>
+      <div class="teaching-shell">
+        <div class="teaching-stage">
+          <div id="terrainTeachTitle" style="font-weight:900">Perfil de altitud · tramos de baliza</div>
+          <div id="terrainOneLine" class="one-line-reading"><b>En una frase:</b> muestra cómo cambia la altitud a lo largo del recorrido y qué parte es subida, bajada o terreno suave.</div>
+          <div class="demo-instruction">La línea no lleva relleno: el color del segmento indica subida, bajada o zona aproximadamente llana.</div>
+          <div id="terrainTeachChart" class="teaching-chart terrain-teach-chart"></div>
+          <div class="demo-legend">
+            <span class="slope-chip"><i class="slope-swatch up"></i>Subida</span>
+            <span class="slope-chip"><i class="slope-swatch down"></i>Bajada</span>
+            <span class="slope-chip"><i class="slope-swatch flat"></i>Suave / llano</span>
+          </div>
+        </div>
+        <aside class="teaching-explain">
+          <div class="eyebrow">Interpretación del perfil</div>
+          <h3 id="terrainExplainTitle">Selecciona un tramo</h3>
+          <div id="terrainKpisDemo" class="demo-kpis"></div>
+          <div id="terrainExplainBody" class="demo-reading"></div>
+          <div class="demo-source">Ejemplo calculado sobre el mismo GPS sintético que genera «Ejemplo ficticio». Para explicar pendiente se usa una ventana didáctica de ≈25 m, equivalente al suavizado medio de la app.</div>
+        </aside>
+      </div>
+      <div class="grid two" style="margin-top:10px">
+        <div class="card soft"><h3>Tramos de baliza</h3><p>Responden a una pregunta de carrera: <b>¿qué relieve atravesé entre dos picadas?</b> Un tramo puede incluir varias subidas y bajadas. Sirve para cruzarlo con parcial, rodeo, velocidad y pérdidas.</p></div>
+        <div class="card soft"><h3>Subidas / bajadas</h3><p>Responden a una pregunta del terreno: <b>¿dónde empieza y termina cada elemento del relieve?</b> Son independientes de los controles y una misma subida puede atravesar más de un tramo.</p></div>
+      </div>
+      <div class="note"><b>Pendiente:</b> una pendiente positiva es subida y una negativa es bajada. La pendiente GPS es sensible al ruido de altitud; por eso Orienta Replay la suaviza aproximadamente a 10, 25 o 50 m. Más suavizado reduce picos, pero también borra cambios breves.</div>
+    </div>
+
+    <div class="mini-chart" style="margin-top:12px">
+      <svg viewBox="0 0 900 210" preserveAspectRatio="none" aria-label="Ejemplo didáctico de perfil">
+        <defs><linearGradient id="altg" x1="0" x2="1"><stop offset="0" stop-color="#5aa6d6"/><stop offset=".55" stop-color="#d7ad4e"/><stop offset="1" stop-color="#ef6a67"/></linearGradient></defs>
+        <path d="M20,175 C90,165 120,135 170,140 S240,70 300,88 S380,155 450,132 S520,55 590,70 S670,160 740,145 S815,95 880,115" fill="none" stroke="url(#altg)" stroke-width="5"/>
+        <line x1="20" y1="182" x2="880" y2="182" stroke="#29475a"/>
+        <g fill="#9cb1be" font-size="11"><text x="20" y="202">salida</text><text x="430" y="202">recorrido</text><text x="845" y="202">meta</text></g>
+      </svg>
+    </div>
+    <div class="chartlegend"><span><i class="dot" style="background:#5aa6d6"></i> descenso / suave</span><span><i class="dot" style="background:#d7ad4e"></i> exigencia media</span><span><i class="dot" style="background:#ef6a67"></i> exigencia alta</span></div>
+  </div>
+</section>
+
+<section class="section searchable" id="idpt">
+  <div class="section-head"><div><div class="eyebrow">11 · IDPT</div><h2>Índice de dificultad de progresión</h2>
+  <p class="lead">Un índice experimental para cuantificar cuánto peor progresa el corredor de lo esperable para su esfuerzo y la pendiente.</p></div><span class="pill warn">Experimental</span></div>
+  <div class="section-body">
+    <div class="formula">IDPT = 100 × (1 − velocidad real / velocidad esperada)</div>
+    <div class="note red"><b>Cómo usarlo:</b> IDPT alto = progresión peor de lo esperable según el modelo. Es una señal para investigar, no una etiqueta automática de “terreno malo” ni de “error técnico”.</div>
+    <div class="grid two" style="margin-top:12px">
+      <div class="card"><h3>IDPT individual</h3><p>Un valor alto indica que el corredor avanza mucho menos de lo esperado para ese esfuerzo y pendiente.</p></div>
+      <div class="card"><h3>IDPT de grupo</h3><p>Usa la mediana de corredores de la misma carrera con GPS y perfil suficiente para ese tramo.</p></div>
+    </div>
+    <div class="note gold"><b>Lectura útil:</b> si el IDPT aumenta en varios corredores en el mismo lugar, la hipótesis de una dificultad compartida del terreno gana fuerza. Si aumenta principalmente en uno, el patrón es más individual.</div>
+    <div class="note red"><b>No identifica la causa.</b> Puede reflejar vegetación, suelo, obstáculos, microparadas o navegación. Un IDPT alto no prueba por sí solo «terreno malo» ni «error de orientación».</div>
+
+    <div class="grid two">
+      <div class="card"><h3>Distribución por tramo</h3><p><b>Caja:</b> 25–75 % · <b>línea:</b> mediana · <b>bigotes:</b> mínimo/máximo observado · <b>punto:</b> corredor analizado.</p></div>
+      <div class="interactive">
+        <h3>Simulador conceptual</h3>
+        <div class="calcrow" style="grid-template-columns:1fr 1fr">
+          <label>Velocidad real (m/s)<input id="idptReal" type="number" min="0" step=".1" value="1.8"></label>
+          <label>Velocidad esperada (m/s)<input id="idptExpected" type="number" min=".1" step=".1" value="3.0"></label>
+        </div>
+        <div class="resultbox"><span class="hint">IDPT conceptual</span><br><strong id="idptResult">40</strong></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section searchable" id="caso">
+  <div class="section-head"><div><div class="eyebrow">12 · Caso práctico</div><h2>Cómo cruzar variables sin saltar a conclusiones</h2>
+  <p class="lead">Ejemplo didáctico ficticio: la interpretación sale de combinar señales, no de mirar una sola cifra.</p></div></div>
+  <div class="section-body">
+    <div class="tablewrap">
+      <table>
+        <thead><tr><th>Tramo</th><th>Señales</th><th>Lectura prudente</th></tr></thead>
+        <tbody>
+          <tr><td>1–4</td><td>Índices próximos a su mediana · rodeo estable</td><td>Carrera regular.</td></tr>
+          <tr><td>4–5</td><td>Índice alto · ruta GPS directa · velocidad menor</td><td>Pérdida de rendimiento/progresión; no hay evidencia clara de rodeo.</td></tr>
+          <tr><td>7–8</td><td>Rodeo 1.35 · distancia extra alta · pocas paradas</td><td>Trayectoria más larga; hace falta mirar el mapa antes de llamarlo error.</td></tr>
+          <tr><td>10–11</td><td>IDPT alto en varios corredores</td><td>Dificultad compartida compatible con terreno/progresión.</td></tr>
+          <tr><td>14–15</td><td>IDPT individual alto · parada · pérdida parcial grande</td><td>Patrón individual; navegación es una hipótesis, no una conclusión automática.</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="note green"><b>Método recomendado:</b> tiempo → comparación → recorrido → movimiento → terreno → intensidad → contexto. Solo después formula hipótesis.</div>
+  </div>
+</section>
+
+<section class="section searchable" id="errores">
+  <div class="section-head"><div><div class="eyebrow">13 · Errores y solución</div><h2>Qué hacer cuando algo no carga</h2>
+  <p class="lead">Primero identifica si falla la red/API, el archivo local o la asociación de datos.</p></div></div>
+  <div class="section-body">
+    <details class="accordion" open><summary>«Load failed» / posible CORS</summary><div class="accbody"><b>Acción recomendada:</b> usa <b>Cargar JSON</b>. El código de la herramienta también contempla esta situación en Intervals.icu y permite seguir con perfil manual + FIT/GPX local.</div></details>
+    <details class="accordion"><summary>O‑Replay no responde en 45 segundos</summary><div class="accbody">La petición se cancela a los 45 s. Prueba a filtrar por <b>categoría</b> o <b>club</b> en vez de descargar toda la etapa.</div></details>
+    <details class="accordion"><summary>HTTP 500</summary><div class="accbody">La herramienta solo puede informar del código que devuelve el servidor. Un 500 es una respuesta de error del servidor; el HTML no puede saber su causa interna. Reintenta, reduce el alcance de la petición y, si dispones del JSON, usa la carga manual.</div></details>
+    <details class="accordion"><summary>El FIT/GPX está cargado pero no veo análisis GPS</summary><div class="accbody">Comprueba que la actividad esté asignada al corredor correcto y que contenga puntos GPS válidos con tiempo. Después usa <b>Recalcular GPS</b>.</div></details>
+    <details class="accordion"><summary>El mapa de orientación no coincide con las rutas</summary><div class="accbody">Borra la calibración y repítela con controles alejados entre sí. La calibración depende de que señales correctamente el centro de los círculos.</div></details>
+    <details class="accordion"><summary>Intervals.icu no conecta</summary><div class="accbody">Puedes completar ritmo umbral, LTHR, FC máx. y peso manualmente, y usar <b>Añadir FIT/GPX</b>. La herramienta está diseñada para seguir funcionando sin la API.</div></details>
+  </div>
+</section>
+
+<section class="section searchable" id="glosario">
+  <div class="section-head"><div><div class="eyebrow">14 · Glosario</div><h2>Busca un concepto</h2>
+  <p class="lead">Definiciones cortas centradas en cómo usa Orienta Replay cada término.</p></div></div>
+  <div class="section-body">
+    <div class="glossary-tools"><input id="glossarySearch" type="search" placeholder="Ej.: IDPT, CTL, rodeo…"><button id="glossaryClear" class="btn ghost">Limpiar</button></div>
+    <div class="glossary" id="glossaryGrid">
+      <div class="term"><b>ATL</b><p>Fatiga en el contexto de carga de Intervals.icu.</p></div>
+      <div class="term"><b>CTL</b><p>Fitness en el contexto de carga de Intervals.icu.</p></div>
+      <div class="term"><b>Form</b><p>En la herramienta se expresa como CTL − ATL.</p></div>
+      <div class="term"><b>DEM</b><p>Modelo digital de elevaciones usado para levantar el terreno 3D.</p></div>
+      <div class="term"><b>FIT</b><p>Archivo de actividad que puede aportar GPS, tiempo, altitud, velocidad, FC, cadencia y otras señales.</p></div>
+      <div class="term"><b>GPX</b><p>Archivo XML de track/ruta con coordenadas, tiempo y posibles extensiones.</p></div>
+      <div class="term"><b>IDPT</b><p>Índice experimental de dificultad de progresión.</p></div>
+      <div class="term"><b>LTHR</b><p>Frecuencia cardiaca de referencia en el umbral.</p></div>
+      <div class="term"><b>PNOA</b><p>Ortofoto IGN/CNIG usada como fondo cartográfico.</p></div>
+      <div class="term"><b>Rodeo</b><p>Relación entre distancia recorrida por GPS y distancia en línea entre balizas.</p></div>
+      <div class="term"><b>Parcial</b><p>Tiempo empleado entre dos controles consecutivos.</p></div>
+      <div class="term"><b>Acumulado</b><p>Tiempo total hasta un control concreto.</p></div>
+      <div class="term"><b>Índice de tramo</b><p>100 × parcial corredor / mejor parcial del grupo.</p></div>
+      <div class="term"><b>Índice mediano</b><p>Nivel relativo típico del corredor a partir de la mediana de índices de tramo.</p></div>
+      <div class="term"><b>Variabilidad</b><p>Dispersión robusta basada en IQR relativo a la mediana.</p></div>
+      <div class="term"><b>VAM</b><p>Velocidad ascensional media; la herramienta la usa en contexto de pendiente positiva.</p></div>
+      <div class="term"><b>CORS</b><p>Restricción del navegador que puede impedir leer directamente una API desde un HTML local/origen distinto.</p></div>
+      <div class="term"><b>Taper</b><p>Descarga previa valorada de forma heurística frente a la prioridad A/B/C declarada.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="section searchable" id="referencia">
+  <div class="section-head"><div><div class="eyebrow">15 · Referencia rápida</div><h2>«Quiero saber…»</h2>
+  <p class="lead">Atajo a la zona de la herramienta que normalmente responde cada pregunta.</p></div></div>
+  <div class="section-body">
+    <div class="tablewrap">
+      <table class="quick-ref">
+        <thead><tr><th>Quiero saber…</th><th>Mira primero…</th><th>Después cruza con…</th></tr></thead>
+        <tbody>
+          <tr><td>Dónde perdí tiempo</td><td>Estadísticas · parciales / exceso personal</td><td>Reproductor y GPS</td></tr>
+          <tr><td>Por dónde fui</td><td>Reproductor</td><td>Mapa / ortofoto / imagen calibrada</td></tr>
+          <tr><td>Cuánto rodeé</td><td>GPS · factor de rodeo</td><td>Mapa del tramo</td></tr>
+          <tr><td>Dónde caminé o me paré</td><td>Monitorización · estado de movimiento</td><td>Movimiento sobre el recorrido</td></tr>
+          <tr><td>Dónde el terreno frenó a varios</td><td>IDPT de grupo</td><td>Pendiente + movimiento + mapa</td></tr>
+          <tr><td>Si llegué descargado a una carrera</td><td>Intervals.icu · contexto de entrenamiento</td><td>Prioridad A/B/C declarada</td></tr>
+          <tr><td>Comparar clubes</td><td>Carga · filtros múltiples</td><td>Gráficas ampliadas multicorredor</td></tr>
+          <tr><td>Si un parcial malo fue un error técnico</td><td>No hay una métrica única</td><td>Tiempo + ruta + paradas + terreno + grupo</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="card" style="margin-top:12px">
+      <h3>Mini‑test de comprensión</h3>
+      <div class="quiz" id="quiz">
+        <div class="q" data-answer="b"><p>1. ¿Qué significa índice de tramo = 120?</p><label><input type="radio" name="q1" value="a"> 20 % mejor que el mejor parcial.</label><label><input type="radio" name="q1" value="b"> 20 % más lento que el mejor parcial.</label><label><input type="radio" name="q1" value="c"> 120 s de pérdida.</label></div>
+        <div class="q" data-answer="c"><p>2. ¿Qué determina por sí solo un IDPT alto?</p><label><input type="radio" name="q2" value="a"> Vegetación.</label><label><input type="radio" name="q2" value="b"> Error de orientación.</label><label><input type="radio" name="q2" value="c"> Ninguna causa concreta por sí sola.</label></div>
+        <div class="q" data-answer="a"><p>3. Si la API da «Load failed» por CORS, ¿qué vía recomienda el manual?</p><label><input type="radio" name="q3" value="a"> Cargar JSON.</label><label><input type="radio" name="q3" value="b"> Borrar el FIT.</label><label><input type="radio" name="q3" value="c"> Cambiar el umbral de parada.</label></div>
+        <div class="q" data-answer="b"><p>4. ¿Quién declara si una carrera es A, B o C?</p><label><input type="radio" name="q4" value="a"> La app automáticamente.</label><label><input type="radio" name="q4" value="b"> Deportista o entrenador.</label><label><input type="radio" name="q4" value="c"> O‑Replay.</label></div>
+      </div>
+      <button id="gradeQuiz" class="btn primary" style="margin-top:10px">Corregir</button>
+      <div id="quizResult" class="quiz-result" hidden></div>
+    </div>
+  </div>
+</section>
+
+<div class="footer">Orienta Replay · manual interactivo autónomo · sin librerías externas · diseñado para acompañar el flujo Carga → Estadísticas → Reproductor → Monitorización.</div>
+</main>
+</div>
+</div>
+
+<script>
+(()=>{
+'use strict';
+const $=id=>document.getElementById(id);
+const qa=(s,r=document)=>[...r.querySelectorAll(s)];
+
+function effectiveTheme(mode){
+  if(mode==='auto') return matchMedia('(prefers-color-scheme: light)').matches?'light':'dark';
+  return mode||'dark';
+}
+function applyTheme(mode){
+  document.documentElement.dataset.theme=effectiveTheme(mode);
+  $('themeMode').value=mode;
+  try{localStorage.setItem('or-manual-theme',mode)}catch{}
+}
+let savedTheme='auto';
+try{savedTheme=localStorage.getItem('or-manual-theme')||'auto'}catch{}
+applyTheme(savedTheme);
+$('themeMode').addEventListener('change',e=>applyTheme(e.target.value));
+try{matchMedia('(prefers-color-scheme: light)').addEventListener('change',()=>{if($('themeMode').value==='auto')applyTheme('auto')})}catch{}
+
+qa('.goto').forEach(b=>b.onclick=()=>document.getElementById(b.dataset.target)?.scrollIntoView({behavior:'smooth',block:'start'}));
+
+const navlinks=qa('.navlink');
+const sections=qa('.section');
+const io=new IntersectionObserver(entries=>{
+  const visible=entries.filter(x=>x.isIntersecting).sort((a,b)=>b.intersectionRatio-a.intersectionRatio)[0];
+  if(!visible)return;
+  navlinks.forEach(a=>a.classList.toggle('active',a.getAttribute('href')==='#'+visible.target.id));
+},{rootMargin:'-20% 0px -68% 0px',threshold:[0,.1,.3,.6]});
+sections.forEach(s=>io.observe(s));
+
+qa('[data-mode-group]').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    const group=btn.dataset.modeGroup,mode=btn.dataset.mode;
+    qa(`[data-mode-group="${group}"]`).forEach(b=>b.classList.toggle('active',b===btn));
+    qa(`[data-mode-panel^="${group}:"]`).forEach(p=>p.classList.toggle('active',p.dataset.modePanel===group+':'+mode));
+  });
+});
+
+const checks=qa('#quickChecklist input[type=checkbox]');
+function refreshChecklist(){
+  let done=0;
+  checks.forEach(ch=>{
+    ch.closest('.checkrow').classList.toggle('done',ch.checked);
+    done+=ch.checked?1:0;
+    try{localStorage.setItem('or-manual-'+ch.id,ch.checked?'1':'0')}catch{}
+  });
+}
+checks.forEach(ch=>{
+  try{ch.checked=localStorage.getItem('or-manual-'+ch.id)==='1'}catch{}
+  ch.addEventListener('change',refreshChecklist);
+});
+refreshChecklist();
+$('resetChecklist').onclick=()=>{checks.forEach(ch=>ch.checked=false);refreshChecklist()};
+
+function updateLegIndex(){
+  const mine=+$('legMine').value,best=+$('legBest').value;
+  const idx=best>0?100*mine/best:NaN;
+  $('legIndexResult').textContent=Number.isFinite(idx)?Math.round(idx):'—';
+  if(Number.isFinite(idx)){
+    const d=Math.round(idx-100);
+    $('legIndexExplain').textContent=d===0?'Iguala el mejor parcial.':d>0?`Tu parcial es un ${d} % más lento que el mejor.`:`Tu parcial sería ${Math.abs(d)} % más rápido que la referencia introducida.`;
+  }
+}
+$('legMine').oninput=updateLegIndex;$('legBest').oninput=updateLegIndex;updateLegIndex();
+
+function updateIdpt(){
+  const real=+$('idptReal').value,exp=+$('idptExpected').value;
+  const v=exp>0?100*(1-real/exp):NaN;
+  $('idptResult').textContent=Number.isFinite(v)?v.toFixed(0):'—';
+}
+$('idptReal').oninput=updateIdpt;$('idptExpected').oninput=updateIdpt;updateIdpt();
+
+function normalize(s){return String(s||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase()}
+const gs=$('globalSearch');
+function runGlobalSearch(){
+  const q=normalize(gs.value.trim());
+  sections.forEach(s=>{
+    s.classList.remove('search-hit','hidden-by-search');
+    if(!q)return;
+    const match=normalize(s.textContent).includes(q);
+    s.classList.toggle('hidden-by-search',!match);
+    s.classList.toggle('search-hit',match);
+  });
+}
+gs.addEventListener('input',runGlobalSearch);
+document.addEventListener('keydown',e=>{
+  if((e.metaKey||e.ctrlKey)&&e.key.toLowerCase()==='k'){e.preventDefault();gs.focus();gs.select()}
+  if(e.key==='Escape'&&document.activeElement===gs){gs.value='';runGlobalSearch();gs.blur()}
+});
+
+const gsearch=$('glossarySearch');
+function filterGlossary(){
+  const q=normalize(gsearch.value.trim());
+  qa('.term',$('glossaryGrid')).forEach(t=>t.hidden=!!q&&!normalize(t.textContent).includes(q));
+}
+gsearch.oninput=filterGlossary;
+$('glossaryClear').onclick=()=>{gsearch.value='';filterGlossary();gsearch.focus()};
+
+$('expandAll').onclick=()=>qa('details.accordion').forEach(d=>d.open=true);
+$('collapseAll').onclick=()=>qa('details.accordion').forEach(d=>d.open=false);
+
+$('gradeQuiz').onclick=()=>{
+  const qs=qa('.q',$('quiz'));let ok=0,answered=0;
+  qs.forEach(q=>{
+    const pick=q.querySelector('input:checked');
+    if(pick){answered++;if(pick.value===q.dataset.answer)ok++}
+  });
+  const host=$('quizResult');host.hidden=false;
+  host.innerHTML=`<b>${ok}/${qs.length} correctas.</b> ${answered<qs.length?'Te faltan '+(qs.length-answered)+' respuesta(s). ':''}`+
+    (ok===qs.length?'Dominio básico correcto.':'Revisa especialmente índices, IDPT, CORS y prioridad A/B/C.');
+};
+
+
+// v2 · laboratorio de gráficas basado en el ejemplo sintético de Orienta Replay.
+const DEMO={
+  labels:['S–31','31–32','32–33','33–34','34–35','35–36','36–37','37–38','38–39','39–40','40–41','41–42','42–M'],
+  runners:[
+    {name:'Antonio',cls:'runner-a',legs:[210,210,210,210,210,290,130,210,210,210,210,210,290]},
+    {name:'Pablo',cls:'runner-b',legs:[218,218,218,218,218,218,218,218,218,218,218,218,218]},
+    {name:'Adrián',cls:'runner-c',legs:[226,226,226,226,226,226,226,226,226,226,226,226,226]}
+  ],
+  gps:[
+    {hr:144.0,speed:2.849,ele0:103.2,ele1:95.7},
+    {hr:146.9,speed:2.525,ele0:96.1,ele1:126.9},
+    {hr:137.7,speed:1.869,ele0:126.9,ele1:98.6},
+    {hr:123.4,speed:1.848,ele0:98.6,ele1:63.6},
+    {hr:113.8,speed:2.500,ele0:63.6,ele1:64.0},
+    {hr:117.9,speed:2.785,ele0:64.0,ele1:58.3},
+    {hr:132.7,speed:2.340,ele0:58.3,ele1:58.0},
+    {hr:144.9,speed:1.822,ele0:58.0,ele1:90.8},
+    {hr:146.0,speed:2.112,ele0:90.8,ele1:126.7},
+    {hr:134.6,speed:2.750,ele0:126.7,ele1:114.0},
+    {hr:119.6,speed:2.694,ele0:114.0,ele1:82.0},
+    {hr:113.5,speed:2.017,ele0:82.0,ele1:121.2},
+    {hr:116.1,speed:1.784,ele0:121.2,ele1:104.1}
+  ]
+};
+DEMO.runners.forEach(r=>{let s=0;r.accum=r.legs.map(v=>s+=v)});
+DEMO.best=DEMO.labels.map((_,i)=>Math.min(...DEMO.runners.map(r=>r.legs[i])));
+DEMO.indexA=DEMO.runners[0].legs.map((v,i)=>100*v/DEMO.best[i]);
+DEMO.gapAP=DEMO.runners[0].accum.map((v,i)=>v-DEMO.runners[1].accum[i]);
+let demoMode='partials',demoSelected=5;
+
+function demoFmtTime(sec){
+  sec=Math.round(sec);const m=Math.floor(sec/60),s=sec%60;return `${m}:${String(s).padStart(2,'0')}`;
+}
+function demoSvgBase(minY,maxY){
+  const W=980,H=330,p={l:55,r:18,t:24,b:52};
+  const x=i=>p.l+(W-p.l-p.r)*(i/(DEMO.labels.length-1));
+  const y=v=>p.t+(H-p.t-p.b)*(1-(v-minY)/(maxY-minY||1));
+  let g='';
+  for(let k=0;k<=4;k++){
+    const val=minY+(maxY-minY)*k/4, yy=y(val);
+    g+=`<line class="gridline" x1="${p.l}" y1="${yy}" x2="${W-p.r}" y2="${yy}"/>`;
+    g+=`<text x="${p.l-8}" y="${yy+4}" text-anchor="end">${demoAxisLabel(val,demoMode)}</text>`;
+  }
+  g+=`<line class="axis" x1="${p.l}" y1="${H-p.b}" x2="${W-p.r}" y2="${H-p.b}"/>`;
+  DEMO.labels.forEach((lab,i)=>{
+    if(i%2===0||i===DEMO.labels.length-1)g+=`<text x="${x(i)}" y="${H-22}" text-anchor="middle">${lab}</text>`;
+  });
+  return {W,H,p,x,y,g};
+}
+function demoAxisLabel(v,mode){
+  if(mode==='partials'||mode==='accum')return demoFmtTime(v);
+  if(mode==='gap')return (v>0?'+':v<0?'−':'')+demoFmtTime(Math.abs(v));
+  if(mode==='index')return Math.round(v)+' %';
+  return (v*3.6).toFixed(1);
+}
+function demoPath(values,x,y){
+  return values.map((v,i)=>(i?'L':'M')+x(i).toFixed(1)+','+y(v).toFixed(1)).join(' ');
+}
+function renderDemoTeaching(){
+  demoOneLine();
+  const host=$('demoTeachingChart');if(!host)return;
+  let minY,maxY,series=[],title='',legend='';
+  if(demoMode==='partials'){
+    minY=110;maxY=310;series=DEMO.runners.map(r=>({values:r.legs,cls:r.cls,name:r.name}));
+    title='Parciales · comparación';legend=DEMO.runners.map(r=>`<span><i class="demo-dot ${r.cls}" style="background:currentColor"></i>${r.name}</span>`).join('');
+  }else if(demoMode==='accum'){
+    minY=0;maxY=3050;series=DEMO.runners.map(r=>({values:r.accum,cls:r.cls,name:r.name}));
+    title='Tiempo acumulado real';legend=DEMO.runners.map(r=>`<span><i class="demo-dot ${r.cls}" style="background:currentColor"></i>${r.name}</span>`).join('');
+  }else if(demoMode==='gap'){
+    minY=Math.min(...DEMO.gapAP)-15;maxY=Math.max(...DEMO.gapAP)+15;
+    title='Diferencia acumulada · Antonio respecto a Pablo';
+    legend='<span><i class="demo-dot" style="background:#d7ad4e"></i>Antonio − Pablo · 0 = iguales</span>';
+  }else if(demoMode==='index'){
+    minY=95;maxY=140;title='Índice de tramo · Antonio · 100 = mejor parcial';legend='<span><i class="demo-dot" style="background:#d7ad4e"></i>Índice de Antonio</span>';
+  }else{
+    const speeds=DEMO.gps.map(x=>x.speed);minY=Math.min(...speeds)-.15;maxY=Math.max(...speeds)+.15;
+    series=[{values:speeds,cls:'runner-a',name:'Velocidad media'}];title='GPS sintético · velocidad media por tramo';legend='<span><i class="demo-dot" style="background:#ef6a67"></i>Antonio · velocidad media</span>';
+  }
+  $('demoChartTitle').textContent=title;$('demoLegend').innerHTML=legend;
+  const b=demoSvgBase(minY,maxY),bandW=(b.W-b.p.l-b.p.r)/(DEMO.labels.length-1);
+  let svg=`<svg viewBox="0 0 ${b.W} ${b.H}" role="img" aria-label="${title}">${b.g}`;
+  const sx=b.x(demoSelected);
+  svg+=`<rect class="selected-band" x="${sx-bandW*.43}" y="${b.p.t}" width="${bandW*.86}" height="${b.H-b.p.t-b.p.b}"/>`;
+  svg+=`<line class="selected-line" x1="${sx}" y1="${b.p.t}" x2="${sx}" y2="${b.H-b.p.b}"/>`;
+  if(demoMode==='gap'){
+    svg+=`<line class="zero-line" x1="${b.p.l}" y1="${b.y(0)}" x2="${b.W-b.p.r}" y2="${b.y(0)}"/>`;
+    svg+=`<path d="${demoPath(DEMO.gapAP,b.x,b.y)}" class="gap-line"/>`;
+    DEMO.gapAP.forEach((v,i)=>svg+=`<circle cx="${b.x(i)}" cy="${b.y(v)}" r="${i===demoSelected?6:4}" class="gap-point ${i===demoSelected?'selected':''}"/>`);
+  }else if(demoMode==='index'){
+    const barW=Math.max(15,bandW*.46);
+    DEMO.indexA.forEach((v,i)=>{
+      const yy=b.y(v),base=b.y(minY);
+      svg+=`<rect class="demo-index" x="${b.x(i)-barW/2}" y="${yy}" width="${barW}" height="${Math.max(1,base-yy)}" rx="4" opacity="${i===demoSelected?1:.72}"/>`;
+    });
+    svg+=`<line x1="${b.p.l}" y1="${b.y(100)}" x2="${b.W-b.p.r}" y2="${b.y(100)}" stroke="#52b788" stroke-width="2" stroke-dasharray="4 4"/>`;
+  }else{
+    series.forEach(s=>{
+      svg+=`<path d="${demoPath(s.values,b.x,b.y)}" fill="none" class="${s.cls}" stroke-width="3"/>`;
+      s.values.forEach((v,i)=>svg+=`<circle cx="${b.x(i)}" cy="${b.y(v)}" r="${i===demoSelected?6:4}" class="${s.cls} point ${i===demoSelected?'selected':''}"/>`);
+    });
+  }
+  DEMO.labels.forEach((_,i)=>svg+=`<rect class="hit" data-demo-leg="${i}" x="${b.x(i)-bandW*.45}" y="${b.p.t}" width="${bandW*.9}" height="${b.H-b.p.t-b.p.b}"/>`);
+  svg+='</svg>';host.innerHTML=svg;
+  host.querySelectorAll('[data-demo-leg]').forEach(el=>el.addEventListener('click',()=>{demoSelected=+el.dataset.demoLeg;renderDemoTeaching()}));
+  renderDemoExplanation();
+}
+function renderDemoExplanation(){
+  const i=demoSelected,label=DEMO.labels[i],A=DEMO.runners[0],P=DEMO.runners[1],D=DEMO.runners[2],gps=DEMO.gps[i];
+  let title='',kpis='',body='',source='';
+  if(demoMode==='partials'){
+    const vals=[A.legs[i],P.legs[i],D.legs[i]],best=Math.min(...vals),who=['Antonio','Pablo','Adrián'][vals.indexOf(best)];
+    title=`${label} · comparar el mismo tramo`;
+    kpis=`<div class="demo-kpi"><span>Antonio</span><b>${demoFmtTime(A.legs[i])}</b></div><div class="demo-kpi"><span>Pablo</span><b>${demoFmtTime(P.legs[i])}</b></div><div class="demo-kpi"><span>Adrián</span><b>${demoFmtTime(D.legs[i])}</b></div>`;
+    body=`<p>En parciales debes comparar <b>verticalmente</b>: todos están recorriendo el mismo tramo. El mejor parcial aquí es <b>${who} · ${demoFmtTime(best)}</b>.</p>`;
+    if(i===5)body+=`<p>Este es el punto didáctico más claro del demo: Antonio pasa de parciales de 3:30 a <b>4:50</b>, mientras Pablo hace 3:38. La gráfica localiza inmediatamente una pérdida.</p>`;
+    else if(i===6)body+=`<p>Antonio aparece con <b>2:10</b>. En el generador sintético esto es consecuencia de cómo se introdujo la anomalía alrededor del control anterior. Es una buena advertencia: <b>una gráfica señala qué revisar, no explica automáticamente la causa</b>.</p>`;
+    else body+=`<p>Si las líneas están próximas, la diferencia de ese tramo es pequeña. Para saber si esa pequeña diferencia importa en la clasificación hay que pasar al acumulado.</p>`;
+    source='Datos exactos del generador sintético interno del botón «Ejemplo ficticio».';
+  }else if(demoMode==='accum'){
+    title=`${label} · qué ha pasado con la carrera hasta aquí`;
+    kpis=`<div class="demo-kpi"><span>Antonio</span><b>${demoFmtTime(A.accum[i])}</b></div><div class="demo-kpi"><span>Pablo</span><b>${demoFmtTime(P.accum[i])}</b></div><div class="demo-kpi"><span>Adrián</span><b>${demoFmtTime(D.accum[i])}</b></div>`;
+    const ord=[{n:'Antonio',v:A.accum[i]},{n:'Pablo',v:P.accum[i]},{n:'Adrián',v:D.accum[i]}].sort((a,b)=>a.v-b.v);
+    body=`<p>El acumulado responde a otra pregunta: <b>¿quién lleva menos tiempo total hasta este punto?</b> Aquí va primero <b>${ord[0].n}</b>.</p>`;
+    if(i>=5)body+=`<p>Observa cómo la anomalía del tramo 6 cambia la separación entre las curvas. Aunque un parcial sea malo, el acumulado te dice cuánto altera realmente la situación global.</p>`;
+    if(i===12)body+=`<p>En meta el ejemplo termina con Antonio 46:50, Pablo 47:14 y Adrián 48:58. Antonio conserva 24 s sobre Pablo pese a las anomalías sintéticas intermedias.</p>`;
+    source='Acumulados calculados sumando los parciales exactos del ejemplo ficticio.';
+  }else if(demoMode==='gap'){
+    const g=DEMO.gapAP[i],prev=i?DEMO.gapAP[i-1]:0,delta=g-prev;
+    title=`${label} · diferencia acumulada frente a Pablo`;
+    kpis=`<div class="demo-kpi"><span>Diferencia</span><b>${g===0?'0 s':(g>0?'+':'−')+Math.abs(g)+' s'}</b></div><div class="demo-kpi"><span>Cambio del tramo</span><b>${delta===0?'0 s':(delta>0?'+':'−')+Math.abs(delta)+' s'}</b></div><div class="demo-kpi"><span>Referencia</span><b>Pablo</b></div>`;
+    body=`<p>En esta gráfica <b>0 significa igualdad</b>. Valor negativo: Antonio lleva menos tiempo acumulado que Pablo. Valor positivo: lleva más tiempo.</p>`;
+    if(i===5)body+=`<p>En ${label} la curva salta <b>72 s hacia arriba</b>: el parcial de este tramo empeora claramente respecto a Pablo y Antonio pasa de ir por delante a quedar por detrás.</p>`;
+    else if(i===6)body+=`<p>En el tramo siguiente la curva baja <b>88 s</b>. Eso significa que Antonio recupera tiempo respecto a Pablo. La gráfica permite separar una pérdida puntual de una deriva que continúa.</p>`;
+    else if(Math.abs(delta)<=12)body+=`<p>El cambio es pequeño. Cuando muchos tramos producen cambios parecidos, puede aparecer una deriva progresiva aunque no exista un único error enorme.</p>`;
+    else body+=`<p>Fíjate primero en el cambio respecto al punto anterior: es la contribución de este tramo a la diferencia acumulada. Después vuelve al parcial para localizar el origen temporal.</p>`;
+    source='Diferencia calculada como acumulado de Antonio − acumulado de Pablo. Es la misma lógica de «Diferencia acumulada a referencia».';
+  }else if(demoMode==='index'){
+    const ix=DEMO.indexA[i];
+    title=`${label} · convertir un parcial en comparación relativa`;
+    kpis=`<div class="demo-kpi"><span>Antonio</span><b>${demoFmtTime(A.legs[i])}</b></div><div class="demo-kpi"><span>Mejor tramo</span><b>${demoFmtTime(DEMO.best[i])}</b></div><div class="demo-kpi"><span>Índice</span><b>${Math.round(ix)} %</b></div>`;
+    body=`<p>La fórmula es <b>100 × parcial / mejor parcial</b>. Un índice de 100 significa que Antonio tiene el mejor parcial del grupo en ese tramo.</p>`;
+    if(ix>100.5)body+=`<p>Aquí el índice es <b>${Math.round(ix)} %</b>: Antonio tarda aproximadamente un <b>${Math.round(ix-100)} %</b> más que el mejor parcial del grupo. Esto permite comparar pérdidas relativas entre tramos de distinta duración.</p>`;
+    else body+=`<p>Este tramo queda en <b>100</b>. No significa «carrera perfecta»; significa únicamente que su parcial es el mejor dentro del grupo cargado.</p>`;
+    source='Misma definición que usa Orienta Replay: 100 × (parcial del corredor / mejor parcial del grupo).';
+  }else{
+    title=`${label} · una señal GPS necesita contexto`;
+    kpis=`<div class="demo-kpi"><span>Velocidad media</span><b>${(gps.speed*3.6).toFixed(1)} km/h</b></div><div class="demo-kpi"><span>FC media</span><b>${Math.round(gps.hr)} ppm</b></div><div class="demo-kpi"><span>Altitud</span><b>${gps.ele0.toFixed(0)}→${gps.ele1.toFixed(0)} m</b></div>`;
+    body=`<p>Esta gráfica usa la <b>velocidad media</b> del GPS sintético. Una caída de velocidad por sí sola no dice si hubo pendiente, vegetación, navegación, parada o simplemente una variación artificial del ejemplo.</p><p>Por eso el flujo avanzado cruza velocidad con <b>pendiente, FC, estado de movimiento, recorrido y grupo</b>.</p>`;
+    source='Promedios derivados de las funciones sintéticas de velocidad, FC y altitud que genera el ejemplo interno.';
+  }
+  $('demoExplainTitle').textContent=title;$('demoKpis').innerHTML=kpis;$('demoExplain').innerHTML=body;$('demoSource').textContent=source;
+}
+qa('[data-demo-mode]').forEach(b=>b.addEventListener('click',()=>{
+  demoMode=b.dataset.demoMode;qa('[data-demo-mode]').forEach(x=>x.classList.toggle('active',x===b));
+  demoSelected=(demoMode==='partials'||demoMode==='index'||demoMode==='gap')?5:12;renderDemoTeaching();
+}));
+renderDemoTeaching();
+
+
+// Perfil didáctico generado con las mismas fórmulas GPS del ejemplo interno.
+function buildDemoTerrainProfile(){
+  const pts=[],toRad=Math.PI/180,R=6371000;
+  let prev=null,cum=0;
+  for(let i=30;i<=733;i++){
+    const ang=i/900*Math.PI*8,rad=.004+.0015*Math.sin(i/80);
+    const lat=42.26+Math.sin(ang)*rad,lon=-8.78+Math.cos(ang)*rad*1.3;
+    const ele=80+35*Math.sin(i/90)+12*Math.sin(i/17),t=(i-30)*4;
+    if(prev){
+      const dlat=(lat-prev.lat)*toRad,dlon=(lon-prev.lon)*toRad;
+      const a=Math.sin(dlat/2)**2+Math.cos(prev.lat*toRad)*Math.cos(lat*toRad)*Math.sin(dlon/2)**2;
+      cum+=R*2*Math.atan2(Math.sqrt(a),Math.sqrt(Math.max(0,1-a)));
+    }
+    pts.push({lat,lon,ele,t,d:cum,slope:0});prev={lat,lon};
+  }
+  // Smoothed slope using about 25 m total span (12.5 m each side).
+  for(let i=0;i<pts.length;i++){
+    let a=i,b=i;
+    while(a>0&&pts[i].d-pts[a].d<12.5)a--;
+    while(b<pts.length-1&&pts[b].d-pts[i].d<12.5)b++;
+    const dd=pts[b].d-pts[a].d;
+    pts[i].slope=dd>0?100*(pts[b].ele-pts[a].ele)/dd:0;
+  }
+  const controlTimes=[0,210,420,630,840,1050,1340,1470,1680,1890,2100,2310,2520,2810];
+  const names=['S','31','32','33','34','35','36','37','38','39','40','41','42','M'];
+  const controls=controlTimes.map((t,j)=>{
+    let best=0,bd=Infinity;pts.forEach((p,i)=>{const d=Math.abs(p.t-t);if(d<bd){bd=d;best=i}});
+    return {name:names[j],i:best,t};
+  });
+  const legs=controls.slice(0,-1).map((c,j)=>({type:'leg',name:names[j]+'–'+names[j+1],a:c.i,b:controls[j+1].i}));
+  const cls=s=>s>2?'climb':s<-2?'descent':'flat';
+  const raw=[];let start=0,last=cls(pts[0].slope);
+  for(let i=1;i<pts.length;i++){const c=cls(pts[i].slope);if(c!==last){raw.push({type:last,a:start,b:i-1});start=i-1;last=c}}
+  raw.push({type:last,a:start,b:pts.length-1});
+  // Merge very short relief fragments into their predecessor/next to keep the teaching view readable.
+  let rel=raw.slice();
+  for(let pass=0;pass<3;pass++){
+    const next=[];
+    for(const s of rel){
+      const len=pts[s.b].d-pts[s.a].d;
+      if(len<80&&next.length){next[next.length-1].b=s.b}
+      else next.push({...s});
+    }
+    rel=next;
+  }
+  rel.forEach((s,j)=>s.name=(s.type==='climb'?'Subida ':s.type==='descent'?'Bajada ':'Suave ')+(j+1));
+  return {pts,controls,legs,relief:rel};
+}
+const DEMO_TERRAIN=buildDemoTerrainProfile();
+let terrainTeachMode='controls',terrainTeachSelected=5;
+
+function segmentStats(seg){
+  const P=DEMO_TERRAIN.pts,a=P[seg.a],b=P[seg.b],slice=P.slice(seg.a,seg.b+1);
+  let up=0,down=0;
+  for(let i=1;i<slice.length;i++){const de=slice[i].ele-slice[i-1].ele;if(de>0)up+=de;else down-=de}
+  const dist=Math.max(1,b.d-a.d),dh=b.ele-a.ele,net=100*dh/dist;
+  const meanSlope=slice.reduce((s,p)=>s+p.slope,0)/slice.length;
+  return {dist,dh,up,down,net,meanSlope,a,b};
+}
+function terrainColorClass(s){return s>2?'climb':s<-2?'descent':'flat'}
+function renderTerrainTeach(){
+  const one=$('terrainOneLine');
+  if(one)one.innerHTML=terrainTeachMode==='controls'
+    ?'<b>En una frase:</b> muestra qué relieve atravesaste entre una picada y la siguiente.'
+    :'<b>En una frase:</b> separa el recorrido en elementos del terreno —subidas, bajadas y zonas suaves— aunque crucen varios tramos.';
+  const host=$('terrainTeachChart');if(!host)return;
+  const P=DEMO_TERRAIN.pts,W=980,H=345,pad={l:58,r:18,t:24,b:46};
+  const dmax=P[P.length-1].d,emin=Math.min(...P.map(p=>p.ele))-6,emax=Math.max(...P.map(p=>p.ele))+6;
+  const x=d=>pad.l+(W-pad.l-pad.r)*d/dmax,y=e=>pad.t+(H-pad.t-pad.b)*(1-(e-emin)/(emax-emin));
+  let svg=`<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Perfil didáctico de altitud y pendiente">`;
+  for(let k=0;k<=4;k++){
+    const e=emin+(emax-emin)*k/4,yy=y(e);
+    svg+=`<line class="gridline" x1="${pad.l}" y1="${yy}" x2="${W-pad.r}" y2="${yy}"/><text x="${pad.l-8}" y="${yy+4}" text-anchor="end">${Math.round(e)} m</text>`;
+  }
+  for(let k=0;k<=4;k++){
+    const d=dmax*k/4,xx=x(d);svg+=`<text x="${xx}" y="${H-17}" text-anchor="middle">${(d/1000).toFixed(1)} km</text>`;
+  }
+  DEMO_TERRAIN.controls.forEach(c=>{
+    const xx=x(P[c.i].d);svg+=`<line class="control-line" x1="${xx}" y1="${pad.t}" x2="${xx}" y2="${H-pad.b}"/><text class="control-label" x="${xx+2}" y="${pad.t+11}">${c.name}</text>`;
+  });
+  const segs=terrainTeachMode==='controls'?DEMO_TERRAIN.legs:DEMO_TERRAIN.relief;
+  const sel=segs[Math.min(terrainTeachSelected,segs.length-1)];terrainTeachSelected=Math.min(terrainTeachSelected,segs.length-1);
+  if(sel){
+    svg+=`<rect class="terrain-band" x="${x(P[sel.a].d)}" y="${pad.t}" width="${Math.max(3,x(P[sel.b].d)-x(P[sel.a].d))}" height="${H-pad.t-pad.b}"/>`;
+  }
+  // Draw colored line segment-by-segment, never as an area.
+  for(let i=1;i<P.length;i++){
+    const c=terrainColorClass((P[i-1].slope+P[i].slope)/2);
+    const inSel=sel&&i>=sel.a&&i<=sel.b;
+    svg+=`<line x1="${x(P[i-1].d)}" y1="${y(P[i-1].ele)}" x2="${x(P[i].d)}" y2="${y(P[i].ele)}" class="terrain-profile-seg ${c} ${sel&&!inSel?'dim':''} ${inSel?'selected':''}"/>`;
+  }
+  segs.forEach((s,j)=>{
+    svg+=`<rect class="terrain-hit" data-terrain-seg="${j}" x="${x(P[s.a].d)}" y="${pad.t}" width="${Math.max(8,x(P[s.b].d)-x(P[s.a].d))}" height="${H-pad.t-pad.b}"/>`;
+  });
+  svg+='</svg>';host.innerHTML=svg;
+  host.querySelectorAll('[data-terrain-seg]').forEach(el=>el.addEventListener('click',()=>{terrainTeachSelected=+el.dataset.terrainSeg;renderTerrainTeach()}));
+  $('terrainTeachTitle').textContent=terrainTeachMode==='controls'?'Perfil de altitud · tramos de baliza':'Perfil de altitud · subidas / bajadas';
+  renderTerrainTeachExplanation();
+}
+function renderTerrainTeachExplanation(){
+  const segs=terrainTeachMode==='controls'?DEMO_TERRAIN.legs:DEMO_TERRAIN.relief,seg=segs[terrainTeachSelected];
+  if(!seg)return;const s=segmentStats(seg),name=seg.name||('Segmento '+(terrainTeachSelected+1));
+  const typ=s.net>2?'subida':s.net<-2?'bajada':'relieve mixto / suave';
+  $('terrainExplainTitle').textContent=`${name} · ${typ}`;
+  $('terrainKpisDemo').innerHTML=`<div class="demo-kpi"><span>Distancia GPS</span><b>${Math.round(s.dist)} m</b></div><div class="demo-kpi"><span>Desnivel neto</span><b>${s.dh>=0?'+':''}${Math.round(s.dh)} m</b></div><div class="demo-kpi"><span>Pendiente neta</span><b>${s.net>=0?'+':''}${s.net.toFixed(1)} %</b></div>`;
+  if(terrainTeachMode==='controls'){
+    $('terrainExplainBody').innerHTML=`<p>Este es un <b>tramo de baliza</b>: desde una picada hasta la siguiente. Dentro de sus ${Math.round(s.dist)} m aparecen aproximadamente <b>+${Math.round(s.up)} m</b> de ascenso y <b>−${Math.round(s.down)} m</b> de descenso.</p><p>La pendiente neta (${s.net.toFixed(1)} %) resume inicio→final, pero <b>no describe todos los cambios internos</b>. Por eso la app conserva la curva completa y permite pasar a «Subidas / bajadas».</p><p>Para interpretar el parcial, cruza este relieve con <b>tiempo, velocidad, rodeo, paradas e IDPT</b>. Un parcial lento en subida no equivale automáticamente a un error técnico.</p>`;
+  }else{
+    $('terrainExplainBody').innerHTML=`<p>Este segmento se define por el <b>relieve</b>, no por las balizas. Aquí la elevación cambia ${s.dh>=0?'+':''}${Math.round(s.dh)} m en ${Math.round(s.dist)} m de recorrido.</p><p>La pendiente GPS se calcula sobre muestras suavizadas; en esta demostración se usa una ventana de ≈25 m. La media local suavizada es ${s.meanSlope>=0?'+':''}${s.meanSlope.toFixed(1)} %.</p><p>Esta lectura permite descubrir que una misma subida o bajada puede atravesar dos tramos de orientación diferentes. Después puedes volver a «Tramos de baliza» para ver dónde impactó en el tiempo de carrera.</p>`;
+  }
+}
+qa('[data-terrain-mode]').forEach(b=>b.addEventListener('click',()=>{
+  terrainTeachMode=b.dataset.terrainMode;terrainTeachSelected=terrainTeachMode==='controls'?5:0;
+  qa('[data-terrain-mode]').forEach(x=>x.classList.toggle('active',x===b));renderTerrainTeach();
+}));
+renderTerrainTeach();
+
+
+// v5 · navegación conceptual y modo esencial
+function setEssentialMode(on){
+  document.body.classList.toggle('essential-mode',!!on);
+  const btn=$('essentialModeBtn');
+  if(btn){btn.setAttribute('aria-pressed',on?'true':'false');btn.textContent=on?'Manual completo':'Solo lo esencial'}
+  try{localStorage.setItem('or-manual-essential',on?'1':'0')}catch{}
+  if(on)document.getElementById('esencial')?.scrollIntoView({behavior:'smooth',block:'start'});
+}
+let essentialSaved=false;try{essentialSaved=localStorage.getItem('or-manual-essential')==='1'}catch{}
+if(essentialSaved)setEssentialMode(true);
+$('essentialModeBtn')?.addEventListener('click',()=>setEssentialMode(!document.body.classList.contains('essential-mode')));
+$('essentialIntroBtn')?.addEventListener('click',()=>setEssentialMode(true));
+$('exitEssentialBtn')?.addEventListener('click',()=>{setEssentialMode(false);document.getElementById('inicio')?.scrollIntoView({behavior:'smooth'})});
+qa('.evidence-jump,.essential-jump').forEach(b=>b.addEventListener('click',()=>{
+  if(document.body.classList.contains('essential-mode') && !b.classList.contains('essential-jump')) setEssentialMode(false);
+  const target=document.getElementById(b.dataset.target);
+  if(target)setTimeout(()=>target.scrollIntoView({behavior:'smooth',block:'start'}),20);
+}));
+function demoOneLine(){
+  const el=$('demoOneLine');if(!el)return;
+  const copy={
+    partials:'<b>En una frase:</b> compara cuánto tarda cada corredor en el mismo tramo.',
+    accum:'<b>En una frase:</b> muestra cómo se va construyendo el tiempo total a lo largo de la carrera.',
+    gap:'<b>En una frase:</b> muestra cuándo ganas o pierdes tiempo respecto a la referencia y si la diferencia sigue creciendo o se recupera.',
+    index:'<b>En una frase:</b> transforma cada parcial en una comparación relativa donde 100 es el mejor parcial del grupo.',
+    speed:'<b>En una frase:</b> muestra cómo cambia la velocidad, pero necesita pendiente, ruta y movimiento para explicar por qué.'
+  };
+  el.innerHTML=copy[demoMode]||copy.partials;
+}
+
+})();
+</script>
+</body>
+</html>
